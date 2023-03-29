@@ -1,8 +1,8 @@
-#Exam Plan Quality
+# Exam Plan Quality
 
-##Participants:
+## Participants:
 
-*Kaan
-*Müberra
-*Illia
-*Kemal
+- Kaan
+- Müberra
+- Illia
+- Kemal
