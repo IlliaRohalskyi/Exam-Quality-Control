@@ -1,7 +1,53 @@
-
+import pandas as pd
+import numpy as np
+from datetime import datetime
 import markdown
 
+#--------------------Processing functions--------------------#
 
+def split_date(dataframe):
+    '''
+    Input:
+    dataframe: exam dataframe with type pandas.core.frame.DataFrame
+    
+    Output:
+    pandas.core.frame.Dataframe with splitted date in two new columns:
+                            'start_date', 'end_date' with dtype datetime64[ns]
+    
+    '''
+    splitted_df = dataframe
+    splitted_df[['start_date', 'end_date']] = dataframe['Datum, Uhrzeit (ggf. sep. Zeitplan beachten)'].str.split(" - ", expand = True)
+    splitted_df[['start_date', 'end_date']] = pd.to_datetime(splitted_df[['start_date', 'end_date']].stack(), format='%Y-%m-%dT%H:%M').unstack()
+    
+    return splitted_df
+
+def big_exams_early(dataframe, days_thresh, stud_thresh, exam_start_date):
+    '''
+    
+    Input: 
+    dataframe: Exam dataframe with type pandas.core.frame.DataFrame. It must be splitted with split_date function beforehand
+    days_thresh: Days threshold, type int
+    stud_thresh: Student count threshold, type int
+    exam_start_date: date of the official exam start, type datetime64[ns]
+    
+    Output: 
+    Score with type float
+    
+    '''
+    
+    df = dataframe
+    delta = df.start_date - exam_start_date
+    df.delta = delta.astype(int)
+    
+    
+    conflict = dataframe.loc[(dataframe.delta>days_thresh) & (dataframe.Anzahl>stud_thresh)]
+    
+    score = float(len(conflict)/len(df))
+    return score
+  
+  #---------------------------------------------------#
+  
+  
 # Output Processes
 
 def getOutput(courseName, numberOfStudent,date):
@@ -32,3 +78,5 @@ This exam should be helded on {date} based on this information
  
 getOutput('Math',300
 ,24.05);
+
+
