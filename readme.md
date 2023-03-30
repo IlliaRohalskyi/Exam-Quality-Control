@@ -1,4 +1,4 @@
-# Exam Plan Quality
+# Exam Quality Control
 
 ## Participants:
 
