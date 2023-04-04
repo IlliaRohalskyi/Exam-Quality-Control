@@ -6,7 +6,20 @@
 import markdown
 import pdfkit
 
+def main():
+    days_thresh = int(input("please enter a value for days threshold: "))
+    stud_thresh = int(input("please enter a value for student count threshold: "))
 
+    dataframe=read_data()
+    splitted_df=split_date(dataframe)
+    exam_start_date = splitted_df.loc[0, 'start_date']
+    score,arr=big_exams_early(splitted_df,days_thresh,stud_thresh,exam_start_date)
+    get_output(arr,'html');
+
+def read_data():
+    df=pd.read_excel("FIW_Exams_2022ws.xlsx")
+    return df
+  
 #--------------------Processing functions--------------------#
 
 
@@ -116,10 +129,4 @@ This exam should be helded on {start_date} - {end_date} based on this informatio
         config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
         pdfkit.from_string(html, output_path='sample.pdf', configuration=config)
 
- 
- 
-get_output(example_data,'pdf');
-get_output(example_data,'html');
 
-
-  #---------------------------------------------------#
