@@ -3,15 +3,26 @@ import pandas as pd
 def read_exam_plan():
     """
     Reads the exam plan(FIW_Exams_2022ws) from an Excel file and returns a pandas DataFrame.
+    
+    DataFrame consists of;
+        Lehrveranstaltung: String
+        LV-Nr.: String List
+        Plansemester: String List
+        Anzahl: Integer
+        Datum, Uhrzeit (ggf. sep. Zeitplan beachten): String
+        HS: String List
+        Form: String List
+        1. & 2. Pruefer: String List
     """
     try:
         filepath="datafiles/FIW_Exams_2022ws.xlsx"
         df = pd.read_excel(filepath, sheet_name=0)
-        df.columns = ["course_name", "course_number", "semester", "number_of_exams", "date", "location", "format", "examiner"]
-        df['course_number'] = df['course_number'].astype(str)
-        str_vars = ["course_number", "semester", "date", "location", "examiner"]
-        for var in str_vars:
-            df[var] = df[var].str.split(",")
+
+        df['LV-Nr.'] = df['LV-Nr.'].astype(str)
+        string_lists = ['LV-Nr.', 'Plansemester', 'HS','1. & 2. Pruefer']
+        for string_list in string_lists:
+            df[string_list] = df[string_list].str.split(",")
+
         return df
     except Exception as e:
         print(f"Error reading exam plan: {str(e)}")
@@ -24,9 +35,11 @@ def read_registration_list():
     try:
         filepath = "datafiles/Pruefungsanmeldungen_anonmous.csv"
         df = pd.read_csv(filepath, sep=";")
-        df.columns = ["course_number", "student_id"]
         return df
     except Exception as e:
         print(f"Error reading registration list: {str(e)}")
         return None
-    
+
+#to see the values of the dataraframes
+print(read_exam_plan().values)
+print(read_registration_list().values)
