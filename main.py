@@ -37,7 +37,7 @@ def big_exams_early(dataframe, days_thresh, stud_thresh, exam_start_date):
     
     Output: 
     Score with type float
-    np.array object containing: 1. days difference; 2. student count; 3. exam name
+    np.array object containing: 1. days difference; 2. student count; 3. exam name; 4. start date; 5.end date
     
     '''
     
