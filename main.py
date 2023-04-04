@@ -46,7 +46,7 @@ def big_exams_early(dataframe, days_thresh, stud_thresh, exam_start_date):
     
     
     conflict = df.loc[(df.delta>days_thresh) & (df.Anzahl>stud_thresh)]
-    arr = np.array(conflict[['delta', 'Anzahl', 'Lehrveranstaltung']])
+    arr = np.array(conflict[['delta', 'Anzahl', 'Lehrveranstaltung', 'start_date', 'end_date']])
     
     score = float(len(conflict)/len(df))
     return score, arr
