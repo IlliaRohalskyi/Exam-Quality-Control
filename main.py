@@ -27,28 +27,29 @@ def split_date(dataframe):
      return splitted_df
 
 def big_exams_early(dataframe, days_thresh, stud_thresh, exam_start_date):
-     '''
+    '''
     
-     Input: 
-     dataframe: Exam dataframe with type pandas.core.frame.DataFrame. It must be splitted with split_date function beforehand
-     days_thresh: Days threshold, type int
-     stud_thresh: Student count threshold, type int
-     exam_start_date: date of the official exam start, type datetime64[ns]
+    Input: 
+    dataframe: Exam dataframe with type pandas.core.frame.DataFrame. It must be splitted with split_date function beforehand
+    days_thresh: Days threshold, type int
+    stud_thresh: Student count threshold, type int
+    exam_start_date: date of the official exam start, type datetime64[ns]
     
-     Output: 
-     Score with type float
+    Output: 
+    Score with type float
+    np.array object containing: 1. days difference; 2. student count; 3. exam name
     
-     '''
+    '''
     
-     df = dataframe
-     delta = df.start_date - exam_start_date
-     df.delta = delta.astype(int)
+    df = dataframe
+    df['delta'] = (df.start_date - exam_start_date).dt.days
     
     
-     conflict = dataframe.loc[(dataframe.delta>days_thresh) & (dataframe.Anzahl>stud_thresh)]
+    conflict = df.loc[(df.delta>days_thresh) & (df.Anzahl>stud_thresh)]
+    arr = np.array(conflict[['delta', 'Anzahl', 'Lehrveranstaltung']])
     
-     score = float(len(conflict)/len(df))
-     return score
+    score = float(len(conflict)/len(df))
+    return score, arr
   
   #---------------------------------------------------#
   
