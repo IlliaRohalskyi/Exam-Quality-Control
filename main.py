@@ -1,6 +1,6 @@
-#import pandas as pd
-#import numpy as np
-#from datetime import datetime
+import pandas as pd
+import numpy as np
+from datetime import datetime
 
 
 import markdown
@@ -10,14 +10,16 @@ def main():
     days_thresh = int(input("please enter a value for days threshold: "))
     stud_thresh = int(input("please enter a value for student count threshold: "))
 
-    dataframe=read_data()
-    splitted_df=split_date(dataframe)
-    exam_start_date = splitted_df.loc[0, 'start_date']
-    score,arr=big_exams_early(splitted_df,days_thresh,stud_thresh,exam_start_date)
-    get_output(arr,'html');
+    dataframe = read_data()
+    splitted_df = split_date(dataframe)
+    sorted_df = splitted_df.sort_values(by='start_date')
+    exam_start_date=sorted_df.loc[0,'start_date']
+    print(exam_start_date)
+    score,arr = big_exams_early(splitted_df,days_thresh,stud_thresh,exam_start_date)
+    get_output(arr,score,'html');
 
 def read_data():
-    df=pd.read_excel("FIW_Exams_2022ws.xlsx")
+    df=pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
     return df
   
 #--------------------Processing functions--------------------#
@@ -69,22 +71,13 @@ def big_exams_early(dataframe, days_thresh, stud_thresh, exam_start_date):
 
   #---------------Output Processes-----------------------# 
 
-example_data = {
-    "courseName": ["Math"],
-    "numberOfStudent": ["300"],
-    "startDate": ["24.05.2023"],
-    "endDate": ["24.06.2023"],
-    "score": ["24.06.2023"]
-}
 
-def get_output(example_data, output_type):
+def get_output(example_data, score,output_type):
 
-    #initialize variables
-    course_name = example_data['courseName']
-    number_of_student = example_data['numberOfStudent']
-    start_date = example_data['startDate']
-    end_date = example_data['endDate']
-    score = example_data['score']
+    number_of_students = example_data[:, 1]
+    course_name = example_data[:, 2]
+    start_date = example_data[:, 3]
+    end_date = example_data[:, 4]
 
     #create markdown text based on the coming data
     markdown_text = f""" 
@@ -93,7 +86,7 @@ def get_output(example_data, output_type):
 ## First Exam: 
 
 - Name of the course: {course_name}  
-- Number of students who enrolled this course: {number_of_student}
+- Number of students who enrolled this course: {number_of_students}
 - Total Score: {score}
 
 
@@ -130,3 +123,5 @@ This exam should be helded on {start_date} - {end_date} based on this informatio
         pdfkit.from_string(html, output_path='sample.pdf', configuration=config)
 
 
+if __name__ == '__main__':
+    main()
