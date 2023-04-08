@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from datetime import datetime
-
+import matplotlib.pyplot as plt
 
 import markdown
 import pdfkit
@@ -54,7 +54,7 @@ def big_exams_early(splitted_df):
     
     '''
     
-    df = dataframe
+    df = splitted_df
     
     sorted_date = df.sort_values(by='start_date')
     exam_start_date = sorted_date.loc[0,'start_date']
