@@ -41,29 +41,71 @@ def split_date(dataframe):
     
      return splitted_df
 
-def big_exams_early(dataframe, days_thresh, stud_thresh, exam_start_date):
+def big_exams_early(splitted_df):
     '''
     
     Input: 
-    dataframe: Exam dataframe with type pandas.core.frame.DataFrame. It must be splitted with split_date function beforehand
-    days_thresh: Days threshold, type int
-    stud_thresh: Student count threshold, type int
-    exam_start_date: date of the official exam start, type datetime64[ns]
+    splitted_df: Exam dataframe with type pandas.core.frame.DataFrame. It must be splitted with split_date function beforehand
     
     Output: 
     Score with type float
-    np.array object containing: 1. days difference; 2. student count; 3. exam name; 4. start date; 5.end date
+    np.array object containing: 1. days difference; 2. student count; 3. exam name
+    saves a plot with file name big_exams_early.png
     
     '''
     
     df = dataframe
+    
+    sorted_date = df.sort_values(by='start_date')
+    exam_start_date = sorted_date.loc[0,'start_date']
+    
     df['delta'] = (df.start_date - exam_start_date).dt.days
     
+    subjects_sorted = df.sort_values('Anzahl', ascending=False)
+    latest_day = df['delta'].max()
     
-    conflict = df.loc[(df.delta>days_thresh) & (df.Anzahl>stud_thresh)]
-    arr = np.array(conflict[['delta', 'Anzahl', 'Lehrveranstaltung', 'start_date', 'end_date']])
+    stud_counts = np.array(subjects_sorted.Anzahl)
+    timeline = np.linspace(0, latest_day, num=len(stud_counts))
     
-    score = float(len(conflict)/len(df))
+    dots = {0: stud_counts[0]}
+    for i in range(1, latest_day+1):
+        diff = np.abs(timeline - i)
+        sorted_indices = np.argsort(diff)
+
+        index1 = sorted_indices[0]
+        index2 = sorted_indices[1]
+        
+        t = (i - timeline[index1])/(timeline[index2]-timeline[index1])
+        
+        y = (1-t) * stud_counts[index1] + t * stud_counts[index2]
+        
+        dots[i] = y
+        
+    neg_score = 0
+    arr = []
+    for row in df.itertuples():
+        if row.Anzahl > dots[row.delta]:
+            neg_score = neg_score + np.abs(row.Anzahl - dots[row.delta])
+            arr.append([row.delta, row.Anzahl, row.Lehrveranstaltung])
+    #arr = np.array(conflict[['delta', 'Anzahl', 'Lehrveranstaltung']])
+    arr = np.array(arr)
+    worst_score = np.sum(df.Anzahl) - np.min(stud_counts)
+    score = 1 - neg_score/worst_score
+    plt.figure(figsize=(15, 10))
+    plt.plot(timeline, stud_counts)
+    
+    dots_y = np.array(arr[:, 1], dtype=int)
+    dots_x = np.array(arr[:, 0], dtype=int)
+    subj_names = arr[:, 2]
+    plt.scatter(dots_x, dots_y, s=10, color='red')
+    
+    for i in range(len(dots_x)):
+        plt.text(dots_x[i], dots_y[i], subj_names[i], fontsize=6)
+    plt.title('Big exams early conflicts')
+    plt.xlabel('Student count')
+    plt.ylabel('Day')
+    plt.savefig('big_exams_early.png')
+
     return score, arr
   
   #---------------------------------------------------#
