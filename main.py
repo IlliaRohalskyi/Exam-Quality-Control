@@ -102,8 +102,8 @@ def big_exams_early(splitted_df):
     for i in range(len(dots_x)):
         plt.text(dots_x[i], dots_y[i], subj_names[i], fontsize=6)
     plt.title('Big exams early conflicts')
-    plt.xlabel('Student count')
-    plt.ylabel('Day')
+    plt.xlabel('Day')
+    plt.ylabel('Student count')
     plt.savefig('big_exams_early.png')
 
     return score, arr
