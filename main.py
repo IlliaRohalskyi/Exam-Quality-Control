@@ -49,7 +49,7 @@ def big_exams_early(splitted_df):
     
     Output: 
     Score with type float
-    np.array object containing: 1. days difference; 2. student count; 3. exam name
+    conflicts pandas dataframe object containing following columns: 1. days difference; 2. student count; 3. exam name
     saves a plot with file name big_exams_early.png
     
     '''
