@@ -87,7 +87,6 @@ def big_exams_early(splitted_df):
         if row.Anzahl > dots[row.delta]:
             neg_score = neg_score + np.abs(row.Anzahl - dots[row.delta])
             arr.append([row.delta, row.Anzahl, row.Lehrveranstaltung])
-    #arr = np.array(conflict[['delta', 'Anzahl', 'Lehrveranstaltung']])
     arr = np.array(arr)
     worst_score = np.sum(df.Anzahl) - np.min(stud_counts)
     score = 1 - neg_score/worst_score
@@ -105,8 +104,9 @@ def big_exams_early(splitted_df):
     plt.xlabel('Day')
     plt.ylabel('Student count')
     plt.savefig('big_exams_early.png')
-
-    return score, arr
+    
+    conflicts_df = pd.DataFrame(arr, columns=['days_diff', 'stud_count', 'exam_name'])
+    return score, conflicts_df
   
   #---------------------------------------------------#
   
