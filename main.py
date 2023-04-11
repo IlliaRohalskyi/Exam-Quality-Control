@@ -7,18 +7,14 @@ import markdown
 import pdfkit
 
 def main():
-    days_thresh = int(input("please enter a value for days threshold: "))
-    stud_thresh = int(input("please enter a value for student count threshold: "))
 
     dataframe = read_data()
     splitted_df = split_date(dataframe)
-    sorted_df = splitted_df.sort_values(by='start_date')
-    exam_start_date=sorted_df.loc[0,'start_date']
-    print(exam_start_date)
-    score,arr = big_exams_early(splitted_df,days_thresh,stud_thresh,exam_start_date)
-    get_output(arr,score,'html');
+    score,conflicts_df = big_exams_early(splitted_df)
+    get_output(conflicts_df,score,'html')
 
 def read_data():
+
     df=pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
     return df
   
