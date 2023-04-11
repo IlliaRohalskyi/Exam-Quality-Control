@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
-from datetime import datetime
 import matplotlib.pyplot as plt
-
 import markdown
 import pdfkit
+from datetime import datetime
+
 
 def main():
     days_thresh = int(input("please enter a value for days threshold: "))
@@ -15,8 +15,8 @@ def main():
     sorted_df = splitted_df.sort_values(by='start_date')
     exam_start_date=sorted_df.loc[0,'start_date']
     print(exam_start_date)
-    score,arr = big_exams_early(splitted_df,days_thresh,stud_thresh,exam_start_date)
-    get_output(arr,score,'html');
+    score,conflicts_df = big_exams_early(splitted_df)
+    get_output(conflicts_df,score,'html');
 
 def read_data():
     df=pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
@@ -109,35 +109,87 @@ def big_exams_early(splitted_df):
     return score, conflicts_df
   
   #---------------------------------------------------#
+
+
+
   
 
   #---------------Output Processes-----------------------# 
 
 
-def get_output(example_data, score,output_type):
-
-    number_of_students = example_data[:, 1]
-    course_name = example_data[:, 2]
-    start_date = example_data[:, 3]
-    end_date = example_data[:, 4]
-
-    #create markdown text based on the coming data
-    markdown_text = f""" 
-# Exam Quality Control
-
-## First Exam: 
-
-- Name of the course: {course_name}  
-- Number of students who enrolled this course: {number_of_students}
-- Total Score: {score}
+def get_output(example_data,score,output_type):
 
 
-This exam should be helded on {start_date} - {end_date} based on this information
-"""
+
     
-        # converts the markdown text into html
-    html = markdown.markdown(markdown_text)
+
+    # create markdown text based on the coming data
+    # in case that we need mark down again
+    # markdown_text = f""" """
+
+    # converts the markdown text into html
+    # html = markdown.markdown(markdown_text)
+    
+    html= '''
+
+    <html>
+    <head>
+    </head>
+    <body>
+      <main >
+    <h1 style="text-align:center">Exam Quality Control</h1>
+
+    <div style="margin: auto;width: 1200px;display: flex;gap:6rem;justify-content: center;">
+        <div>
+            <h2>Lists of Conflicts:</h2>
+
+            <table style=" border: 1px solid;  border-collapse: collapse;">
+                <tr>
+                    <th>Day</th>
+                    <th>Student Count</th>
+                    <th>Exam Name</th>
+                </tr>
         
+    
+    '''
+
+
+
+    for i in range(len(example_data['days_diff'])):
+
+      
+
+        days = example_data.loc[i,'days_diff']
+        student_count = example_data.loc[i,'stud_count']
+        exam_name = example_data.loc[i,'exam_name']
+    
+
+        data = { "day": days, "student_count": student_count,"exam_name": exam_name}
+        html += "  <tr style=\" text-align:center; \" > \n <td style=\" padding: 1rem \" >{day}</td> \n <td>{student_count}</td> \n <td>{exam_name}</td> \n </tr>  \n ".format(**data)
+
+
+
+    html += '''
+       
+    </table>
+    </ul>
+ 
+    </div>
+    <div style="margin-top: 4rem">
+    <img src="./Thws-logo_English.png" style=" width: 400px" alt="big exams early">
+    </div>
+    </div>
+    <img src="./big_exams_early.png"  alt="big exams early">
+    </main>
+    </body>
+    </html>
+    '''
+
+  
+    
+  
+
+
 
     if output_type == 'html':
 
@@ -153,6 +205,8 @@ This exam should be helded on {start_date} - {end_date} based on this informatio
     
     elif output_type == 'pdf':
 
+          # in case that we need pdf again
+   
         path_to_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 
         html = markdown.markdown(markdown_text)
