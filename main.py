@@ -7,8 +7,6 @@ from datetime import datetime
 
 
 def main():
-    days_thresh = int(input("please enter a value for days threshold: "))
-    stud_thresh = int(input("please enter a value for student count threshold: "))
 
     dataframe = read_data()
     splitted_df = split_date(dataframe)
@@ -19,6 +17,7 @@ def main():
     get_output(conflicts_df,score,'html');
 
 def read_data():
+
     df=pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
     return df
   
@@ -49,7 +48,7 @@ def big_exams_early(splitted_df):
     
     Output: 
     Score with type float
-    conflicts pandas dataframe object containing following columns: 1. days difference; 2. student count; 3. exam name
+    np.array object containing: 1. days difference; 2. student count; 3. exam name
     saves a plot with file name big_exams_early.png
     
     '''
@@ -67,6 +66,8 @@ def big_exams_early(splitted_df):
     stud_counts = np.array(subjects_sorted.Anzahl)
     timeline = np.linspace(0, latest_day, num=len(stud_counts))
     
+    ### Compute dots ###
+    
     dots = {0: stud_counts[0]}
     for i in range(1, latest_day+1):
         diff = np.abs(timeline - i)
@@ -81,6 +82,8 @@ def big_exams_early(splitted_df):
         
         dots[i] = y
         
+    ### Compute score ###
+    
     neg_score = 0
     arr = []
     for row in df.itertuples():
@@ -90,6 +93,9 @@ def big_exams_early(splitted_df):
     arr = np.array(arr)
     worst_score = np.sum(df.Anzahl) - np.min(stud_counts)
     score = 1 - neg_score/worst_score
+    
+    ### Create plot ###
+    
     plt.figure(figsize=(15, 10))
     plt.plot(timeline, stud_counts)
     
@@ -104,6 +110,8 @@ def big_exams_early(splitted_df):
     plt.xlabel('Day')
     plt.ylabel('Student count')
     plt.savefig('big_exams_early.png')
+    
+    ### Reformat conflict array to dataframe, return score and conflict dataframe ###
     
     conflicts_df = pd.DataFrame(arr, columns=['days_diff', 'stud_count', 'exam_name'])
     return score, conflicts_df
