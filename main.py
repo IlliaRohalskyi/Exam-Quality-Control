@@ -40,6 +40,74 @@ def split_date(dataframe):
     
      return splitted_df
 
+    
+def one_exam_per_day(exam_plan, coursemat_df):
+    """
+    Input:
+    exam_plan: Exam dataframe with type pandas.core.frame.DataFrame. 
+                It must be splitted with split_date function beforehand 
+                
+    coursemat_df: dataframe with type pandas.core.frame.Dataframe.
+                It must be splitted with split_course_matnr function beforehand
+                
+    Output:
+    conflicts dataframe, score and a plot of the graph
+    """
+    
+    def f(x):
+        return (1/2) ** (5*coursemat_df['matnr'].nunique()/1000)
+    
+    course_stud = coursemat_df.groupby('courseNumber')['matnr'].apply(list)
+    course_stud = course_stud.to_frame().reset_index()
+    course_stud.columns = ['LV-Nr.', 'matnr']
+    course_stud['LV-Nr.'] = course_stud['LV-Nr.'].astype(str)
+    exam_plan['LV-Nr.'] = exam_plan['LV-Nr.'].astype(str)
+    merged_df = pd.merge(exam_plan, course_stud, on='LV-Nr.')
+    merged_df['start_date'] = pd.to_datetime(merged_df['start_date'])
+    merged_df['date'] = merged_df['start_date'].dt.date
+    
+    
+    # Create a dictionary to store the conflicts
+    conflicts = {}
+    # Loop through each row of the dataframe
+    for i, row in merged_df.iterrows():
+        # Get the date and students for the current row
+        date = row['date']
+        students = row['matnr']
+        # Check if any of the students have already been seen on the same date
+        for student in students:
+            if student in conflicts and date in conflicts[student]:
+                # If the student is already in the conflicts dictionary for the current date,
+                # add the current exam name to the list of conflicting exams for the student
+                conflicts[student][date].append(row['Lehrveranstaltung'])
+            elif student in conflicts:
+                # If the student is already in the conflicts dictionary but not for the current date,
+                # add the current date and exam name to the conflicts dictionary for the student
+                conflicts[student][date] = [row['Lehrveranstaltung']]
+            else:
+                # If the student is not yet in the conflicts dictionary, add the student and
+                # the current date and exam name to the conflicts dictionary
+                conflicts[student] = {date: [row['Lehrveranstaltung']]}
+
+    # Create a new dataframe to store the conflicts
+    conflicts_df = pd.DataFrame(columns=['student_id', 'exam_names', 'date'])
+
+    # Loop through each student in the conflicts dictionary
+    for student, dates in conflicts.items():
+        # Loop through each date for the student
+        for date, exams in dates.items():
+            # If the student has more than one exam on the date, add a row to the conflicts dataframe
+            if len(exams) > 1:
+                conflicts_df = conflicts_df.append({
+                    'student_id': student,
+                    'exam_names': exams,
+                    'date': date
+                }, ignore_index=True)
+    conflicts_amount = conflicts_df['exam_names'].apply(lambda x: len(x)).sum() - len(conflicts_df)
+    
+    return conflicts_df
+  
+  
 def big_exams_early(splitted_df):
     '''
     
