@@ -40,6 +40,19 @@ def split_date(dataframe):
     
      return splitted_df
 
+def split_course_matnr(dataframe):
+     '''
+     Input:
+     dataframe: dataframe with courseNumber and matnr with type pandas.core.frame.DataFrame
+   
+     Output:
+     pandas.core.frame.Dataframe with splitted course number and matnr in two new columns:
+                             'courseNumber', 'matnr' with dtype string
+   
+     '''
+     splitted_df = dataframe
+     splitted_df[['courseNumber', 'matnr']] = dataframe['courseNumber;matnr'].str.split(";", expand = True)    
+     return splitted_df
     
 def one_exam_per_day(exam_plan, coursemat_df):
     """
