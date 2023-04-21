@@ -14,7 +14,32 @@ def main():
     exam_start_date=sorted_df.loc[0,'start_date']
     print(exam_start_date)
     score,conflicts_df = big_exams_early(splitted_df)
-    get_output(conflicts_df,score,'html');
+    get_output(conflicts_df,1,'html');
+
+
+# ------------------------ One Exam Per Day ------------------------------------
+
+    """ 
+   
+    Comment Line for the illia
+
+    Input:
+    coursemat_df
+    a file contains just one columns as 'courseNumber;matnr'
+    # That means we have exams and student who is taking this exam.
+                
+                
+    """
+    exam_plan = pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
+    coursemat_df = pd.read_csv("datafiles/Pruefungsanmeldungen_anonmous.csv")
+
+    exam_plan = split_date(exam_plan)
+    coursemat_df = split_course_matnr(coursemat_df)
+    result = one_exam_per_day(exam_plan, coursemat_df)
+    # get_output(result,1,'html');
+
+
+
 
 def read_data():
 
@@ -111,7 +136,7 @@ def one_exam_per_day(exam_plan, coursemat_df):
         for date, exams in dates.items():
             # If the student has more than one exam on the date, add a row to the conflicts dataframe
             if len(exams) > 1:
-                conflicts_df = conflicts_df.append({
+                conflicts_df = conflicts_df._append({
                     'student_id': student,
                     'exam_names': exams,
                     'date': date
@@ -205,20 +230,8 @@ def big_exams_early(splitted_df):
 
   #---------------Output Processes-----------------------# 
 
+def create_html(example_df):
 
-def get_output(example_data,score,output_type):
-
-
-
-    
-
-    # create markdown text based on the coming data
-    # in case that we need mark down again
-    # markdown_text = f""" """
-
-    # converts the markdown text into html
-    # html = markdown.markdown(markdown_text)
-    
     html= '''
 
     <html>
@@ -233,29 +246,25 @@ def get_output(example_data,score,output_type):
             <h2>Lists of Conflicts:</h2>
 
             <table style=" border: 1px solid;  border-collapse: collapse;">
-                <tr>
-                    <th>Day</th>
-                    <th>Student Count</th>
-                    <th>Exam Name</th>
-                </tr>
+               
         
+          
     
     '''
-
-
-
-    for i in range(len(example_data['days_diff'])):
-
-      
-
-        days = example_data.loc[i,'days_diff']
-        student_count = example_data.loc[i,'stud_count']
-        exam_name = example_data.loc[i,'exam_name']
     
+   # Tablo başlıkları
+    html += '<tr>'
+    for col_name in example_df.columns:
+        html += f'<th>{col_name}</th>'
+    html += '</tr>'
 
-        data = { "day": days, "student_count": student_count,"exam_name": exam_name}
-        html += "  <tr style=\" text-align:center; \" > \n <td style=\" padding: 1rem \" >{day}</td> \n <td>{student_count}</td> \n <td>{exam_name}</td> \n </tr>  \n ".format(**data)
-
+    # Tablo verileri
+    for i in range(len(example_df)):
+        html += '<tr style="text-align:center;">'
+        for j in range(len(example_df.columns)):
+            cell_data = example_df.iloc[i, j]
+            html += f'<td style="padding:1rem">{cell_data}</td>'
+        html += '</tr>'
 
 
     html += '''
@@ -273,11 +282,24 @@ def get_output(example_data,score,output_type):
     </body>
     </html>
     '''
-
-  
     
-  
+    return html
 
+
+def get_output(example_df,score,output_type):
+
+
+
+    
+
+    # create markdown text based on the coming data
+    # in case that we need mark down again
+    # markdown_text = f""" """
+
+    # converts the markdown text into html
+    # html = markdown.markdown(markdown_text)
+    
+    html = create_html(example_df);  
 
 
     if output_type == 'html':
@@ -298,7 +320,7 @@ def get_output(example_data,score,output_type):
    
         path_to_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
 
-        html = markdown.markdown(markdown_text)
+        # html = markdown.markdown(markdown_text)
         path_to_file = 'output.html'
 
         #Point pdfkit configuration to wkhtmltopdf.exe
