@@ -1,0 +1,94 @@
+{
+  "Exam-room-capacities": {
+    "Horsaal": [
+      {
+        "Name": "H.1.1",
+        "Normal-capacity": 218,
+        "Klausur-capacity 1": 63,
+        "Klausur-capacity 2": 81
+      },
+      {
+        "Name": "H.1.2",
+        "Normal-capacity": 115,
+        "Klausur-capacity 1": 31,
+        "Klausur-capacity 2": 45
+      },
+      {
+        "Name": "H.1.3",
+        "Normal-capacity": 120,
+        "Klausur-capacity 1": 32,
+        "Klausur-capacity 2": 48
+      },
+      {
+        "Name": "H.1.6",
+        "Normal-capacity": 84,
+        "Klausur-capacity 1": 24,
+        "Klausur-capacity 2": 30
+      },
+      {
+        "Name": "H.1.7",
+        "Normal-capacity": 84,
+        "Klausur-capacity 1": 24,
+        "Klausur-capacity 2": 30
+      }
+    ],
+    "Seminar-raum": [
+      {
+        "Name": "I.2.15",
+        "Normal-capacity": 32,
+        "Klausur-capacity 1": 16,
+        "Klausur-capacity 2": 0
+      },
+      {
+        "Name": "I.3.19",
+        "Normal-capacity": 32,
+        "Klausur-capacity 1": 16,
+        "Klausur-capacity 2": 0
+      },
+      {
+        "Name": "I.3.20",
+        "Normal-capacity": 54,
+        "Klausur-capacity 1": 27,
+        "Klausur-capacity 2": 0
+      },
+      {
+        "Name": "I.3.24",
+        "Normal-capacity": 32,
+        "Klausur-capacity 1": 16,
+        "Klausur-capacity 2": 0
+      },
+      {
+        "Name": "H.1.11",
+        "Normal-capacity": 30,
+        "Klausur-capacity 1": 15,
+        "Klausur-capacity 2": 0
+      }
+    ],
+    "Raum": [
+      {
+        "Name": "I.2.1",
+        "Normal-capacity": 20,
+        "Klausur-capacity 1": 10,
+        "Klausur-capacity 2": 20
+      },
+      {
+        "Name": "I.2.15a",
+        "Normal-capacity": 20,
+        "Klausur-capacity 1": 12,
+        "Klausur-capacity 2": 20
+      },
+      {
+        "Name": "I.2.18",
+        "Normal-capacity": 36,
+        "Klausur-capacity 1": 18,
+        "Klausur-capacity 2": 36
+      },
+      {
+        "Name": "I.2.19",
+        "Normal-capacity": 36,
+        "Klausur-capacity 1": 18,
+        "Klausur-capacity 2": 36
+      }
+    ]
+  }
+}

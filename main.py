@@ -8,13 +8,13 @@ from datetime import datetime
 
 def main():
 
-    dataframe = read_data()
-    splitted_df = split_date(dataframe)
-    sorted_df = splitted_df.sort_values(by='start_date')
-    exam_start_date=sorted_df.loc[0,'start_date']
-    print(exam_start_date)
-    score,conflicts_df = big_exams_early(splitted_df)
-    get_output(conflicts_df,1,'html');
+    # dataframe = read_data()
+    # splitted_df = split_date(dataframe)
+    # sorted_df = splitted_df.sort_values(by='start_date')
+    # exam_start_date=sorted_df.loc[0,'start_date']
+    # print(exam_start_date)
+    # score,conflicts_df = big_exams_early(splitted_df)
+    # get_output(conflicts_df,1,'html');
 
 
 # ------------------------ One Exam Per Day ------------------------------------
@@ -30,14 +30,15 @@ def main():
                 
                 
     """
-    exam_plan = pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
-    coursemat_df = pd.read_csv("datafiles/Pruefungsanmeldungen_anonmous.csv")
+    # exam_plan = pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
+    # coursemat_df = pd.read_csv("datafiles/Pruefungsanmeldungen_anonmous.csv")
 
-    exam_plan = split_date(exam_plan)
-    coursemat_df = split_course_matnr(coursemat_df)
-    result = one_exam_per_day(exam_plan, coursemat_df)
+    # exam_plan = split_date(exam_plan)
+    # coursemat_df = split_course_matnr(coursemat_df)
+    # result = one_exam_per_day(exam_plan, coursemat_df)
     # get_output(result,1,'html');
 
+    room_capacity()
 
 
 
@@ -48,106 +49,116 @@ def read_data():
   
 #--------------------Processing functions--------------------#
 
-
-capacity_json = {
-    "Prüfungsraum-Kapazitäten": {
-        "Hörsaal":[
-        {
-            "Name":"H.1.1",
-            "Normal-kapazität": 218,
-            "Klausur-kapazität 1": 63,
-            "Klausur-kapazität 2": 81
-        },
-        {
-            "Name":"H.1.2",
-            "Normal-kapazität": 115,
-            "Klausur-kapazität 1": 31,
-            "Klausur-kapazität 2": 45
-        },
-        {
-            "Name":"H.1.3",
-            "Normal-kapazität": 120,
-            "Klausur-kapazität 1": 32,
-            "Klausur-kapazität 2": 48
-        },
-        {
-            "Name":"H.1.6",
-            "Normal-kapazität": 84,
-            "Klausur-kapazität 1": 24,
-            "Klausur-kapazität 2": 30
-        },
-        {
-            "Name":"H.1.7",
-            "Normal-kapazität": 84,
-            "Klausur-kapazität 1": 24,
-            "Klausur-kapazität 2": 30
-        }
-        ],
-        "Seminar-raum": [
-            {
-            "Name":"I.2.15",
-            "Normal-kapazität": 32,
-            "Klausur-kapazität 1": 16,
-            "Klausur-kapazität 2": null
-        },
-        {
-            "Name":"I.3.19",
-            "Normal-kapazität": 32,
-            "Klausur-kapazität 1": 16,
-            "Klausur-kapazität 2": null
-        },
-        {
-            "Name":"I.3.20",
-            "Normal-kapazität": 54,
-            "Klausur-kapazität 1": 27,
-            "Klausur-kapazität 2": null
-        },
-        {
-            "Name":"I.3.24",
-            "Normal-kapazität": 32,
-            "Klausur-kapazität 1": 16,
-            "Klausur-kapazität 2": null
-        },
-        {
-            "Name":"H.1.11",
-            "Normal-kapazität": 30,
-            "Klausur-kapazität 1": 15,
-            "Klausur-kapazität 2": null
-        }
-        ],
-        "Raum": [
-        {
-            "Name":"I.2.1",
-            "Normal-kapazität": 20,
-            "Klausur-kapazität 1": 10,
-            "Klausur-kapazität 2": 20
-        },
-        {
-            "Name":"I.2.15a",
-            "Normal-kapazität": 20,
-            "Klausur-kapazität 1": 12,
-            "Klausur-kapazität 2": 20
-        },
-        {
-            "Name":"I.2.18",
-            "Normal-kapazität": 36,
-            "Klausur-kapazität 1": 18,
-            "Klausur-kapazität 2": 36
-        },
-        {
-            "Name":"I.2.19",
-            "Normal-kapazität": 36,
-            "Klausur-kapazität 1": 18,
-            "Klausur-kapazität 2": 36
-        },
-    
-        ]
-        }
-    }
-
 def room_capacity():
+    exam_plan = pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
+    coursemat_df = pd.read_csv("datafiles/Pruefungsanmeldungen_anonmous.csv")
 
-    return
+    # split into two columns
+    coursemat_df[['courseNumber','matnr']] = coursemat_df['courseNumber;matnr'].str.split(';',expand=True)
+
+    # del the first columns that is 'courseNumber;matnr'
+    coursemat_df = coursemat_df.drop('courseNumber;matnr',axis=1)
+    # first column is the course number and each row is the students who takes it
+    course_stud = coursemat_df.groupby('courseNumber')['matnr'].apply(list)
+    #turns into data frame(courseNumber,matnr) and adds a column shows the index for each row by using reset index method
+    course_stud = course_stud.to_frame().reset_index()
+    print(course_stud)
+    #courseNumber -> LV-Nr
+    course_stud.columns = ['LV-Nr.', 'matnr']
+    # this column's type turns into the string from object
+    course_stud['LV-Nr.'] = course_stud['LV-Nr.'].astype(str)
+    # this column's type turns into the string from object
+    exam_plan['LV-Nr.'] = exam_plan['LV-Nr.'].astype(str)
+    #two table are merged via one common column.
+    merged_df = pd.merge(exam_plan[['LV-Nr.', 'HS']], course_stud, on='LV-Nr.')
+
+    merged_df['total_student'] = merged_df['matnr'].apply(lambda x: len(x))
+
+    
+    def calculate_total_capacity(row):
+
+
+        import json
+
+        # Read the json
+        with open('./datafiles/capacity.json') as f:
+            capacity = json.load(f)
+        
+        # Receive the strings in HS column and split them according to ,
+        elements = row['HS'].split(', ')
+    
+        # reaching the room which you want to access
+        rooms = capacity['Exam-room-capacities']
+        room = None
+    
+        total = 0;
+        for i in elements:
+            for s in rooms.values():
+                for r in s:
+                    if r['Name'] == i:
+                        room = r
+                        # if you change this part you can also receive other capacities as well
+                        total = total + room['Normal-capacity']
+                    
+                
+                if room:
+                    break
+
+        # Receiving total capacity
+        return total
+
+    # call the function for each row and add the result to a new column
+    merged_df['Total Capacity'] = merged_df.apply(calculate_total_capacity, axis=1)
+
+   
+    print(merged_df) 
+
+
+
+    # import json
+
+    # # JSON dosyasını okuyup bir sözlük olarak kaydetme
+    # with open('./datafiles/capacity.json') as f:
+    #     capacity = json.load(f)
+
+    # string = merged_df.loc[0, 'HS']  # 0. index, Name sütunundaki stringi al
+    # elements = string.split(', ')  # virgüllere göre ayır
+  
+    # # İstediğiniz salona ulaşın
+    # salonlar = capcaities['Exam-room-capacities']
+    # salon = None
+   
+    # total = 0;
+    # for i in elements:
+    #     for s in salonlar.values():
+    #         for r in s:
+    #             print(i)
+    #             if r['Name'] == i:
+    #                 salon = r
+    #                 total = total + salon['Normal-capacity']
+                  
+                    
+            
+    #         if salon:
+    #             break
+
+    # # Normal kapasiteyi yazdırın
+    # print(total)
+   
+
+
+
+    
+
+
+
+   
+ 
+
+  
+   
+    
+    
 
 
 def split_date(dataframe):
