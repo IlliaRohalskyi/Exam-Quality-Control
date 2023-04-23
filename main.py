@@ -115,37 +115,6 @@ def room_capacity():
 
 
 
-    # import json
-
-    # # JSON dosyasını okuyup bir sözlük olarak kaydetme
-    # with open('./datafiles/capacity.json') as f:
-    #     capacity = json.load(f)
-
-    # string = merged_df.loc[0, 'HS']  # 0. index, Name sütunundaki stringi al
-    # elements = string.split(', ')  # virgüllere göre ayır
-  
-    # # İstediğiniz salona ulaşın
-    # salonlar = capcaities['Exam-room-capacities']
-    # salon = None
-   
-    # total = 0;
-    # for i in elements:
-    #     for s in salonlar.values():
-    #         for r in s:
-    #             print(i)
-    #             if r['Name'] == i:
-    #                 salon = r
-    #                 total = total + salon['Normal-capacity']
-                  
-                    
-            
-    #         if salon:
-    #             break
-
-    # # Normal kapasiteyi yazdırın
-    # print(total)
-   
-
 
 
     
