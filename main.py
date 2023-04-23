@@ -49,6 +49,107 @@ def read_data():
 #--------------------Processing functions--------------------#
 
 
+capacity_json = {
+    "Prüfungsraum-Kapazitäten": {
+        "Hörsaal":[
+        {
+            "Name":"H.1.1",
+            "Normal-kapazität": 218,
+            "Klausur-kapazität 1": 63,
+            "Klausur-kapazität 2": 81
+        },
+        {
+            "Name":"H.1.2",
+            "Normal-kapazität": 115,
+            "Klausur-kapazität 1": 31,
+            "Klausur-kapazität 2": 45
+        },
+        {
+            "Name":"H.1.3",
+            "Normal-kapazität": 120,
+            "Klausur-kapazität 1": 32,
+            "Klausur-kapazität 2": 48
+        },
+        {
+            "Name":"H.1.6",
+            "Normal-kapazität": 84,
+            "Klausur-kapazität 1": 24,
+            "Klausur-kapazität 2": 30
+        },
+        {
+            "Name":"H.1.7",
+            "Normal-kapazität": 84,
+            "Klausur-kapazität 1": 24,
+            "Klausur-kapazität 2": 30
+        }
+        ],
+        "Seminar-raum": [
+            {
+            "Name":"I.2.15",
+            "Normal-kapazität": 32,
+            "Klausur-kapazität 1": 16,
+            "Klausur-kapazität 2": null
+        },
+        {
+            "Name":"I.3.19",
+            "Normal-kapazität": 32,
+            "Klausur-kapazität 1": 16,
+            "Klausur-kapazität 2": null
+        },
+        {
+            "Name":"I.3.20",
+            "Normal-kapazität": 54,
+            "Klausur-kapazität 1": 27,
+            "Klausur-kapazität 2": null
+        },
+        {
+            "Name":"I.3.24",
+            "Normal-kapazität": 32,
+            "Klausur-kapazität 1": 16,
+            "Klausur-kapazität 2": null
+        },
+        {
+            "Name":"H.1.11",
+            "Normal-kapazität": 30,
+            "Klausur-kapazität 1": 15,
+            "Klausur-kapazität 2": null
+        }
+        ],
+        "Raum": [
+        {
+            "Name":"I.2.1",
+            "Normal-kapazität": 20,
+            "Klausur-kapazität 1": 10,
+            "Klausur-kapazität 2": 20
+        },
+        {
+            "Name":"I.2.15a",
+            "Normal-kapazität": 20,
+            "Klausur-kapazität 1": 12,
+            "Klausur-kapazität 2": 20
+        },
+        {
+            "Name":"I.2.18",
+            "Normal-kapazität": 36,
+            "Klausur-kapazität 1": 18,
+            "Klausur-kapazität 2": 36
+        },
+        {
+            "Name":"I.2.19",
+            "Normal-kapazität": 36,
+            "Klausur-kapazität 1": 18,
+            "Klausur-kapazität 2": 36
+        },
+    
+        ]
+        }
+    }
+
+def room_capacity():
+
+    return
+
+
 def split_date(dataframe):
      '''
      Input:
@@ -144,7 +245,6 @@ def one_exam_per_day(exam_plan, coursemat_df):
     conflicts_amount = conflicts_df['exam_names'].apply(lambda x: len(x)).sum() - len(conflicts_df)
     
     return conflicts_df
-  
   
 def big_exams_early(splitted_df):
     '''
@@ -284,7 +384,6 @@ def create_html(example_df):
     '''
     
     return html
-
 
 def get_output(example_df,score,output_type):
 
