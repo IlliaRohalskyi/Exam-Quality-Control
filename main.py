@@ -110,24 +110,37 @@ def room_capacity():
     # call the function for each row and add the result to a new column
     merged_df['Total Capacity'] = merged_df.apply(calculate_total_capacity, axis=1)
 
-   
+
+
+    x = merged_df['total_student'].values
+    y = merged_df['Total Capacity'].values
+
+    # draw the line
+    m, b = np.polyfit(x, y, 1)
+
+    # calculate the distance between line and dots. calculate the score
+    merged_df['distance'] = abs(merged_df['total_student'] * m - merged_df['Total Capacity'] + b) / ((m**2 + 1)**0.5)
+    merged_df['score'] = (1 - merged_df['distance'] / merged_df['distance'].max()) * 100
+
+    
+    plt.scatter(x, y)
+
+    # draw the line
+    fit_fn = np.poly1d([m, b])
+    plt.plot(x, fit_fn(x), '--k')
+
+    # show the graph
+    plt.show()
+
+    # save the graph to the file
+    plt.savefig('scatter_plot.png')
+
+
     print(merged_df) 
-
-
-
-
-
     
 
 
 
-   
- 
-
-  
-   
-    
-    
 
 
 def split_date(dataframe):
