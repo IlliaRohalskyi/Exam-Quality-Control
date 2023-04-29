@@ -37,8 +37,9 @@ def main():
     # coursemat_df = split_course_matnr(coursemat_df)
     # result = one_exam_per_day(exam_plan, coursemat_df)
     # get_output(result,1,'html');
-
-    room_capacity()
+    exam_plan, course_stud = create_df()
+    
+    room_capacity(exam_plan,course_stud)
 
 
 
@@ -46,10 +47,7 @@ def read_data():
 
     df=pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
     return df
-  
-#--------------------Processing functions--------------------#
-
-def room_capacity():
+def create_df():
     exam_plan = pd.read_excel("datafiles/FIW_Exams_2022ws.xlsx")
     coursemat_df = pd.read_csv("datafiles/Pruefungsanmeldungen_anonmous.csv")
 
@@ -69,6 +67,13 @@ def room_capacity():
     course_stud['LV-Nr.'] = course_stud['LV-Nr.'].astype(str)
     # this column's type turns into the string from object
     exam_plan['LV-Nr.'] = exam_plan['LV-Nr.'].astype(str)
+
+    return exam_plan, course_stud  
+#--------------------Processing functions--------------------#
+
+def room_capacity(exam_plan,course_stud):
+  
+    
     #two table are merged via one common column.
     merged_df = pd.merge(exam_plan[['LV-Nr.', 'HS']], course_stud, on='LV-Nr.')
 
@@ -115,13 +120,31 @@ def room_capacity():
     x = merged_df['total_student'].values
     y = merged_df['Total Capacity'].values
 
-    # draw the line
+    '''
+    x = total student
+    y = total capacity
+    formula => d = |ax1 + by1 + c| / (a^2 + b^2)^0.5
+
+    y = mx + b
+    mx + b - y = 0
+    m * total student - b + total capacity / (m^2 + 1)^0.5
+    
+    distance is 0 in terms of best case, we are finding max value via merged_df['distance'].max()
+
+    dividing each distance value by the maximum distance turns the distances into ratios between 0 and 1 (merged_df['distance'] / merged_df['distance'].max()) Subtracting from 1 then transforms the scores into a score range where the highest score is 1 and the lowest score is 0. (1 - merged_df['distance'] / merged_df['distance'].max()) We did this because small distance should get the greater point
+    '''
     m, b = np.polyfit(x, y, 1)
 
     # calculate the distance between line and dots. calculate the score
     merged_df['distance'] = abs(merged_df['total_student'] * m - merged_df['Total Capacity'] + b) / ((m**2 + 1)**0.5)
     merged_df['score'] = (1 - merged_df['distance'] / merged_df['distance'].max()) * 100
 
+    total_score = merged_df['score'].sum()
+    score_penalty = total_score / (len(merged_df) * merged_df['score'].max()) 
+
+    print(merged_df)
+    print(score_penalty)
+    
     
     plt.scatter(x, y)
 
@@ -137,11 +160,6 @@ def room_capacity():
 
 
     print(merged_df) 
-    
-
-
-
-
 
 def split_date(dataframe):
      '''
