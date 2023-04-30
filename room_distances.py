@@ -40,6 +40,28 @@ rooms = ["H.1.1", "H.1.2", "H.1.3", "H.1.6", "H.1.7", "H.1.11", "I.2.15", "I.3.1
 
 distance_matrix = create_random_distance_matrix(rooms)
 
+def show_distance_graph(sub_matrix):
+
+    G = nx.from_pandas_adjacency(distance_matrix)
+    subgraph = nx.from_pandas_adjacency(sub_matrix)
+
+    pos = nx.spring_layout(G)
+    # Draw the graph
+    nx.draw_networkx(G, pos=pos, with_labels=True, node_color='lightblue', node_size=200, font_size=12)
+
+    # Set the edge color for the desired edges
+    edge_colors = ['lightgreen' if edge in subgraph.edges() else 'black' for edge in G.edges()]
+
+    # Draw the edges with the desired colors
+    nx.draw_networkx_edges(G, pos=pos, edge_color=edge_colors)
+
+    # Draw the edge labels
+    edge_labels = nx.get_edge_attributes(G, 'weight')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=8)
+
+    # Show the plot
+    plt.show()
+
 
 # Create a dictionary which will store the exam names as a key and the exam room/s for each exam as a value of matrix
 def create_room_dic():
@@ -51,28 +73,11 @@ def create_room_dic():
 
             room_distances[row['Lehrveranstaltung']] = sub_matrix
 
+            # show_distance_graph(sub_matrix)
+
     print(room_distances)
     return room_distances
 
 
-sub_matrix = create_room_dic()  # just shows the last submatrix (the last exam's rooms and distances)
+room_distances = create_room_dic()
 
-G = nx.from_pandas_adjacency(distance_matrix)
-subgraph = nx.from_pandas_adjacency(sub_matrix)
-
-pos = nx.spring_layout(G)
-# Draw the graph
-nx.draw_networkx(G, pos=pos, with_labels=True, node_color='lightblue', node_size=200, font_size=12)
-
-# Set the edge color for the desired edges
-edge_colors = ['lightgreen' if edge in subgraph.edges() else 'black' for edge in G.edges()]
-
-# Draw the edges with the desired colors
-nx.draw_networkx_edges(G, pos=pos, edge_color=edge_colors)
-
-# Draw the edge labels
-edge_labels = nx.get_edge_attributes(G, 'weight')
-nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=8)
-
-# Show the plot
-plt.show()
