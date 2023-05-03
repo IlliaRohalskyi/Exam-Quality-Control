@@ -43,6 +43,7 @@ def create_random_distance_matrix(rooms):
 def create_sub_matrix(distance_matrix, desired_rooms):
     sub_matrix = distance_matrix.loc[desired_rooms, desired_rooms]
     #print(sub_matrix)
+
     return sub_matrix
 
 
@@ -78,7 +79,11 @@ def create_room_dic():
         if len(row['HS']) > 1:  # check if the exam has more than one room -we'll check only them
             desired_rooms = [room.strip() for room in row['HS']]
             sub_matrix = create_sub_matrix(distance_matrix, desired_rooms)
-            score = calculate_score(sub_matrix,room_distances)
+            score = calculate_score(sub_matrix, room_distances)
+            print(row['Lehrveranstaltung'])
+            print(sub_matrix)
+            print()
+            print(score)
             total_score += score
 
             sub_dic = {
@@ -91,6 +96,8 @@ def create_room_dic():
 
     total_score = (total_score/(len(room_distances)*100))*100
     print(f'TOTAL SCORE IS: {total_score}')
+    dene = pd.DataFrame.from_dict(room_distances)
+    # print(dene)
     return room_distances
 
     # for i in room_distances:
@@ -108,10 +115,11 @@ def calculate_score(sub_matrix, room_distances):
     return score
 
 room_distances = create_room_dic()
-for i in room_distances:
-    print(i,room_distances[i]['score'])
 
-# print(distance_matrix)
+# for i in room_distances:
+#     print(i,room_distances[i])
+
+print(distance_matrix)
 demo_sub_matrix=create_sub_matrix(distance_matrix,["H.1.1", "H.1.2", "H.1.3","H.1.11"])
 # print(demo_sub_matrix)
 show_distance_graph(distance_matrix,demo_sub_matrix)
