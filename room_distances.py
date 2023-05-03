@@ -16,10 +16,12 @@ room_df['HS'] = room_df['HS'].apply(lambda x: x.split(','))
 def read_room_distances():
     distance_matrix = pd.read_excel('datafiles/room_distance_matrix.xlsx')
     distance_matrix.index=distance_matrix.columns
-    print(distance_matrix)
+    # print(distance_matrix)
     return distance_matrix
 
 distance_matrix = read_room_distances()
+max_distance = distance_matrix.max().max()  # find the maximum distance in the entire distance matrix
+min_distance = 5
 
 # Random distance generator
 def create_random_distance_matrix(rooms):
@@ -70,23 +72,44 @@ def show_distance_graph(distance_matrix,sub_matrix):
 
 # Create a dictionary which will store the exam names as a key and the exam room/s for each exam as a value of matrix
 def create_room_dic():
+    total_score = 0
     room_distances = {}
     for index, row in room_df.iterrows():
         if len(row['HS']) > 1:  # check if the exam has more than one room -we'll check only them
             desired_rooms = [room.strip() for room in row['HS']]
             sub_matrix = create_sub_matrix(distance_matrix, desired_rooms)
+            score = calculate_score(sub_matrix,room_distances)
+            total_score += score
 
-            room_distances[row['Lehrveranstaltung']] = sub_matrix
+            sub_dic = {
+                'sub-matrix': sub_matrix,
+                'score': score
+            }
+            room_distances[row['Lehrveranstaltung']] = sub_dic
 
             # show_distance_graph(sub_matrix)
 
-    for i in room_distances:
-        print(i)
-        print(room_distances[i])
+    print(room_distances)
+    print(f'here is the total score: {total_score}')
     return room_distances
 
+    # for i in room_distances:
+    #     print(i)
+    #     print(room_distances[i])
+
+def calculate_score(sub_matrix, room_distances):
+
+    triangle = np.triu(sub_matrix).flatten() # only takes the left triangle and converts to an array
+    sub_distances = [num for num in triangle if int(num)!=0] # remove the zero values
+    avg_distance = np.sum(sub_distances) / len(sub_distances)
+
+    # we need to normalize these averages
+    score = (1-((avg_distance - min_distance) / (max_distance - min_distance)))*100
+    print(score)
+    return score
+
 room_distances = create_room_dic()
-print(distance_matrix)
+# print(distance_matrix)
 demo_sub_matrix=create_sub_matrix(distance_matrix,["H.1.1", "H.1.2", "H.1.3","H.1.11"])
-print(demo_sub_matrix)
+# print(demo_sub_matrix)
 show_distance_graph(distance_matrix,demo_sub_matrix)
