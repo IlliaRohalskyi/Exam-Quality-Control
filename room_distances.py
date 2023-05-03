@@ -57,7 +57,7 @@ def show_distance_graph(distance_matrix,sub_matrix):
     nx.draw_networkx(G, pos=pos, with_labels=True, node_color='lightblue', node_size=200, font_size=12)
 
     # Set the edge color for the desired edges
-    edge_colors = ['lightgreen' if edge in subgraph.edges() else 'black' for edge in G.edges()]
+    edge_colors = ['black' if edge in subgraph.edges() else 'lightgrey' for edge in G.edges()]
 
     # Draw the edges with the desired colors
     nx.draw_networkx_edges(G, pos=pos, edge_color=edge_colors)
@@ -89,10 +89,8 @@ def create_room_dic():
 
             # show_distance_graph(sub_matrix)
 
-    print(room_distances)
     total_score = (total_score/(len(room_distances)*100))*100
-    print(total_score)
-    print(f'here is the total score: {total_score}')
+    print(f'TOTAL SCORE IS: {total_score}')
     return room_distances
 
     # for i in room_distances:
@@ -107,10 +105,11 @@ def calculate_score(sub_matrix, room_distances):
 
     # we need to normalize these averages
     score = (1-((avg_distance - min_distance) / (max_distance - min_distance)))*100
-    print(score)
     return score
 
 room_distances = create_room_dic()
+for i in room_distances:
+    print(i,room_distances[i]['score'])
 
 # print(distance_matrix)
 demo_sub_matrix=create_sub_matrix(distance_matrix,["H.1.1", "H.1.2", "H.1.3","H.1.11"])
