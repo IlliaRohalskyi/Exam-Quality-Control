@@ -90,6 +90,8 @@ def create_room_dic():
             # show_distance_graph(sub_matrix)
 
     print(room_distances)
+    total_score = (total_score/(len(room_distances)*100))*100
+    print(total_score)
     print(f'here is the total score: {total_score}')
     return room_distances
 
@@ -109,6 +111,7 @@ def calculate_score(sub_matrix, room_distances):
     return score
 
 room_distances = create_room_dic()
+
 # print(distance_matrix)
 demo_sub_matrix=create_sub_matrix(distance_matrix,["H.1.1", "H.1.2", "H.1.3","H.1.11"])
 # print(demo_sub_matrix)
