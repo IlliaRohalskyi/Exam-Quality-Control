@@ -60,7 +60,7 @@ def create_df():
     course_stud = coursemat_df.groupby('courseNumber')['matnr'].apply(list)
     #turns into data frame(courseNumber,matnr) and adds a column shows the index for each row by using reset index method
     course_stud = course_stud.to_frame().reset_index()
-    print(course_stud)
+ 
     #courseNumber -> LV-Nr
     course_stud.columns = ['LV-Nr.', 'matnr']
     # this column's type turns into the string from object
@@ -79,7 +79,6 @@ def room_capacity(exam_plan,course_stud):
 
     merged_df['total_student'] = merged_df['matnr'].apply(lambda x: len(x))
 
-    
     def calculate_total_capacity(row):
 
 
@@ -103,7 +102,7 @@ def room_capacity(exam_plan,course_stud):
                     if r['Name'] == i:
                         room = r
                         # if you change this part you can also receive other capacities as well
-                        total = total + room['Normal-capacity']
+                        total = total + room['Klausur-capacity 2']
                     
                 
                 if room:
@@ -114,8 +113,6 @@ def room_capacity(exam_plan,course_stud):
 
     # call the function for each row and add the result to a new column
     merged_df['Total Capacity'] = merged_df.apply(calculate_total_capacity, axis=1)
-
-
 
     x = merged_df['total_student'].values
     y = merged_df['Total Capacity'].values
@@ -142,8 +139,9 @@ def room_capacity(exam_plan,course_stud):
     total_score = merged_df['score'].sum()
     score_penalty = total_score / (len(merged_df) * merged_df['score'].max()) 
 
-    print(merged_df)
     print(score_penalty)
+    print(merged_df)
+    
     
     
     plt.scatter(x, y)
@@ -159,7 +157,7 @@ def room_capacity(exam_plan,course_stud):
     plt.savefig('scatter_plot.png')
 
 
-    print(merged_df) 
+    
 
 def split_date(dataframe):
      '''
