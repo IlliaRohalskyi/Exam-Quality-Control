@@ -18,7 +18,7 @@ class Data:
     }
 
 
-    def __init__(self, exam_plan, registration_info):
+    def __init__(self):
         self.exam_plan = self.load_data(exam_plan)
         self.room_distances = self.load_room_distances(room_distances)
         self.room_capacities = self.load_room_capacities(room_capacities)
@@ -31,7 +31,7 @@ class Data:
         self.exam_form = None
         self.examiners = None
         self.start_date, self.end_date = self.split_date(self.exam_plan)
-        self.course_nr, self.mat_nr = self.registration_info(registration_info)
+        self.course_nr, self.mat_nr, self.course_stud = self.registration_info(registration_info)
         self.extract_columns()
 
     def registration_info(self, registration_info):
@@ -45,7 +45,8 @@ class Data:
         #turns into data frame(courseNumber,matnr) and adds a column shows the index for each row by using reset index method
         course_stud = course_stud.to_frame().reset_index()
         
-        return course_stud['courseNumber'], course_stud['matnr']
+        return course_stud['courseNumber'], course_stud['matnr'], course_stud
+    
     def load_data(self, exam_plan):
         return pd.read_excel(exam_plan)
 
@@ -70,9 +71,9 @@ class Data:
 
         return splitted_df['start_date'], splitted_df['end_date']
 
-input = Data(exam_plan, registration_info)
+input = Data()
 course_name = input.course_name
 course_num = input.course_num
 semester = input.semester
 
-print(input.mat_nr)
+print(input.course_stud)
