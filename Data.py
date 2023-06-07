@@ -30,8 +30,8 @@ class Data:
         self.exam_room = None
         self.exam_form = None
         self.examiners = None
-        self.start_date, self.end_date = self.split_date(self.exam_plan)
-        self.course_nr, self.mat_nr, self.course_stud = self.registration_info(registration_info)
+        self.start_date, self.end_date, self.splitted_df = self.split_date(self.exam_plan)
+        self.course_nr, self.mat_nr, self.course_stud, self.reg_info = self.registration_info(registration_info)
         self.extract_columns()
 
     def registration_info(self, registration_info):
@@ -45,7 +45,7 @@ class Data:
         #turns into data frame(courseNumber,matnr) and adds a column shows the index for each row by using reset index method
         course_stud = course_stud.to_frame().reset_index()
         
-        return course_stud['courseNumber'], course_stud['matnr'], course_stud
+        return course_stud['courseNumber'], course_stud['matnr'], course_stud, registration_info
     
     def load_data(self, exam_plan):
         return pd.read_excel(exam_plan)
@@ -69,4 +69,4 @@ class Data:
         splitted_df[['start_date', 'end_date']] = dataframe['Datum, Uhrzeit (ggf. sep. Zeitplan beachten)'].str.split(" - ", expand = True)
         splitted_df[['start_date', 'end_date']] = pd.to_datetime(splitted_df[['start_date', 'end_date']].stack(), format='%Y-%m-%dT%H:%M').unstack()
 
-        return splitted_df['start_date'], splitted_df['end_date']
+        return splitted_df['start_date'], splitted_df['end_date'], splitted_df

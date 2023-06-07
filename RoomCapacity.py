@@ -4,14 +4,12 @@ import matplotlib.pyplot as plt
 from Data import Data
 
 data_obj = Data()
-print(data_obj.room_capacities)
 class RoomCapacity:
     def __init__(self):
         self.data_obj = data_obj
         self.score, self.plot_arr = self.compute()
         self.conflict_df = None
     def compute(self):
-            #courseNumber -> LV-Nr
         course_stud = self.data_obj.course_stud
         course_stud.columns = ['coursenr', 'matnr']
         # this column's type turns into the string from object
