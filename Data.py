@@ -1,10 +1,10 @@
 import pandas as pd
 import json
 
-exam_plan = "datafiles/FIW_Exams_2022ws.xlsx"
-registration_info = "datafiles/Pruefungsanmeldungen_anonmous.csv"
-room_distances = "datafiles/room_distance_matrix.xlsx"
-room_capacities = "datafiles/capacity.json"
+exam_plan = "input_data_files/FIW_Exams_2022ws.xlsx"
+registration_info = "input_data_files/Pruefungsanmeldungen_anonmous.csv"
+room_distances = "input_data_files/room_distance_matrix.xlsx"
+room_capacities = "input_data_files/capacity.json"
 class Data:
     column_mapping = {
         'Lehrveranstaltung': 'course_name',
@@ -50,10 +50,9 @@ class Data:
             return data
 
 
+input = Data(exam_plan)
+course_name = input.course_name
+course_num = input.course_num
+semester = input.semester
 
-exam_input = Data(exam_plan)
-course_name = exam_input.course_name
-course_num = exam_input.course_num
-semester = exam_input.semester
-
-print(exam_input.room_capacities)
+print(input.exam_date)
