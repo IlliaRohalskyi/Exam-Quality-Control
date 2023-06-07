@@ -70,10 +70,3 @@ class Data:
         splitted_df[['start_date', 'end_date']] = pd.to_datetime(splitted_df[['start_date', 'end_date']].stack(), format='%Y-%m-%dT%H:%M').unstack()
 
         return splitted_df['start_date'], splitted_df['end_date']
-
-input = Data()
-course_name = input.course_name
-course_num = input.course_num
-semester = input.semester
-
-print(input.course_stud)

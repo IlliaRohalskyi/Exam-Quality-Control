@@ -46,8 +46,7 @@ class RoomCapacity:
                     for r in s:
                         if r['Name'] == i:
                             room = r
-                            # if you change this part you can also receive other capacities as well
-                            total = total + room['Klausur-capacity 2']
+                            total = total + max(room['Klausur-capacity 1'], room['Klausur-capacity 2'])
                         
                     
                     if room:
@@ -61,19 +60,20 @@ class RoomCapacity:
 
         x = merged_df['total_student'].values
         y = merged_df['Total Capacity'].values
+        print(y)
         neg_score = 0
         worst_case = 0
         for i in range(len(x)):
             neg_score += abs(x[i]-y[i])
             worst_case += max(x[i], y[i])
         score = 1 - neg_score/worst_case
-        print(score)
         plt.scatter(x, y)
 
         # draw the line
         fit_fn = np.poly1d([1, 0])
         plt.plot(x, fit_fn(x), '--k')
-
+        plt.xlabel("Student")
+        plt.ylabel("Capacity")
         # show the graph
         plt.show()
         # Convert the plot to a NumPy array
@@ -82,8 +82,4 @@ class RoomCapacity:
 
         # Convert the plot to a NumPy array
         plot_array = np.array(figure.canvas.renderer.buffer_rgba())
-        print(score)
         return score, plot_array
-
-
-room_capacity_obj = RoomCapacity()
