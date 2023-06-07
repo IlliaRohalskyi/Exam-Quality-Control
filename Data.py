@@ -27,7 +27,7 @@ class Data:
         self.semester = None
         self.student_num = None
         self.exam_date = None
-        self.exam_room = None
+        self.exam_room = self.split_rooms(self.exam_plan)
         self.exam_form = None
         self.examiners = None
         self.start_date, self.end_date, self.splitted_df = self.split_date(self.exam_plan)
@@ -70,3 +70,9 @@ class Data:
         splitted_df[['start_date', 'end_date']] = pd.to_datetime(splitted_df[['start_date', 'end_date']].stack(), format='%Y-%m-%dT%H:%M').unstack()
 
         return splitted_df['start_date'], splitted_df['end_date'], splitted_df
+    
+    def split_rooms(self,rooms):
+        # Remove leading and trailing whitespace and split by comma
+        rooms['HS'] = rooms['HS'].apply(lambda x: [room.strip() for room in x.split(',')])
+        self.room_distances.index=self.room_distances.columns
+        
