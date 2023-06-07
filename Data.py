@@ -30,6 +30,7 @@ class Data:
         self.exam_room = None
         self.exam_form = None
         self.examiners = None
+        self.start_date, self.end_date = self.split_date(self.exam_plan)
         self.extract_columns()
 
     def load_data(self, exam_plan):
@@ -49,10 +50,16 @@ class Data:
                 data = json.load(file)
             return data
 
+    def split_date(self, dataframe):
+        splitted_df = dataframe
+        splitted_df[['start_date', 'end_date']] = dataframe['Datum, Uhrzeit (ggf. sep. Zeitplan beachten)'].str.split(" - ", expand = True)
+        splitted_df[['start_date', 'end_date']] = pd.to_datetime(splitted_df[['start_date', 'end_date']].stack(), format='%Y-%m-%dT%H:%M').unstack()
+
+        return splitted_df['start_date'], splitted_df['end_date']
 
 input = Data(exam_plan)
 course_name = input.course_name
 course_num = input.course_num
 semester = input.semester
 
-print(input.exam_date)
+print(input.start_date)
