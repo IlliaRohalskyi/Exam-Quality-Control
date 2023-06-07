@@ -1,0 +1,59 @@
+import pandas as pd
+import json
+
+exam_plan = "datafiles/FIW_Exams_2022ws.xlsx"
+registration_info = "datafiles/Pruefungsanmeldungen_anonmous.csv"
+room_distances = "datafiles/room_distance_matrix.xlsx"
+room_capacities = "datafiles/capacity.json"
+class Data:
+    column_mapping = {
+        'Lehrveranstaltung': 'course_name',
+        'LV-Nr.': 'course_num',
+        'Plansemester': 'semester',
+        'Anzahl': 'student_num',
+        'Datum, Uhrzeit (ggf. sep. Zeitplan beachten)': 'exam_date',
+        'HS': 'exam_room',
+        'Form': 'exam_form',
+        '1. & 2. Pruefer': 'examiners'
+    }
+
+
+    def __init__(self, exam_plan):
+        self.exam_plan = self.load_data(exam_plan)
+        self.room_distances = self.load_room_distances(room_distances)
+        self.room_capacities = self.load_room_capacities(room_capacities)
+        self.course_name = None
+        self.course_num = None
+        self.semester = None
+        self.student_num = None
+        self.exam_date = None
+        self.exam_room = None
+        self.exam_form = None
+        self.examiners = None
+        self.extract_columns()
+
+    def load_data(self, exam_plan):
+        return pd.read_excel(exam_plan)
+
+    def extract_columns(self):
+        columns = self.exam_plan.columns
+        for column in columns:
+            attribute_name = self.column_mapping.get(column, column)
+            setattr(self, attribute_name, self.exam_plan[column])
+
+    def load_room_distances(self, room_distances):
+        return pd.read_excel(room_distances)
+
+    def load_room_capacities(self, room_capacities):
+            with open(room_capacities) as file:
+                data = json.load(file)
+            return data
+
+
+
+exam_input = Data(exam_plan)
+course_name = exam_input.course_name
+course_num = exam_input.course_num
+semester = exam_input.semester
+
+print(exam_input.room_capacities)
