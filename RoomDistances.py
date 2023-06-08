@@ -6,14 +6,11 @@ import matplotlib.pyplot as plt
 data_obj = Data()
 class RoomDistance:
     def __init__(self):
-        self.score = self.compute()[0]
-        self.plot = self.compute()[1]
-        self.conflict_df = None
+        self.score, self.plot,self.conflict_df=self.compute()
         self.compute()
     def compute(self):
         df = pd.concat([data_obj.exam_form,data_obj.exam_room],axis=1)
         df = df[(df['Form'] != 'muendlich') & (df['Form'] != 'online')]
-        print(df)
 
         def create_sub_matrix(desired_rooms):
             return data_obj.room_distances.loc[desired_rooms,desired_rooms]
@@ -60,6 +57,4 @@ class RoomDistance:
             return plot_array
             
 
-        return calculate_score(),get_plot_array()
-
-    
+        return calculate_score(),get_plot_array(),None

@@ -3,7 +3,7 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
-df = pd.read_excel('input_data_files/FIW_Exams_2022ws.xlsx')
+df = pd.read_excel('datafiles/FIW_Exams_2022ws.xlsx')
 
 # Exclude the exams which will be held in the form of online or oral
 df = df[~df['Form'].isin(['muendlich', 'online'])]
@@ -14,7 +14,7 @@ room_df['HS'] = room_df['HS'].apply(lambda x: x.split(','))
 
 # Distance Matrix
 def read_room_distances():
-    distance_matrix = pd.read_excel('input_data_files/room_distance_matrix.xlsx')
+    distance_matrix = pd.read_excel('datafiles/room_distance_matrix.xlsx')
     distance_matrix.index=distance_matrix.columns
     # print(distance_matrix)
     return distance_matrix
@@ -42,7 +42,7 @@ def create_random_distance_matrix(rooms):
 
 def create_sub_matrix(distance_matrix, desired_rooms):
     sub_matrix = distance_matrix.loc[desired_rooms, desired_rooms]
-    print(sub_matrix)
+    #print(sub_matrix)
 
     return sub_matrix
 
