@@ -76,3 +76,5 @@ class Data:
         rooms['HS'] = rooms['HS'].apply(lambda x: [room.strip() for room in x.split(',')])
         self.room_distances.index=self.room_distances.columns
         
+        
+data_obj = Data()

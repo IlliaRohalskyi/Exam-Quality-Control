@@ -1,18 +1,14 @@
-from Data import Data
+from Data import data_obj
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-data_obj = Data()
 class BigExamsEarly:
     def __init__(self):
-        self.data_obj = data_obj
-        self.score,self.plot_arr, self.conflicts_df =self.compute()
-       
-        
+        self.score,self.plot_arr, self.conflicts_df = self.compute()
     def compute(self):
-        anzahl = self.data_obj.student_num
-        start_date= self.data_obj.start_date
+        anzahl = data_obj.student_num
+        start_date= data_obj.start_date
         anzahl_sorted=sorted(anzahl,reverse=True)
         anzahl_mean = np.mean(anzahl)
 
@@ -40,10 +36,14 @@ class BigExamsEarly:
         plt.ylabel('Number of Students')
         plt.title('Polynomial Regression on Descending Sorted Data')
         plt.legend()
+
+        
         figure = plt.gcf()  # Get the current figure
         figure.canvas.draw()  # Render the plot
         # Convert the plot to a NumPy array
         plot_array = np.array(figure.canvas.renderer.buffer_rgba())
+        plt.show()
+        plt.close()
 
 
         # Score the exam plan
@@ -72,4 +72,5 @@ class BigExamsEarly:
 
 
         score = ((num_true_first+num_true_second)/len(y))*100
-        return score, plot_array,None
+        return score, plot_array, None
+    

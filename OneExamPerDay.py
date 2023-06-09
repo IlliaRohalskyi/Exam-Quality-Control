@@ -1,23 +1,20 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from Data import Data
-
-data_obj = Data()
+from Data import data_obj
 class OneExamPerDay:
     def __init__(self):
-        self.data_obj = data_obj
         self.score, self.conflicts_df, self.plot_arr = self.compute()
     def compute(self):
         def f(x):
-            return (1/2) ** (x/(5*1000/self.data_obj.reg_info['matnr'].nunique()))
+            return (1/2) ** (x/(5*1000/data_obj.reg_info['matnr'].nunique()))
         
-        course_stud = self.data_obj.course_stud
+        course_stud = data_obj.course_stud
         course_stud.columns = ['coursenr', 'matnr']
         # this column's type turns into the string from object
         course_stud['coursenr'] = course_stud['coursenr'].astype(str)
         # this column's type turns into the string from object
-        exam_plan = self.data_obj.splitted_df.rename(columns={'LV-Nr.': 'coursenr'})
+        exam_plan = data_obj.splitted_df.rename(columns={'LV-Nr.': 'coursenr'})
         exam_plan['coursenr'] = exam_plan['coursenr'].astype(str)
 
         #two table are merged via one common column.
@@ -63,7 +60,6 @@ class OneExamPerDay:
                         'date': date
                     }, ignore_index=True)
         conflicts_amount = conflicts_df['exam_names'].apply(lambda x: len(x)).sum() - len(conflicts_df)
-        print(conflicts_amount)
         score = f(conflicts_amount)
         x_values = np.linspace(0, conflicts_amount+10, 1000)  
         y_values = f(x_values)
@@ -75,8 +71,6 @@ class OneExamPerDay:
         plt.title('One Exam Per Day')
         plt.legend()
         plt.text(conflicts_amount, score, score, ha='left', va='bottom')
-        # Show the plot
-        plt.show()
         
         # Convert the plot to a NumPy array
         figure = plt.gcf()  # Get the current figure
@@ -84,4 +78,6 @@ class OneExamPerDay:
 
         # Convert the plot to a NumPy array
         plot_array = np.array(figure.canvas.renderer.buffer_rgba())
+        plt.show()
+        plt.close()
         return score, conflicts_df, plot_array

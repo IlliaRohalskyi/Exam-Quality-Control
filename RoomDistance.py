@@ -1,13 +1,12 @@
-from Data import Data
+from Data import data_obj
 import pandas as pd
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
-data_obj = Data()
+
 class RoomDistance:
     def __init__(self):
-        self.score, self.plot,self.conflict_df=self.compute()
-        self.compute()
+        self.score, self.plot_arr,self.conflict_df = self.compute()
     def compute(self):
         df = pd.concat([data_obj.exam_form,data_obj.exam_room],axis=1)
         df = df[(df['Form'] != 'muendlich') & (df['Form'] != 'online')]
@@ -35,26 +34,6 @@ class RoomDistance:
                     scores.append(calculate_sub_score(sub_matrix))
                     total_score = sum(scores)/len(scores)
             return total_score
-        
-        def get_plot_array():
-
-            G = nx.from_pandas_adjacency(data_obj.room_distances)
-            pos = nx.spring_layout(G)
-            # Draw the graph
-            nx.draw_networkx(G, pos=pos, with_labels=True, node_color='lightblue', node_size=200, font_size=12)
-
-            # Draw the edge labels
-            edge_labels = nx.get_edge_attributes(G, 'weight')
-            nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=8)
-
-            # Get the current figure
-            figure = plt.gcf() 
-            # Render the plot 
-            figure.canvas.draw()  
-
-            # Convert the plot to a NumPy array
-            plot_array = np.array(figure.canvas.renderer.buffer_rgba())
-            return plot_array
             
 
-        return calculate_score(),get_plot_array(),None
+        return calculate_score(), None, None
