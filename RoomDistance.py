@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 class RoomDistance:
     def __init__(self):
-        self.score, self.plot_arr,self.conflict_df = self.compute()
+        self.score, self.plot_arr,self.conflicts_df = self.compute()
     def compute(self):
         df = pd.concat([data_obj.exam_form,data_obj.exam_room],axis=1)
         df = df[(df['Form'] != 'muendlich') & (df['Form'] != 'online')]

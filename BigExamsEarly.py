@@ -2,6 +2,9 @@ from Data import data_obj
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
+import io
+import base64
 
 class BigExamsEarly:
     def __init__(self):

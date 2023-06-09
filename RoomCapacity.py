@@ -5,7 +5,7 @@ from Data import data_obj
 class RoomCapacity:
     def __init__(self):
         self.score, self.plot_arr = self.compute()
-        self.conflict_df = None
+        self.conflicts_df = None
     def compute(self):
         course_stud = data_obj.course_stud
         course_stud.columns = ['coursenr', 'matnr']
