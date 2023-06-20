@@ -59,9 +59,11 @@ class OneExamPerDay:
                         'exam_names': exams,
                         'date': date
                     }, ignore_index=True)
-        conflicts_amount = conflicts_df['exam_names'].apply(lambda x: len(x)).sum() - len(conflicts_df)
+        conflicts_amount = len(conflicts_df)
+        print(conflicts_amount)
+        print(f(conflicts_amount))
         score = f(conflicts_amount)
-        x_values = np.linspace(0, conflicts_amount+10, 1000)  
+        x_values = np.linspace(0, conflicts_amount+30, 1000)  
         y_values = f(x_values)
 
         plt.plot(x_values, y_values)
@@ -70,7 +72,7 @@ class OneExamPerDay:
         plt.ylabel('f(x)')
         plt.title('One Exam Per Day')
         plt.legend()
-        plt.text(conflicts_amount, score, score, ha='left', va='bottom')
+        plt.text(conflicts_amount, score, score, ha='right', va='bottom')
         
         # Convert the plot to a NumPy array
         figure = plt.gcf()  # Get the current figure
