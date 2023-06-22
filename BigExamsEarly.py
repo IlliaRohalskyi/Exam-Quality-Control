@@ -62,16 +62,13 @@ class BigExamsEarly:
         values_first = y_fit_first<=y_first
         num_true_first = np.sum(values_first)
         num_false_first =np.sum(~values_first)
-        print(f"True values of first half: {num_true_first}")
-        print(f"False values of the first half: {num_false_first}",end="\n\n")
-
+       
 
         # Compare second half
         values_second=y_second<=y_fit_second
         num_true_second = np.sum(values_second)
         num_false_second =np.sum(~values_second)
-        print(f"True values of second half: {num_true_second}")
-        print(f"False values of the second half: {num_false_second}",end="\n\n")
+       
 
 
         score = ((num_true_first+num_true_second)/len(y))*100
