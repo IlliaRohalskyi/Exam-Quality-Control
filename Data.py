@@ -6,7 +6,7 @@ registration_info = "input_data_files/Pruefungsanmeldungen_anonmous.csv"
 room_distances = "input_data_files/room_distance_matrix.xlsx"
 room_capacities = "input_data_files/capacity.json"
 special_dates = "input_data_files/special_dates.csv"
-
+special_examiner = "input_data_files/specific_professors.xlsx"
 class Data:
     column_mapping = {
         'Lehrveranstaltung': 'course_name',
@@ -36,9 +36,14 @@ class Data:
         self.start_date, self.end_date, self.splitted_df = self.split_date(self.exam_plan)
         self.course_nr, self.mat_nr, self.course_stud, self.reg_info = self.registration_info(registration_info)
         self.examiners,self.exam_date = self.split_examiners_exams(self.exam_plan)
-        self.special_dates_df = self.load_special_dates();
+        self.special_dates_df = self.load_special_dates()
         self.examiners_exams_df = self.create_examiners_exams_df()
+        self.special_examiners = self.load_special_examiners(self)
+
         self.extract_columns()
+
+    def load_special_examiners(self,special_examiners):
+        return pd.read_excel(special_examiners)
 
     
     def registration_info(self, registration_info):
