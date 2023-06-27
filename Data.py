@@ -32,7 +32,7 @@ class Data:
         # self.exam_date = None
         self.exam_room = self.split_rooms(self.exam_plan)
         self.exam_form = None
-        # self.examiners = None
+        self.examiners = self.split_examiners(self.exam_plan)
         self.start_date, self.end_date, self.splitted_df = self.split_date(self.exam_plan)
         self.course_nr, self.mat_nr, self.course_stud, self.reg_info = self.registration_info(registration_info)
         self.examiners,self.exam_date = self.split_examiners_exams(self.exam_plan)
@@ -101,6 +101,12 @@ class Data:
         # Remove leading and trailing whitespace and split by comma
         rooms['HS'] = rooms['HS'].apply(lambda x: [room.strip() for room in x.split(',')])
         self.room_distances.index=self.room_distances.columns
+
+    def split_examiners(self, dataframe):
+        splitted_df = dataframe
+        splitted_df['1. & 2. Pruefer'] = dataframe['1. & 2. Pruefer'].apply(
+            lambda x: [examiner_row.strip() for examiner_row in x.split(',')])
+        return splitted_df
         
         
 data_obj = Data()
