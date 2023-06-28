@@ -11,8 +11,8 @@ class BigExamsEarly:
         self.score,self.plot_arr, self.conflicts_df = self.compute()
     def compute(self):
         anzahl = data_obj.student_num
-        start_date= data_obj.start_date
-        anzahl_sorted=sorted(anzahl,reverse=True)
+        start_date = data_obj.start_date
+        anzahl_sorted = sorted(anzahl, reverse = True)
         anzahl_mean = np.mean(anzahl)
 
         # Assing a float value to the date

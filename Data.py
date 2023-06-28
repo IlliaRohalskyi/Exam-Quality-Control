@@ -32,18 +32,18 @@ class Data:
         # self.exam_date = None
         self.exam_room = self.split_rooms(self.exam_plan)
         self.exam_form = None
-        self.examiners = self.split_examiners(self.exam_plan)
+        self.examiner = self.split_examiners(self.exam_plan)
         self.start_date, self.end_date, self.splitted_df = self.split_date(self.exam_plan)
         self.course_nr, self.mat_nr, self.course_stud, self.reg_info = self.registration_info(registration_info)
         self.examiners,self.exam_date = self.split_examiners_exams(self.exam_plan)
         self.special_dates_df = self.load_special_dates()
         self.examiners_exams_df = self.create_examiners_exams_df()
-        self.special_examiners = self.load_special_examiners(self)
+        self.special_examiners = self.load_special_examiners()
 
         self.extract_columns()
 
-    def load_special_examiners(self,special_examiners):
-        return pd.read_excel(special_examiners)
+    def load_special_examiners(self):
+        return pd.read_excel(special_examiner)
 
     
     def registration_info(self, registration_info):
@@ -106,7 +106,6 @@ class Data:
         splitted_df = dataframe
         splitted_df['1. & 2. Pruefer'] = dataframe['1. & 2. Pruefer'].apply(
             lambda x: [examiner_row.strip() for examiner_row in x.split(',')])
-        return splitted_df
-        
+        return splitted_df['1. & 2. Pruefer']
         
 data_obj = Data()
