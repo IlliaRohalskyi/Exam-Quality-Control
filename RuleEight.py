@@ -39,8 +39,15 @@ class RuleEight:
 
             df_final = pd.DataFrame(
                 {'Professor': list(professor_exams.keys()), 'Exams': list(professor_exams.values())})
+            def count_days_supervised(exams):
+                dates = list(exams.keys())
+                num_days = pd.DataFrame({'date': dates})['date'].dt.day.nunique()
+                return num_days
 
+            # Find how many days professors have to visit campus
+            df_final["Days"] = df_final["Exams"].apply(count_days_supervised)
             print(df_final)
+
 
         specific_examiners()
         return score, conflicts_df, plot_arr
