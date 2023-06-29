@@ -39,20 +39,37 @@ class RuleEight:
 
             df_final = pd.DataFrame(
                 {'Professor': list(professor_exams.keys()), 'Exams': list(professor_exams.values())})
+
             def count_days_supervised(exams):
                 dates = list(exams.keys())
+                # Find how many days professors have to visit campus
                 num_days = pd.DataFrame({'date': dates})['date'].dt.day.nunique()
                 return num_days
 
+            def count_exams_supervised(courses):
+                exams = set()
+                for course_list in courses.values():
+                    exams.update(course_list)
+                num_exams = len(exams)
+                return num_exams
+
+            def calculate_each_score(days, number_of_exams):
+                if number_of_exams == 1:
+                    return 1
+                else:
+                    return 1-((days-1)/(number_of_exams-1))
+
             # Find how many days professors have to visit campus
             df_final["Days"] = df_final["Exams"].apply(count_days_supervised)
-            print(df_final)
+            # Find how many exams professors have to supervise
+            df_final["Exam Numbers"] = df_final["Exams"].apply(count_exams_supervised)
+            # Calculate score
+            df_final["Score"] = df_final.apply(lambda i: calculate_score(i["Days"], i["Exam Numbers"]),axis=1)
 
+            print(df_final)
 
         specific_examiners()
         return score, conflicts_df, plot_arr
-
-
 
 
 RuleEight = RuleEight()
