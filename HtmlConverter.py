@@ -4,20 +4,16 @@ import base64
 import numpy as np 
 
 class HtmlConverter:
-    html_single_result_body = ""
-
+   
     def __init__(self):
            pass
       
     @staticmethod
     def create_html_body(table,score,graph,rule_name):
-        
-       
-        HtmlConverter.html_single_result_body += '<div>' + " <h1> " + rule_name + "</h1>" + table + score + graph + '</div>'
+             
+        html_multiple_result_body = '<div>' + " <h1> " + rule_name + "</h1>" + table + score + graph + '</div>'
 
-
-
-        return  HtmlConverter.html_single_result_body
+        return  html_multiple_result_body
     
     @staticmethod
     def add_table(required_df):
@@ -53,13 +49,21 @@ class HtmlConverter:
 
     @staticmethod
     def add_graph(plot_arr):
-        html = " <hr>  "
+       # Convert the plot array to an image
+        buf = io.BytesIO()
+        plt.imsave(buf, plot_arr, format='png')
+        buf.seek(0)
+        plot_data = base64.b64encode(buf.read()).decode('utf-8')
 
+        # Embed the image in an HTML string
+        html = f"<hr><img src='data:image/png;base64,{plot_data}'><hr>"
+        
 
         return html
     @staticmethod
     def create_html_page(html_body):
         
+        html = ""
 
         html= '''
         <html>
@@ -94,15 +98,19 @@ class HtmlConverter:
         '''
         
         return html
+    
     @staticmethod
     def print_html_output(html_page,file_name):
 
         html = html_page
         
-
-        file_directory = file_name
+        file_directory = "./outputs/"  
+        file_directory += file_name
 
     
         file = open(file_directory, "w", encoding="utf-8")
         file.write(html)
         file.close()
+    
+   
+

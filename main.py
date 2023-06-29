@@ -14,15 +14,16 @@ from Data import data_obj
 
 def main():
 
-    # Output.save_multiple_result_html()
-    # Output.save_result_bigExamEarly()
-    # Output.save_result_oneExamPerDay()
-    # Output.save_result_roomCapacity()
-    # Output.save_result_roomDistances()
 
-    special_dates = SpecialDates()  # SpecialDates sınıfından bir örnek oluşturun
-    score, conflicts_df, plot_arr = special_dates.compute()  # compute yöntemini çağırın
+    Output.save_multiple_result_html()
+    Output.save_single_result_html("big_exams_early")
+    Output.save_single_result_html("one_exam_per_day") 
+    Output.save_single_result_html("room_distances") 
+    Output.save_single_result_html("room_capacity")
 
-    print(score, conflicts_df)  # Sonuçları yazdırın
+    # special_dates = SpecialDates()  # SpecialDates sınıfından bir örnek oluşturun
+    # score, conflicts_df, plot_arr = special_dates.compute()  # compute yöntemini çağırın
+
+    # print(score, conflicts_df)  # Sonuçları yazdırın
 
 main()
