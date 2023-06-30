@@ -3,7 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from Data import data_obj
 
-class RuleEight:
+
+class SpecialProfessors:
     def __init__(self):
         self.score, self.conflicts_df, self.plot_arr = self.compute()
 
@@ -82,9 +83,13 @@ class RuleEight:
             plt.tight_layout()
             # Get the current figure
             figure = plt.gcf()
+            # Render the plot
+            figure.canvas.draw()
 
             # Convert the plot to a NumPy array
             plot_array = np.array(figure.canvas.renderer.buffer_rgba())
+            plt.show()
+            plt.close()
             return plot_array
 
         overall_score = df_final["Score"].mean()

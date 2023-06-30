@@ -6,6 +6,7 @@ from RoomCapacity import RoomCapacity
 from RoomDistance import RoomDistance
 from BigExamsEarly import BigExamsEarly
 from OneExamPerDay import OneExamPerDay
+from SpecialProfessors import SpecialProfessors
 
 data_obj = Data()
 class Scoring():
@@ -14,5 +15,6 @@ class Scoring():
         self.one_exam_per_day = OneExamPerDay()
         self.room_capacity = RoomCapacity()
         self.room_distances = RoomDistance()
+        self.special_professors=SpecialProfessors()
         
 scoring = Scoring()

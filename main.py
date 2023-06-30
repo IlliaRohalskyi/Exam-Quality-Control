@@ -20,6 +20,7 @@ def main():
     Output.save_single_result_html("one_exam_per_day") 
     Output.save_single_result_html("room_distances") 
     Output.save_single_result_html("room_capacity")
+    Output.save_single_result_html("special_professors")
 
     # special_dates = SpecialDates()  # SpecialDates sınıfından bir örnek oluşturun
     # score, conflicts_df, plot_arr = special_dates.compute()  # compute yöntemini çağırın
