@@ -12,15 +12,20 @@ class SpecialDates:
     def compute(self):
         
         conflicts = []
-
+       
         # check conflicts by itearing each row
         for index, row in data_obj.special_dates_df.iterrows():
             lastName = row['lastName']
             specialDate = row['specialDate']
-            
-            # check the name and date matches
-            matches = data_obj.examiners_exams_df[(data_obj.examiners_exams_df['1. & 2. Pruefer'].str.contains(lastName)) & (data_obj.examiners_exams_df['Datum, Uhrzeit (ggf. sep. Zeitplan beachten)'].str.contains(specialDate))]
-            
+          
+
+         
+           # '1. & 2. Pruefer' from array to singple elements
+            examiners_df = data_obj.examiners_exams_df.explode('1. & 2. Pruefer')
+ 
+            matches = examiners_df[(examiners_df['1. & 2. Pruefer'].str.contains(lastName)) & (examiners_df['Datum, Uhrzeit (ggf. sep. Zeitplan beachten)'].str.contains(specialDate))]
+
+  
             # if there is a match, add the conflict values to the conflict list.
             if not matches.empty:
                 conflicts.append({'Name': lastName, 'SpecialDate': specialDate, 'Exams': matches['Datum, Uhrzeit (ggf. sep. Zeitplan beachten)'].tolist()})
@@ -32,6 +37,7 @@ class SpecialDates:
         if(row_count > 0): 
             score = 1
         else: 
+ 
             score = 0
         
        

@@ -7,6 +7,7 @@ room_distances = "input_data_files/room_distance_matrix.xlsx"
 room_capacities = "input_data_files/capacity.json"
 special_dates = "input_data_files/special_dates.csv"
 special_examiner = "input_data_files/specific_professors.xlsx"
+
 class Data:
     column_mapping = {
         'Lehrveranstaltung': 'course_name',
@@ -38,12 +39,22 @@ class Data:
         self.examiners,self.exam_date = self.split_examiners_exams(self.exam_plan)
         self.special_dates_df = self.load_special_dates()
         self.examiners_exams_df = self.create_examiners_exams_df()
+
+
         self.special_examiners = self.load_special_examiners()
 
         self.extract_columns()
 
+
     def load_special_examiners(self):
         return pd.read_excel(special_examiner)
+    
+    def split_examiners(self, dataframe):
+        splitted_df = dataframe
+        splitted_df['1. & 2. Pruefer'] = dataframe['1. & 2. Pruefer'].apply(
+            lambda x: [examiner_row.strip() for examiner_row in x.split(',')])
+        return splitted_df['1. & 2. Pruefer']
+        
 
     
     def registration_info(self, registration_info):
@@ -101,11 +112,6 @@ class Data:
         # Remove leading and trailing whitespace and split by comma
         rooms['HS'] = rooms['HS'].apply(lambda x: [room.strip() for room in x.split(',')])
         self.room_distances.index=self.room_distances.columns
-
-    def split_examiners(self, dataframe):
-        splitted_df = dataframe
-        splitted_df['1. & 2. Pruefer'] = dataframe['1. & 2. Pruefer'].apply(
-            lambda x: [examiner_row.strip() for examiner_row in x.split(',')])
-        return splitted_df['1. & 2. Pruefer']
+        
         
 data_obj = Data()
