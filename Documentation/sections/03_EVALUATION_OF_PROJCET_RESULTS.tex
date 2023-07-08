@@ -1,0 +1,22 @@
+\section{Evaluation of Project Results}
+\subsection{3.1 Description of the current status:}
+
+The application is currently in an operational state, allowing users to input their exam plans for evaluation. The system utilizes algorithms and rule-based systems to process the exam plans based on the predefined criteria. It assigns weights to each criterion to reflect their importance in the overall assessment.
+
+
+\vspace{\baselineskip}
+
+
+The rules are as follows:
+
+\begin{itemize}
+\item Big exams have to be early.
+\item Students mustn't have two exams on the same day.
+\item Students should have one day gap between exams.
+\item Rooms have to be neither too big nor too small for the exam.
+\item If two rooms are assigned for the exam, they have to be as close as possible.
+\item The professor is not available on some dates.
+\item The professor wants to come on a minimal amount of days.
+\end{itemize}
+
+The current version of the application provides a score indicating the overall quality of the exam plan. Additionally, it generates an HTML report file that includes visualizations, conflict dataframes, and scores for each individual criterion. This report serves as a valuable tool to help professors spot potential problems and gain insights into the strengths and weaknesses of the exam plan.
