@@ -1,0 +1,58 @@
+\section{Evaluation of Project Results}
+\subsection{Description of the current status:}
+
+The application is currently in an operational state, allowing users to input their exam plans for evaluation. The system utilizes algorithms and rule-based systems to process the exam plans based on the predefined criteria. It assigns weights to each criterion to reflect their importance in the overall assessment.
+
+
+\vspace{\baselineskip}
+
+
+The rules are as follows:
+
+\begin{itemize}
+\item Big exams have to be early.
+\item Students mustn't have two exams on the same day.
+\item Students should have one day gap between exams.
+\item Rooms have to be neither too big nor too small for the exam.
+\item If two rooms are assigned for the exam, they have to be as close as possible.
+\item The professor is not available on some dates.
+\item The professor wants to come on a minimal amount of days.
+\end{itemize}
+
+The current version of the application provides a score indicating the overall quality of the exam plan. Additionally, it generates an HTML report file that includes visualizations, conflict dataframes, and scores for each individual criterion. This report serves as a valuable tool to help professors spot potential problems and gain insights into the strengths and weaknesses of the exam plan.
+
+\subsection{Functional requirements:}
+
+
+The application should assess the exam plans based on predefined criteria, evaluating each criterion individually. The perfect exam plan would satisfy both, professors and students. Thus, we should aim to provide a comprehensive solution that would take into consideration both perspectives.
+
+\vspace{\baselineskip}
+
+
+The application should calculate an overall score for each exam plan, indicating its quality. The scoring mechanism will be based on weighted averages, taking into account the relative importance of each criterion.
+
+\vspace{\baselineskip}
+
+
+The application should provide detailed explanations for the assigned score, clearly stating the reasoning and factors that contributed to it. This feature helps professors understand the strengths and weaknesses of the exam plan and provides transparency in the evaluation process.
+
+\vspace{\baselineskip}
+
+
+The application should generate an HTML report file, presenting visualizations, conflict dataframes, and scores for each individual criterion. The report should be easily accessible and designed in a clear and intuitive manner, allowing professors to review the assessment results effectively.
+
+\vspace{\baselineskip}
+
+
+The application should have conflict detection capabilities, identifying any conflicts within the exam plan. It should highlight inconsistencies or contradictions between criteria in the report, enabling professors to address and resolve these conflicts during the exam planning process.
+
+\vspace{\baselineskip}
+
+
+By fulfilling these functional requirements, the solution aims to comprehensively evaluate exam plans, calculate scores, provide explainability, generate informative HTML reports, and assist professors in identifying and resolving conflicts to enhance the quality of their assessments.
+
+
+\subsection{Non-functional requirements:}
+
+
+The application should be reliable, ensuring accurate and consistent evaluation results. It should be able to handle errors and exceptions gracefully, with minimal impact on the overall functionality. On top of that, the application should be designed and developed with maintainability in mind, allowing for easy updates, bug fixes, and future enhancements
