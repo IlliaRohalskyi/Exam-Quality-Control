@@ -35,5 +35,5 @@ class RoomDistance:
                     total_score = sum(scores)/len(scores)
             return total_score
             
-
-        return calculate_score(), None, None
+        percantage_score = calculate_score()
+        return percantage_score, None, None

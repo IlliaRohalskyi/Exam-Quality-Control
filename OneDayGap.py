@@ -69,4 +69,6 @@ class OneDayGap:
         plot_array = np.array(figure.canvas.renderer.buffer_rgba())
         plt.show()
         plt.close()
-        return score, conflicts_df, plot_array
+
+        percantage_score = score
+        return percantage_score , conflicts_df, plot_array

@@ -15,21 +15,21 @@ from Data import data_obj
 def main():
 
 
-    # Output.save_multiple_result_html()
+    Output.save_multiple_result_html()
 
-    # #
-    # Output.save_single_result_html("one_exam_per_day") # 0.22
-    # Output.save_single_result_html("one_day_gap") # 0.20
-    # Output.save_single_result_html("special_dates") # 0.18
-    # Output.save_single_result_html("big_exams_early") # 0.16
-    # Output.save_single_result_html("special_professors") # 0.10
-    # Output.save_single_result_html("room_capacity") # 0.08
-    # Output.save_single_result_html("room_distances") # 0.06
+    
+    Output.save_single_result_html("one_exam_per_day") # 0.22
+    Output.save_single_result_html("one_day_gap") # 0.20
+    Output.save_single_result_html("special_dates") # 0.18
+    Output.save_single_result_html("big_exams_early") # 0.16
+    Output.save_single_result_html("special_professors") # 0.10
+    Output.save_single_result_html("room_capacity") # 0.08
+    Output.save_single_result_html("room_distances") # 0.06
 
-    special_dates = SpecialDates()  
+    # special_dates = SpecialDates()  
  
-    score, conflicts_df, plot_arr = special_dates.compute() 
+    # score, conflicts_df, plot_arr = special_dates.compute() 
 
-    print(score, conflicts_df)  
+    # print(score, conflicts_df)  
 
 main()

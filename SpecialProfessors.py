@@ -94,4 +94,7 @@ class SpecialProfessors:
 
         overall_score = df_final["Score"].mean()
 
-        return overall_score, df_final, plot()
+
+        percentage_score = (overall_score * 100)
+
+        return percentage_score, df_final, plot()

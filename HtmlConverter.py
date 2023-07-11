@@ -38,7 +38,7 @@ class HtmlConverter:
     @staticmethod
     def add_score(score):
         
-        html = " <h3 style=\"text-align:center\">Score:</h3>"
+        html = " <h3>Score:</h3>"
        
         html += '<p>'
         html += str(score)
@@ -75,7 +75,7 @@ class HtmlConverter:
 
         <div style="margin: auto;width: 1200px;display: flex;gap:6rem;justify-content: center;">
             <div>
-            <h2>Lists of Conflicts:</h2>
+           
 
            
                

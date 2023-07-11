@@ -82,4 +82,6 @@ class OneExamPerDay:
         plot_array = np.array(figure.canvas.renderer.buffer_rgba())
         plt.show()
         plt.close()
-        return score, conflicts_df, plot_array
+
+        percentage_score = score * 10000
+        return percentage_score, conflicts_df, plot_array

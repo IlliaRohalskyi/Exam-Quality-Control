@@ -18,8 +18,36 @@ class Output:
     @staticmethod
     def _create_html_multiple_result_body():
     
-      html_body = ""
+ 
+ 
+      total_score = scoring.one_exam_per_day.score * 0.22
+     
+
+      total_score += (scoring.one_day_gap.score * 0.20)  
+      total_score += (scoring.special_dates.score * 0.18) 
+      total_score += (scoring.big_exams_early.score * 0.16)  
+      total_score += scoring.special_professors.score * 0.10
+      total_score += scoring.room_capacity.score * 0.08
+      total_score += (scoring.room_distances.score * 0.06)  
+
+      html_body = "<div style='text-align: center;'>"
+      html_body += "<h1 style='color: red;'>Total Score:</h1>"
+      html_body += "<p style='color: red;'>" + str(total_score) + "</p>"
+      html_body += "</div>"
+
+      html_body += " <h3>Criteria for weighted scores:</h3>"
+       
+      html_body += '<p>' + 'one exam per day :' + str(scoring.one_exam_per_day.score) + '*' + str(0.22)  + ' = ' + str(scoring.one_exam_per_day.score * 0.22)   + '</p>'
+      html_body += '<p>' + 'one day gap :' + str(scoring.one_day_gap.score) + '*' + str(0.20)  + ' = ' +  str((scoring.one_day_gap.score * 0.20))  + '</p>'
+      html_body += '<p>' + 'special dates :' +  str(scoring.special_dates.score) + '*' + str(0.18) + ' = ' +  str((scoring.special_dates.score * 0.18)) + '</p>'
+      html_body += '<p>' + 'big exams early :' +  str(scoring.big_exams_early.score) + '*' + str(0.16) + ' = ' +  str((scoring.big_exams_early.score * 0.16)) + '</p>'
+      html_body += '<p>' + 'special professors :' +  str(scoring.special_professors.score) + '*' + str(0.10) + ' = ' +  str( scoring.special_professors.score * 0.10) + '</p>'
+      html_body += '<p>' + 'room capacity :' +  str(scoring.room_capacity.score) + '*' + str(0.08) + ' = ' +  str(scoring.room_capacity.score * 0.08) + '</p>'
+      html_body += '<p>' + 'room distances :' +  str(scoring.room_distances.score) + '*' + str(0.06) + ' = ' +  str(scoring.room_distances.score * 0.06) + '</p>'
+      html_body += '<hr>';
+ 
       
+
       for obj_name, obj in scoring.__dict__.items():
 
         if obj.conflicts_df is not None:
@@ -45,6 +73,7 @@ class Output:
     @staticmethod
     # Use to save your multiple_results as html
     def save_multiple_result_html():
+        
            
         html_body=Output._create_html_multiple_result_body()   
         html_page=HtmlConverter.create_html_page(html_body)

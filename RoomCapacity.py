@@ -75,6 +75,8 @@ class RoomCapacity:
         plt.show()
         plt.close()
 
-        return score, plot_array
+        percentage_score =(score* 100)
+
+        return percentage_score, plot_array
     
     

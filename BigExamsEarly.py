@@ -71,6 +71,8 @@ class BigExamsEarly:
        
 
 
-        score = ((num_true_first+num_true_second)/len(y))*100
-        return score, plot_array, None
+        score = ((num_true_first+num_true_second)/len(y)) 
+
+        percantage_score = (score * 100)
+        return percantage_score, plot_array, None
     

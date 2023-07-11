@@ -34,15 +34,15 @@ class SpecialDates:
         result_df = pd.DataFrame(conflicts)
 
         row_count = result_df.shape[0]
-        if(row_count > 0): 
-            score = 1
-        else: 
- 
-            score = 0
-        
-       
 
-        return score, result_df, None;
+        if(row_count > 0): 
+            score = 0
+        else: 
+            score = 1
+        
+        percentage_score = (score * 100)
+
+        return percentage_score, result_df, None;
 
     def create_randomly_special_dates_csv():
                 
