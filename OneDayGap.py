@@ -70,5 +70,5 @@ class OneDayGap:
         plt.show()
         plt.close()
 
-        percantage_score = score
+        percantage_score = score * 100
         return percantage_score , conflicts_df, plot_array
