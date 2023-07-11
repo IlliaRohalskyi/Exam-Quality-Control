@@ -83,5 +83,5 @@ class OneExamPerDay:
         plt.show()
         plt.close()
 
-        percentage_score = score * 10000
+        percentage_score = score * 100
         return percentage_score, conflicts_df, plot_array
