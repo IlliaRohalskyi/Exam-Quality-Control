@@ -10,7 +10,7 @@ class BigExamsEarly:
     def __init__(self):
         self.score,self.plot_arr, self.conflicts_df = self.compute()
     def compute(self):
-        anzahl = data_obj.student_num
+        anzahl = data_obj.number_of_students
         start_date = data_obj.start_date
         anzahl_sorted = sorted(anzahl, reverse = True)
         anzahl_mean = np.mean(anzahl)
@@ -75,4 +75,3 @@ class BigExamsEarly:
 
         percantage_score = (score * 100)
         return percantage_score, plot_array, None
-    

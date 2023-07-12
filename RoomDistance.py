@@ -1,4 +1,4 @@
-from Data import Data
+from Data import data_obj
 import pandas as pd
 import numpy as np
 import networkx as nx
@@ -48,4 +48,3 @@ class RoomDistance:
             
         percantage_score = calculate_score()
         return percantage_score, None, None
-
