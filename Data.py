@@ -61,9 +61,9 @@ class Data:
         splitted_df['1. & 2. Pruefer'] = dataframe['1. & 2. Pruefer'].apply(
             lambda x: [examiner_row.strip() for examiner_row in x.split(',')])
         return splitted_df['1. & 2. Pruefer']
-        
 
-    
+
+
     def load_registration_info(self, registration_info):
         registration_info = pd.read_csv(registration_info)
         registration_info[['courseNumber','matnr']] = registration_info['courseNumber;matnr'].str.split(';',expand=True)
@@ -76,7 +76,6 @@ class Data:
         course_stud = course_stud.to_frame().reset_index()
         
         return course_stud['courseNumber'], course_stud['matnr'], course_stud, registration_info
-
 
     def split_date(self, dataframe):
         splitted_df = dataframe
@@ -93,10 +92,11 @@ class Data:
     def split_examiners_exams(self, dataframe):
         return dataframe['1. & 2. Pruefer'],dataframe['Datum, Uhrzeit (ggf. sep. Zeitplan beachten)']
 
+
     def split_rooms(self,rooms):
         # Remove leading and trailing whitespace and split by comma
         rooms['HS'] = rooms['HS'].apply(lambda x: [room.strip() for room in x.split(',')])
         self.room_distances.index=self.room_distances.columns
         return rooms['HS']
         
-data_obj = Data(exam_plan1,registration_info1,room_capacities1,room_distances1,special_dates1,special_examiner1)
+data_obj = Data(exam_plan1,registration_info1,room_distances1,room_capacities1,special_dates1,special_examiner1)
