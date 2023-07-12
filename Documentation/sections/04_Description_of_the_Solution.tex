@@ -1,0 +1,110 @@
+\section{Description of the Solution}
+\subsection{Description of the software architecture}
+
+
+\subsection{Overview and interaction of the components}
+
+
+\subsubsection{Scoring Class}
+
+
+\begin{itemize}
+\item Scoring class interacts with the following rule classes: BigExamsEarly, OneExamPerDay, RoomCapacity, RoomDistance, SpecialProfessors, OneDayGap, SpecialDates.
+\item The all rule classes are gathered into scoring class in order to other components can easily reach the data according to their needs. To provide this scoring class creates instances from each class as attribute.
+\end{itemize}
+
+
+\subsubsection{Data Class}
+
+
+\begin{itemize}
+\item The Data class is responsible for importing and organizing the input data from various files.
+\item It can load different types of data such as CSV, JSON, and Excel. The following are the files that the Data class interacts with: \texttt{FIW\_Exams\_2022ws.xlsx}, \texttt{Pruefungsanmeldungen\_anonmous.csv}, \texttt{room\_distance\_matrix.xlsx}, \texttt{capacity.json}, \texttt{special\_dates.csv}, \texttt{specific\_professors.xlsx}.
+\item It also splits and extracts relevant information from the loaded data and stores them as attributes and methods for further processing.
+\end{itemize}
+
+
+\subsubsection{Output Class}
+
+
+\begin{itemize}
+\item Handles the generation and saving of output files.
+\item Provides methods for saving the results as HTML files. These methods offers two different option either you can get a single result of one scoring/rule class or a summary list that includes all results.
+\item Utilizes the HtmlConverter class to convert data into HTML format and print the output.
+\end{itemize}
+
+
+\subsubsection{HtmlConverter Class}
+
+
+\begin{itemize}
+\item Converts the processed data into HTML format for output representation.
+\item Provides methods for creating HTML pages, and printing the HTML output.
+
+\end{itemize}
+
+
+\subsubsection{BigExamsEarly Class}
+
+
+\begin{itemize}
+\item Big exams should be helded early at the exam period, and this class calculate the score and evaluate the exam plan based on the number of big exams and their scheduling time.
+\end{itemize}
+
+
+\subsubsection{OneExamPerDay Class}
+
+
+\begin{itemize}
+\item Verifies whether each student has only one exam scheduled per day.
+\item Gives a penalty score while calculating the score of the exam plan based on the number of students who has multiple exams in a day.
+\end{itemize}
+
+\subsubsection{OneDayGap Class}
+
+
+\begin{itemize}
+\item This class calculates the score based on the absence of a one-day gap between exams for the same student.
+\item basically identifies cases where there is no one-day gap between exams for the same student and calculates a general score for this rule by giving penalty based on the number of conflicts and also draws a plot showing the relationship between the number of conflicts and the score.
+\end{itemize}
+
+\subsubsection{RoomCapacity Class}
+
+
+\begin{itemize}
+\item Ensures that the assigned rooms can accommodate the number of students registered for each exam.
+\item Computes the score by comparing the number of students with the room capacities for the each exam.
+\end{itemize}
+
+\subsubsection{RoomDistance Class}
+
+
+\begin{itemize}
+\item Ensures that the assigned rooms can accommodate the number of students registered for each exam.
+\item Computes the score by comparing the number of students with the room capacities for the each exam.
+\end{itemize}
+\subsubsection{SpecialDates Class}
+
+
+
+\begin{itemize}
+\item This class calculates the score based on conflicts with special dates.
+\item Checks for conflicts between examiners' names and special dates in the special_dates_df .
+\item Import scoring class to reach  special_dates_df.
+\item if there is a match, it adds the conflict information to the 'conflicts' list and makes a binary decision.
+\item It returns a percentage score based on whether there is a conflict or not.
+
+
+\end{itemize}
+
+
+
+
+
+
+
+
+
+\subsection{tasks of the component}
+The components in the provided code and their interactions can be described as follows:
+
