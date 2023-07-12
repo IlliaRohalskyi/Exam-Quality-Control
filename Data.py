@@ -26,6 +26,7 @@ class Data:
         self.special_examiners = self.load_special_examiners(self.special_examiners_path)
         self.course_nr, self.mat_nr, self.course_stud, self.reg_info = self.load_registration_info(
             self.registration_info_path)
+
         self.course_name = None
         self.course_num = None
         self.semester = None
