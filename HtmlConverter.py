@@ -11,7 +11,33 @@ class HtmlConverter:
       
 
 
- 
+    @staticmethod
+    def _create_html_single_result_body(name=None):
+        html_body = ""
+
+        for obj_name, obj in scoring.__dict__.items():
+            if name is not None and obj_name != name:
+                continue
+
+            if obj.conflicts_df is not None:
+                table = HtmlConverter.add_table(obj.conflicts_df)
+            else:
+                table = ""
+
+            if obj.score is not None:
+                score = HtmlConverter.add_score(obj.score)
+            else:
+                score = ""
+
+            if obj.plot_arr is not None:
+                graph = HtmlConverter.add_graph(obj.plot_arr)
+            else:
+                graph = ""
+
+            result = HtmlConverter.create_html_body(table, score, graph, obj_name)
+            html_body += result  # Her sonucu doğrudan html_body'ye ekliyoruz
+
+        return html_body
 
     # Don't call it because it is just a helper class
     @staticmethod
