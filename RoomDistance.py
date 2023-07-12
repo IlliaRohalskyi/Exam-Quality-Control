@@ -1,14 +1,25 @@
-from Data import data_obj
+from Data import Data
 import pandas as pd
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
+exam_plan = "input_data_files/FIW_Exams_2022ws.xlsx"
+registration_info = "input_data_files/Pruefungsanmeldungen_anonmous.csv"
+room_distances = "input_data_files/room_distance_matrix.xlsx"
+room_capacities = "input_data_files/capacity.json"
+special_dates = "input_data_files/special_dates.csv"
+special_examiner = "input_data_files/specific_professors.xlsx"
+
+
+
+
+
 class RoomDistance:
     def __init__(self):
         self.score, self.plot_arr,self.conflicts_df = self.compute()
     def compute(self):
-        df = pd.concat([data_obj.exam_form,data_obj.exam_room],axis=1)
+        df = pd.concat([data_obj.exam_form,data_obj.exam_rooms],axis=1)
         df = df[(df['Form'] != 'muendlich') & (df['Form'] != 'online')]
 
         def create_sub_matrix(desired_rooms):
@@ -37,3 +48,4 @@ class RoomDistance:
             
         percantage_score = calculate_score()
         return percantage_score, None, None
+
