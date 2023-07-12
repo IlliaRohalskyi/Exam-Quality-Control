@@ -24,7 +24,8 @@ class Data:
         self.room_capacities = self.load_room_capacities(self.room_capacities_path)
         self.special_dates_df = self.load_special_dates(self.special_dates_path)
         self.special_examiners = self.load_special_examiners(self.special_examiners_path)
-
+        self.course_nr, self.mat_nr, self.course_stud, self.reg_info = self.load_registration_info(
+            self.registration_info_path)
         self.course_name = None
         self.course_num = None
         self.semester = None
@@ -34,7 +35,7 @@ class Data:
         self.exam_room = self.split_rooms(self.exam_plan)
         self.examiner = self.split_examiners(self.exam_plan)
         self.start_date, self.end_date, self.splitted_df = self.split_date(self.exam_plan)
-        self.course_nr, self.mat_nr, self.course_stud, self.reg_info = self.load_registration_info(self.registration_info_path)
+
         self.examiners,self.exam_date = self.split_examiners_exams(self.exam_plan)
         self.examiners_exams_df = self.create_examiners_exams_df()
 
