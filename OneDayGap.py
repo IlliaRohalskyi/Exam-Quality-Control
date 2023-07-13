@@ -1,15 +1,15 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from Data import data_obj
+from Rule import Rule
 pd.set_option('display.max_columns', 20)
 
-class OneDayGap:
+class OneDayGap(Rule):
     def __init__(self):
         self.score, self.conflicts_df, self.plot_arr = self.compute()
     def compute(self):
         def f(x):
-            return (1/2) ** (x/(5*1000/data_obj.reg_info['matnr'].nunique()))
+            return (1/2) ** (x/(5*1000/Rule.data_obj.reg_info['matnr'].nunique()))
         
         def compare(list1, list2):
             common_values = []
@@ -20,12 +20,12 @@ class OneDayGap:
             
             return common_values
         
-        course_stud = data_obj.course_stud
+        course_stud = Rule.data_obj.course_stud
         course_stud.columns = ['coursenr', 'matnr']
         # this column's type turns into the string from object
         course_stud['coursenr'] = course_stud['coursenr'].astype(str)
         # this column's type turns into the string from object
-        exam_plan = data_obj.splitted_df.rename(columns={'LV-Nr.': 'coursenr'})
+        exam_plan = Rule.data_obj.splitted_df.rename(columns={'LV-Nr.': 'coursenr'})
         exam_plan['coursenr'] = exam_plan['coursenr'].astype(str)
 
         # two tables are merged via one common column.

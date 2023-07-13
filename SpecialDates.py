@@ -2,10 +2,10 @@ import csv
 import random
 import pandas as pd
 from datetime import datetime, timedelta
-from Data import data_obj
+from Rule import Rule
 
 
-class SpecialDates:
+class SpecialDates(Rule):
 
     def __init__(self):
        self.score, self.conflicts_df, self.plot_arr = self.compute()
@@ -14,14 +14,14 @@ class SpecialDates:
         conflicts = []
        
         # check conflicts by itearing each row
-        for index, row in data_obj.special_dates_df.iterrows():
+        for index, row in Rule.data_obj.special_dates_df.iterrows():
             lastName = row['lastName']
             specialDate = row['specialDate']
           
 
          
            # '1. & 2. Pruefer' from array to singple elements
-            examiners_df = data_obj.examiners_exams_df.explode('1. & 2. Pruefer')
+            examiners_df = Rule.data_obj.examiners_exams_df.explode('1. & 2. Pruefer')
  
             matches = examiners_df[(examiners_df['1. & 2. Pruefer'].str.contains(lastName)) & (examiners_df['Datum, Uhrzeit (ggf. sep. Zeitplan beachten)'].str.contains(specialDate))]
 
@@ -137,3 +137,5 @@ class SpecialDates:
             writer = csv.writer(file, delimiter=";")
             writer.writerow(["lastName", "specialDate"])
             writer.writerows(data_list)
+asd =SpecialDates()
+print(asd.compute())

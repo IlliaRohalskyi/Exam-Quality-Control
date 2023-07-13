@@ -1,13 +1,5 @@
 import pandas as pd
 import json
-
-exam_plan1 = "input_data_files/FIW_Exams_2022ws.xlsx"
-registration_info1 = "input_data_files/Pruefungsanmeldungen_anonmous.csv"
-room_distances1 = "input_data_files/room_distance_matrix.xlsx"
-room_capacities1 = "input_data_files/capacity.json"
-special_dates1 = "input_data_files/special_dates.csv"
-special_examiner1 = "input_data_files/specific_professors.xlsx"
-
 class Data:
     def __init__(self, __exam_plan_path, __registration_info_path, __room_distances_path,
                  __room_capacities_path, __special_dates_path, __special_examiners_path):
@@ -115,4 +107,4 @@ class Data:
         return rooms['HS']
 
 
-data_obj = Data(exam_plan1, registration_info1, room_distances1, room_capacities1, special_dates1, special_examiner1)
+

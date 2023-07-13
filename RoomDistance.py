@@ -1,7 +1,6 @@
-from Data import data_obj
+from Rule import Rule
 import pandas as pd
 import numpy as np
-import networkx as nx
 import matplotlib.pyplot as plt
 
 exam_plan = "input_data_files/FIW_Exams_2022ws.xlsx"
@@ -15,18 +14,18 @@ special_examiner = "input_data_files/specific_professors.xlsx"
 
 
 
-class RoomDistance:
+class RoomDistance(Rule):
     def __init__(self):
         self.score, self.plot_arr,self.conflicts_df = self.compute()
     def compute(self):
-        df = pd.concat([data_obj.exam_form,data_obj.exam_rooms],axis=1)
+        df = pd.concat([Rule.data_obj.exam_form,Rule.data_obj.exam_rooms],axis=1)
         df = df[(df['Form'] != 'muendlich') & (df['Form'] != 'online')]
 
         def create_sub_matrix(desired_rooms):
-            return data_obj.room_distances.loc[desired_rooms,desired_rooms]
+            return Rule.data_obj.room_distances.loc[desired_rooms,desired_rooms]
         def calculate_sub_score(sub_matrix):
             # find the maximum distance in the entire distance matrix
-            max_distance = data_obj.room_distances.max().max()  
+            max_distance = Rule.data_obj.room_distances.max().max()
             min_distance = 5
             # only takes the left triangle and converts to an array
             triangle = np.triu(sub_matrix).flatten() 

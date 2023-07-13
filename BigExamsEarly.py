@@ -1,17 +1,16 @@
-from Data import data_obj
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
-import io
-import base64
+from Rule import Rule
 
-class BigExamsEarly:
+class BigExamsEarly(Rule):
     def __init__(self):
         self.score,self.plot_arr, self.conflicts_df = self.compute()
     def compute(self):
-        anzahl = data_obj.number_of_students
-        start_date = data_obj.start_date
+        anzahl = Rule.data_obj.number_of_students
+        start_date = Rule.data_obj.start_date
         anzahl_sorted = sorted(anzahl, reverse = True)
         anzahl_mean = np.mean(anzahl)
 
