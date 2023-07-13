@@ -29,7 +29,7 @@
 
 \begin{itemize}
 \item Handles the generation and saving of output files.
-\item Provides methods for saving the results as HTML files. These methods offers two different option either you can get a single result of one scoring/rule class or a summary list that includes all results.
+\item Provides methods for saving the results as HTML files. These methods offers two different option either you can get a single result of one rule class or a summary list that includes all results.
 \item Utilizes the HtmlConverter class to convert data into HTML format and print the output.
 \end{itemize}
 
@@ -80,21 +80,37 @@
 
 
 \begin{itemize}
-\item Ensures that the assigned rooms can accommodate the number of students registered for each exam.
-\item Computes the score by comparing the number of students with the room capacities for the each exam.
+\item It search the rooms for each exam and if there is more than one room. It calculates the sub-scores of the distance between the relevant rooms.
+\item This class only have a score result as percentage.
+\item It interacts with Data class to receive relevant information.
 \end{itemize}
-\subsubsection{SpecialDates Class}
 
+\subsubsection{SpecialDates Class}
 
 
 \begin{itemize}
 \item This class calculates the score based on conflicts with special dates.
 \item Checks for conflicts between examiners' names and special dates in the special_dates_df .
-\item Import scoring class to reach  special_dates_df.
+\item Import data class to reach  special_dates_df.
 \item if there is a match, it adds the conflict information to the 'conflicts' list and makes a binary decision.
 \item It returns a percentage score based on whether there is a conflict or not.
 
 
+\end{itemize}
+
+\subsubsection{SpecialProfessors Class}
+
+
+\begin{itemize}
+\item This class calculates special professors score based on the number of exams and the distance between those exam days that same professors supervise.
+
+\end{itemize}
+
+\subsubsection{Main Class}
+
+
+\begin{itemize}
+\item This class is responsible from the execution of the program and saving the various html results based on the demand.
 \end{itemize}
 
 
