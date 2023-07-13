@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-from HtmlConverter import HtmlConverter
+from src.HtmlConverter import HtmlConverter
 from Scoring import scoring
 
 

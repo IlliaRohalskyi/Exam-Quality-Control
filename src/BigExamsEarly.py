@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
-from Rule import Rule
+from src.Rule import Rule
 
 class BigExamsEarly(Rule):
     def __init__(self):
@@ -74,3 +74,4 @@ class BigExamsEarly(Rule):
 
         percantage_score = (score * 100)
         return percantage_score, plot_array, None
+
