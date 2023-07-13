@@ -10,7 +10,6 @@ from SpecialProfessors import SpecialProfessors
 from OneDayGap import OneDayGap
 from SpecialDates import SpecialDates
 
-data_obj = Data()
 class Scoring():
     def __init__(self):
         self.big_exams_early = BigExamsEarly()

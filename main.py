@@ -10,7 +10,6 @@ from HtmlConverter import HtmlConverter
 from OneExamPerDay import OneExamPerDay
 from Scoring import scoring
 from Output import Output
-from Data import data_obj
 
 def main():
 
