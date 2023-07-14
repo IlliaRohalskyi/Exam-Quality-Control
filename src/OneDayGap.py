@@ -5,8 +5,8 @@ from src.Rule import Rule
 pd.set_option('display.max_columns', 20)
 
 class OneDayGap(Rule):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,data_obj):
+        super().__init__(data_obj)
         self.score, self.conflicts_df, self.plot_arr = self.compute()
     def compute(self):
         def f(x):

@@ -3,10 +3,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from src.Rule import Rule
 class RoomCapacity(Rule):
-    def __init__(self):
-        super().__init__()
-        self.score, self.plot_arr = self.compute()
-        self.conflicts_df = None
+    def __init__(self,data_obj):
+        super().__init__(data_obj)
+        self.conflicts_df=None
+        self.score, self.conflicts_df,self.plot_arr = self.compute()
+
     def compute(self):
         course_stud = self.data_obj.course_stud
         course_stud.columns = ['coursenr', 'matnr']
@@ -78,6 +79,6 @@ class RoomCapacity(Rule):
 
         percentage_score =(score* 100)
 
-        return percentage_score, plot_array
+        return percentage_score, None,plot_array
     
     

@@ -3,13 +3,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from src.Rule import Rule
 class OneExamPerDay(Rule):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,data_obj):
+        super().__init__(data_obj)
         self.score, self.conflicts_df, self.plot_arr = self.compute()
     def compute(self):
         def f(x):
             return (1/2) ** (x/(5*1000/self.data_obj.reg_info['matnr'].nunique()))
-        
+
         course_stud = self.data_obj.course_stud
         course_stud.columns = ['coursenr', 'matnr']
         # this column's type turns into the string from object

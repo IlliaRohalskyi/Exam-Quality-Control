@@ -5,8 +5,8 @@ import numpy as np
 
 
 class RoomDistance(Rule):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,data_obj):
+        super().__init__(data_obj)
         self.score, self.plot_arr,self.conflicts_df = self.compute()
     def compute(self):
         df = pd.concat([self.data_obj.exam_form,self.data_obj.exam_rooms],axis=1)

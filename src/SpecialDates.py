@@ -7,8 +7,8 @@ from src.Rule import Rule
 
 class SpecialDates(Rule):
 
-    def __init__(self,data):
-       super().__init__(data)
+    def __init__(self,data_obj):
+       super().__init__(data_obj)
        self.score, self.conflicts_df, self.plot_arr = self.compute()
     def compute(self):
         

@@ -5,15 +5,15 @@ from src.Rule import Rule
 
 
 class BigExamsEarly(Rule):
-    def __init__(self, data):
+    def __init__(self, data_obj):
         # Call Rule's __init__ method
-        super().__init__(data)
+        super().__init__(data_obj)
 
         self.score, self.plot_arr, self.conflicts_df = self.compute()
 
     def compute(self):
-        anzahl = self.data.number_of_students
-        start_date = self.data.start_date
+        anzahl = self.data_obj.number_of_students
+        start_date = self.data_obj.start_date
         anzahl_sorted = sorted(anzahl, reverse=True)
         anzahl_mean = np.mean(anzahl)
 
