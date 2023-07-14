@@ -10,7 +10,7 @@
 
 \begin{itemize}
 \item Scoring class interacts with the following rule classes: BigExamsEarly, OneExamPerDay, RoomCapacity, RoomDistance, SpecialProfessors, OneDayGap, SpecialDates.
-\item The all rule classes are gathered into scoring class in order to other components can easily reach the data according to their needs. To provide this scoring class creates instances from each class as attribute.
+\item This class is a wrapper for all of the rule classes. It is made to make it easy to access each of the components under one class.
 \end{itemize}
 
 
@@ -21,6 +21,7 @@
 \item The Data class is responsible for importing and organizing the input data from various files.
 \item It can load different types of data such as CSV, JSON, and Excel. The following are the files that the Data class interacts with: \texttt{FIW\_Exams\_2022ws.xlsx}, \texttt{Pruefungsanmeldungen\_anonmous.csv}, \texttt{room\_distance\_matrix.xlsx}, \texttt{capacity.json}, \texttt{special\_dates.csv}, \texttt{specific\_professors.xlsx}.
 \item It also splits and extracts relevant information from the loaded data and stores them as attributes and methods for further processing.
+\item All of the rule classes interact with Data. It is a prerequisite for them to work.
 \end{itemize}
 
 
@@ -48,7 +49,7 @@
 
 
 \begin{itemize}
-\item Big exams should be helded early at the exam period, and this class calculate the score and evaluate the exam plan based on the number of big exams and their scheduling time.
+\item Big exams should be held early in the exam period, and this class calculates the score and evaluates the exam plan based on the number of big exams and their scheduling time.
 \end{itemize}
 
 
@@ -81,21 +82,18 @@
 
 \begin{itemize}
 \item It search the rooms for each exam and if there is more than one room. It calculates the sub-scores of the distance between the relevant rooms.
-\item This class only have a score result as percentage.
-\item It interacts with Data class to receive relevant information.
+\item This class has only score as its output.
 \end{itemize}
 
 \subsubsection{SpecialDates Class}
 
 
 \begin{itemize}
-\item This class calculates the score based on conflicts with special dates.
-\item Checks for conflicts between examiners' names and special dates in the special_dates_df .
-\item Import data class to reach  special_dates_df.
+\item This class is responsible for calculating the score for examiners, which are not able to come for the exam on a specific day.
+\item Checks for conflicts between examiners' names and special dates in the \verb|special_dates_df|.
+\item Import data class to reach \verb|special_dates_df| .
 \item if there is a match, it adds the conflict information to the 'conflicts' list and makes a binary decision.
 \item It returns a percentage score based on whether there is a conflict or not.
-
-
 \end{itemize}
 
 \subsubsection{SpecialProfessors Class}
