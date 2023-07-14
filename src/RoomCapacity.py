@@ -1,18 +1,19 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from Rule import Rule
+from src.Rule import Rule
 class RoomCapacity(Rule):
     def __init__(self):
+        super().__init__()
         self.score, self.plot_arr = self.compute()
         self.conflicts_df = None
     def compute(self):
-        course_stud = Rule.data_obj.course_stud
+        course_stud = self.data_obj.course_stud
         course_stud.columns = ['coursenr', 'matnr']
         # this column's type turns into the string from object
         course_stud['coursenr'] = course_stud['coursenr'].astype(str)
         # this column's type turns into the string from object
-        exam_plan = Rule.data_obj.exam_plan.rename(columns={'LV-Nr.': 'coursenr'})
+        exam_plan = self.data_obj.exam_plan.rename(columns={'LV-Nr.': 'coursenr'})
         exam_plan['coursenr'] = exam_plan['coursenr'].astype(str)
 
         #two table are merged via one common column.
@@ -26,7 +27,7 @@ class RoomCapacity(Rule):
             import json
 
             # Read the json
-            capacity = Rule.data_obj.room_capacities
+            capacity = self.data_obj.room_capacities
         
             # reaching the room which you want to access
             rooms = capacity['Exam-room-capacities']

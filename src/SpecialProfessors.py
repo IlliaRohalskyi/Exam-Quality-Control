@@ -1,16 +1,17 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from Rule import Rule
+from src.Rule import Rule
 
 
 class SpecialProfessors(Rule):
     def __init__(self):
+        super().__init__()
         self.score, self.conflicts_df, self.plot_arr = self.compute()
 
     def compute (self):
 
-        df = pd.concat([Rule.data_obj.examiner, Rule.data_obj.start_date, Rule.data_obj.course_name], axis=1)
+        df = pd.concat([self.data_obj.examiner, self.data_obj.start_date, self.data_obj.course_name], axis=1)
 
         # data is exploded by putting each professor into sepa
         # rate rows
@@ -20,7 +21,7 @@ class SpecialProfessors(Rule):
             {'Lehrveranstaltung': list, 'start_date': list}).reset_index()
 
         # data is filtered based on the specific examiners
-        filtered_df = grouped_df[grouped_df['1. & 2. Pruefer'].isin(Rule.data_obj.special_examiners['Professor'])]
+        filtered_df = grouped_df[grouped_df['1. & 2. Pruefer'].isin(self.data_obj.special_examiners['Professor'])]
 
         professor_exams = {}
         for row in filtered_df.itertuples(index=False):
