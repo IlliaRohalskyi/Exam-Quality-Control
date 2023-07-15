@@ -1,0 +1,68 @@
+\section{Setup and Operation of the Software Solution}
+\subsection{Dependencies on other software system}
+
+The application has dependencies on specific software systems and packages to ensure its smooth functioning. In order for the application to run successfully, Python 3.10.9 must be installed, along with the following required packages:
+
+\begin{itemize}
+\item Matplotlib 3.7.0: for data visualization.
+\item Pandas 1.5.3: for data manipulation.
+\item Numpy 1.23.5: to operate with matrices.
+\item Json (comes prebuilt with python): to read json file.
+\item Csv (comes prebuilt with python): to read csv file.
+\item Byte64 (comes prebuilt with python): required for html creation.
+\item Io (comes prebuilt with python): required for html creation.
+\end{itemize}
+
+
+
+
+\subsection{Software Availability}
+
+The application is available in a \href{https://bitbucket.student.fiw.fhws.de:8443/projects/PRGPROJSS23/repos/programmierprojekt-ss-23---gruppe-99---exam-quality-control/browse}{BitBucket repository.}  
+
+\vspace{\baselineskip}
+
+The BitBucket repository contains the source code, documentation, and any other relevant resources for the software. By accessing the repository, users can review the code, download the necessary files, or contribute to the development process.
+
+\subsection{Installing the Software:}
+
+To install the software, follow these steps:
+
+\begin{itemize}
+\item Access the BitBucket repository using the provided link.
+\item Clone the repository to your local machine by either downloading the repository as a ZIP file or using a Git client to clone the repository.
+\item Ensure that Python 3.10.9 is installed on your system. If not, download and install Python 3.10.9 from the official \href{https://www.python.org}{Python website .} 
+\item Open a command-line interface or terminal and navigate to the location where the repository was cloned or extracted.
+\end{itemize}
+
+
+
+
+
+
+Install the required dependencies (Matplotlib, NumPy, Pandas) by executing the following command:
+
+
+\begin{itemize}
+ 
+\item pip install -r requirements.txt
+\end{itemize}
+
+This command will install all the required packages specified in the requirements.txt file.
+Once the dependencies are installed, the software is ready to run.
+
+
+\subsection{Opportunities for later adaptation and further development}
+There are several potential areas for future development and improvement of the application. Let's discuss the suggested enhancements:
+
+\vspace{\baselineskip}
+
+One could improve scoring system by including information about which examiners failed the exam and have to retake it. It can be a valuable addition to the scoring system. By considering individual examiner failures, the system can provide a fairer evaluation of exam plans, penalizing them less for consecutive exams for those specific students. This enhancement would require modifying the evaluation criteria and calculation algorithms to incorporate examiner failure data. By the time we were developing the project, we did not have data for that.
+
+\vspace{\baselineskip}
+
+To enhance the user experience and make the application more user-friendly, improvements can be made to the installation process. This could involve creating an installer or package that simplifies the installation steps, automatically handles dependencies, and provides clear instructions for setting up and running the application. Additionally, providing a user-friendly installation guide or script can help streamline the installation process.
+
+\vspace{\baselineskip}
+
+Also developing a Graphical User Interface (GUI) for the application can significantly enhance the user experience. A GUI would provide a visual interface with intuitive controls and interactive elements, making it easier for professors to input exam plans, view evaluation results, and interact with the system. The GUI can incorporate features such as drag-and-drop functionality, visual representations of data, and real-time updates, offering a more engaging and efficient user experience.
