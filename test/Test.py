@@ -6,6 +6,7 @@ import pandas as pd
 from src.BigExamsEarly import BigExamsEarly
 from src.SpecialProfessors import SpecialProfessors
 from src.DataManager import DataManager
+from src.RoomCapacity import RoomCapacity
 import configparser
 
 config = configparser.ConfigParser()
@@ -61,6 +62,43 @@ class Test(unittest.TestCase):
         special_professors = SpecialProfessors(mock_data)
         print(special_professors.score)
         self.assertAlmostEqual(special_professors.score, 50)
+
+    def test_room_capacity(self):
+        def get_mock_data():
+            mock_data = Mock()
+            mock_data.course_stud = pd.DataFrame({
+                'coursenr': ['course1', 'course2', 'course3', 'course4'],
+                'matnr': [
+                    ['stud1', 'stud2'],
+                    ['stud3', 'stud4', 'stud5', 'stud6', 'stud7', 'stud8', 'stud9', 'stud10', 'stud11'],
+                    ['stud12', 'stud13', 'stud14', 'stud15'],
+                    ['stud16']
+                ]
+            })
+
+            mock_data.exam_plan = pd.DataFrame({
+                'LV-Nr.': ['course1', 'course2', 'course3', 'course4'],
+                'HS': [['H.1.1'], ['H.1.1', 'H.1.2'], ['H.1.2'], ['room1']]
+            })
+
+            mock_data.room_capacities = {
+                'Exam-room-capacities': {
+                    'Horsaal': [{'Name': 'H.1.1', 'Klausur-capacity 1': 5, 'Klausur-capacity 2': 6},
+                                {'Name': 'H.1.2', 'Klausur-capacity 1': 10, 'Klausur-capacity 2': 25}],
+                    'Seminar-raum': [{'Name': 'I.2.15', 'Klausur-capacity 1': 15, 'Klausur-capacity 2': 30}],
+                    'Raum': [{'Name': 'I.2.1', 'Klausur-capacity 1': 10, 'Klausur-capacity 2': 20}]
+                }
+            }
+
+            return mock_data
+
+        mock_data = get_mock_data()
+        room_capacity = RoomCapacity(mock_data)
+        print(room_capacity.score)
+        self.assertAlmostEqual(room_capacity.score, 5)
+
+
+
 
 
 if __name__ == '__main__':
