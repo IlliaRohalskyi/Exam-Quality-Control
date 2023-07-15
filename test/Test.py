@@ -63,6 +63,15 @@ class Test(unittest.TestCase):
         print(special_professors.score)
         self.assertAlmostEqual(special_professors.score, 50)
 
+    def test_special_dates(self):
+        pass
+
+    def test_one_day_gap(self):
+        pass
+
+    def test_one_exam_per_day(self):
+        pass
+
     def test_room_capacity(self):
         def get_mock_data():
             mock_data = Mock()
@@ -96,8 +105,6 @@ class Test(unittest.TestCase):
         room_capacity = RoomCapacity(mock_data)
         print(room_capacity.score)
         self.assertAlmostEqual(room_capacity.score, 5)
-
-
 
 
 
