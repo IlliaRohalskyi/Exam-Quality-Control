@@ -5,11 +5,11 @@ from src.Rule import Rule
 
 
 class SpecialProfessors(Rule):
-    def __init__(self,data_obj):
+    def __init__(self, data_obj):
         super().__init__(data_obj)
         self.score, self.conflicts_df, self.plot_arr = self.compute()
 
-    def compute (self):
+    def compute(self):
 
         df = pd.concat([self.data_obj.examiner, self.data_obj.start_date, self.data_obj.course_name], axis=1)
 
@@ -94,7 +94,6 @@ class SpecialProfessors(Rule):
             return plot_array
 
         overall_score = df_final["Score"].mean()
-
 
         percentage_score = (overall_score * 100)
 
