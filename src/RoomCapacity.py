@@ -74,7 +74,6 @@ class RoomCapacity(Rule):
 
         # Convert the plot to a NumPy array
         plot_array = np.array(figure.canvas.renderer.buffer_rgba())
-        plt.show()
         plt.close()
 
         percentage_score = (score * 100)

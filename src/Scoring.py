@@ -9,7 +9,7 @@ from src.DataManager import DataManager
 import configparser
 
 config = configparser.ConfigParser()
-config.read('/Users/mbr/PycharmProjects/ProgrammingProject/config.ini')
+config.read('../config.ini')
 
 exam_plan_path = config.get('FilePaths', 'exam_plan_path')
 registration_info_path = config.get('FilePaths', 'registration_info_path')

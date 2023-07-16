@@ -7,24 +7,31 @@ from src.BigExamsEarly import BigExamsEarly
 from src.SpecialProfessors import SpecialProfessors
 from src.DataManager import DataManager
 from src.RoomCapacity import RoomCapacity
+from src.RoomDistance import RoomDistance
+from src.OneDayGap import OneDayGap
 import configparser
 
-config = configparser.ConfigParser()
-config.read('../config.ini')
-
-exam_plan_path = config.get('FilePaths', 'exam_plan_path')
-registration_info_path = config.get('FilePaths', 'registration_info_path')
-room_distances_path = config.get('FilePaths', 'room_distances_path')
-room_capacities_path = config.get('FilePaths', 'room_capacities_path')
-special_dates_path = config.get('FilePaths', 'special_dates_path')
-special_examiner_path = config.get('FilePaths', 'special_examiner_path')
+exam_plan_path = 'input_data_files/FIW_Exams_2022ws.xlsx'
+registration_info_path = 'input_data_files/Pruefungsanmeldungen_anonmous.csv'
+room_distances_path = 'input_data_files/room_distance_matrix.xlsx'
+room_capacities_path = 'input_data_files/capacity.json'
+special_dates_path = 'input_data_files/special_dates.csv'
+special_examiner_path = 'input_data_files/specific_professors.xlsx'
+# Testing Files
+big_exams_early_best_path = 'input_data_files/big_exams_early_best.xlsx'
+big_exams_early_worst_path = 'input_data_files/big_exams_early_worst.xlsx'
+room_distances_best_path = 'input_data_files/room_distances_best.xlsx'
+room_distances_worst_path = 'input_data_files/room_distances_worst.xlsx'
+one_day_gap_worst_path = 'input_data_files/one_day_gap_worst.xlsx'
+one_day_gap_best_path = 'input_data_files/one_day_gap_best.xlsx'
+registration_info_test_path = 'input_data_files/registirations_test.csv'
 
 
 class Test(unittest.TestCase):
 
-    def test_big_exams_early(self):
+    def test_big_exams_early_best(self):
         data_manager = DataManager()
-        data = data_manager.get_data_instance(exam_plan_path,
+        data = data_manager.get_data_instance(big_exams_early_best_path,
                                               registration_info_path,
                                               room_distances_path,
                                               room_capacities_path,
@@ -32,9 +39,72 @@ class Test(unittest.TestCase):
                                               special_examiner_path)
 
         big_exams_early = BigExamsEarly(data)
-
+        print(f'Score: {big_exams_early.score}')
         self.assertGreaterEqual(big_exams_early.score, 70)
 
+    def test_big_exams_early_worst(self):
+        data_manager = DataManager()
+        data = data_manager.get_data_instance(big_exams_early_worst_path,
+                                              registration_info_path,
+                                              room_distances_path,
+                                              room_capacities_path,
+                                              special_dates_path,
+                                              special_examiner_path)
+
+        big_exams_early = BigExamsEarly(data)
+        print(f'Score: {big_exams_early.score}')
+        self.assertLessEqual(big_exams_early.score, 5)
+
+    def test_room_distances_best(self):
+        data_manager = DataManager()
+        data = data_manager.get_data_instance(room_distances_best_path,
+                                              registration_info_test_path,
+                                              room_distances_path,
+                                              room_capacities_path,
+                                              special_dates_path,
+                                              special_examiner_path)
+
+        room_distance = RoomDistance(data)
+        print(f'Score: {room_distance.score}')
+        self.assertAlmostEqual(room_distance.score, 100)
+
+    def test_room_distances_worst(self):
+        data_manager = DataManager()
+        data = data_manager.get_data_instance(room_distances_worst_path,
+                                              registration_info_path,
+                                              room_distances_path,
+                                              room_capacities_path,
+                                              special_dates_path,
+                                              special_examiner_path)
+
+        room_distance = RoomDistance(data)
+        print(f'Score: {room_distance.score}')
+        self.assertAlmostEqual(room_distance.score, 0)
+
+    def test_one_day_gap_best(self):
+        data_manager = DataManager()
+        data = data_manager.get_data_instance(one_day_gap_best_path,
+                                              registration_info_test_path,
+                                              room_distances_path,
+                                              room_capacities_path,
+                                              special_dates_path,
+                                              special_examiner_path)
+
+        one_day_gap = OneDayGap(data)
+        print(f'Score: {one_day_gap.score}')
+        self.assertAlmostEqual(one_day_gap.score, 0)
+    def test_one_day_gap_worst(self):
+        data_manager = DataManager()
+        data = data_manager.get_data_instance(one_day_gap_worst_path,
+                                              registration_info_test_path,
+                                              room_distances_path,
+                                              room_capacities_path,
+                                              special_dates_path,
+                                              special_examiner_path)
+
+        one_day_gap = OneDayGap(data)
+        print(f'Score: {one_day_gap.conflicts_df}')
+        self.assertAlmostEqual(one_day_gap.score, 0)
     def test_special_professors(self):
         def get_mock_data():
             mock_data = Mock()

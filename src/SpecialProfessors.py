@@ -89,7 +89,6 @@ class SpecialProfessors(Rule):
 
             # Convert the plot to a NumPy array
             plot_array = np.array(figure.canvas.renderer.buffer_rgba())
-            plt.show()
             plt.close()
             return plot_array
 

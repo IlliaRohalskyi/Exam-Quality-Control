@@ -46,7 +46,7 @@ class BigExamsEarly(Rule):
         figure.canvas.draw()  # Render the plot
         # Convert the plot to a NumPy array
         plot_array = np.array(figure.canvas.renderer.buffer_rgba())
-        plt.show()
+        #plt.show()
         plt.close()
 
         # Score the exam plan
