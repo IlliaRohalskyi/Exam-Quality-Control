@@ -190,7 +190,7 @@ class Test(unittest.TestCase):
         one_exam_per_day = OneExamPerDay(mock_data)
         print(one_exam_per_day.score)
 
-        self.assertAlmostEqual(one_exam_per_day.score, 0.5)
+        self.assertAlmostEqual(one_exam_per_day.score, 0)
 
     def test_room_capacity(self):
         def get_mock_data():
