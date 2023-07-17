@@ -4,6 +4,7 @@ from unittest.mock import Mock
 import pandas as pd
 
 from src.BigExamsEarly import BigExamsEarly
+from src.OneExamPerDay import OneExamPerDay
 from src.SpecialProfessors import SpecialProfessors
 from src.DataManager import DataManager
 from src.RoomCapacity import RoomCapacity
@@ -137,10 +138,59 @@ class Test(unittest.TestCase):
         pass
 
     def test_one_day_gap(self):
-        pass
+        def get_mock_data():
+            mock_data = Mock()
+
+            mock_data.course_stud = pd.DataFrame({
+                'coursenr': ['course1', 'course2', 'course3', 'course4'],
+                'matnr': [['stud1', 'stud2'], ['stud3', 'stud4', 'stud5'], ['stud2', 'stud3'], ['stud1', 'stud4']]
+            })
+
+            mock_data.splitted_df = pd.DataFrame({
+                'LV-Nr.': ['course1', 'course2', 'course3', 'course4'],
+                'start_date': [
+                    pd.Timestamp('2023-07-15'),
+                    pd.Timestamp('2023-07-16'),
+                    pd.Timestamp('2023-07-17'),
+                    pd.Timestamp('2023-07-18')
+                ],
+                'Lehrveranstaltung': ['Course1', 'Course2', 'Course3', 'Course4']
+            })
+
+            mock_data.reg_info = pd.DataFrame({'matnr': ['stud1', 'stud2', 'stud3', 'stud4', 'stud5']})
+
+            return mock_data
+
+        mock_data = get_mock_data()
+        one_day_gap = OneDayGap(mock_data)
+
+        print(one_day_gap.score)
+        self.assertAlmostEqual(one_day_gap.score, 100)
 
     def test_one_exam_per_day(self):
-        pass
+        def get_mock_data():
+            mock_data = Mock()
+
+            mock_data.course_stud = pd.DataFrame({
+                'coursenr': ['course1', 'course2', 'course3'],
+                'matnr': [['stud1', 'stud2'], ['stud1', 'stud3'], ['stud2', 'stud3']]
+            })
+
+            mock_data.splitted_df = pd.DataFrame({
+                'LV-Nr.': ['course1', 'course2', 'course3'],
+                'Lehrveranstaltung': ['exam1', 'exam2', 'exam3'],
+                'start_date': ['2023-07-01', '2023-07-01', '2023-07-01']
+            })
+
+            mock_data.reg_info = pd.DataFrame({'matnr': ['stud1', 'stud2', 'stud3']})
+
+            return mock_data
+
+        mock_data =get_mock_data()
+        one_exam_per_day = OneExamPerDay(mock_data)
+        print(one_exam_per_day.score)
+
+        self.assertAlmostEqual(one_exam_per_day.score, 0.5)
 
     def test_room_capacity(self):
         def get_mock_data():
@@ -175,7 +225,6 @@ class Test(unittest.TestCase):
         room_capacity = RoomCapacity(mock_data)
         print(room_capacity.score)
         self.assertAlmostEqual(room_capacity.score, 5)
-
 
 
 if __name__ == '__main__':
