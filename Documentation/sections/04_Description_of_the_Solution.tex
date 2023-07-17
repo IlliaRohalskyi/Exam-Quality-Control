@@ -1,5 +1,33 @@
+
 \section{Description of the Solution}
 \subsection{Description of the software architecture}
+
+
+
+Our software consists of three layers which are Input, Process, and Output layers. Data layer.
+
+\vspace{\baselineskip}
+
+The input layer is responsible for the preprocessing of examination plan files, enabling their utilization within the software.
+
+\vspace{\baselineskip}
+
+The process layer is responsible for analyzing the exam plan data to score, identifying conflicts, and visualizing data based on rules such as ensuring a one-day gap between exams.
+
+
+\vspace{\baselineskip}
+
+The output data is responsible for representing the scores, conflicts, and charts of every rule in a HTML file.
+
+\FloatBarrier
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=160mm]{images/architecture.png}
+    \caption{Architecture Design}
+    \label{fig:entrance-screen}
+\end{figure}
+\FloatBarrier
+
 
 
 \subsection{Overview and interaction of the components}
