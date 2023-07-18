@@ -2,6 +2,9 @@ import unittest
 from unittest.mock import Mock
 
 import pandas as pd
+import numpy as np
+from datetime import datetime
+
 
 from src.BigExamsEarly import BigExamsEarly
 from src.OneExamPerDay import OneExamPerDay
@@ -10,6 +13,7 @@ from src.DataManager import DataManager
 from src.RoomCapacity import RoomCapacity
 from src.RoomDistance import RoomDistance
 from src.OneDayGap import OneDayGap
+
 import configparser
 
 exam_plan_path = 'input_data_files/FIW_Exams_2022ws.xlsx'
@@ -18,95 +22,112 @@ room_distances_path = 'input_data_files/room_distance_matrix.xlsx'
 room_capacities_path = 'input_data_files/capacity.json'
 special_dates_path = 'input_data_files/special_dates.csv'
 special_examiner_path = 'input_data_files/specific_professors.xlsx'
-# Testing Files
-big_exams_early_best_path = 'input_data_files/big_exams_early_best.xlsx'
-big_exams_early_worst_path = 'input_data_files/big_exams_early_worst.xlsx'
-room_distances_best_path = 'input_data_files/room_distances_best.xlsx'
-room_distances_worst_path = 'input_data_files/room_distances_worst.xlsx'
-one_day_gap_worst_path = 'input_data_files/one_day_gap_worst.xlsx'
-one_day_gap_best_path = 'input_data_files/one_day_gap_best.xlsx'
-registration_info_test_path = 'input_data_files/registirations_test.csv'
 
-
+data_manager = DataManager()
+data_obj = data_manager.get_data_instance(exam_plan_path,
+                                          registration_info_path,
+                                          room_distances_path,
+                                          room_capacities_path,
+                                          special_dates_path,
+                                          special_examiner_path)
 class Test(unittest.TestCase):
 
     def test_big_exams_early_best(self):
-        data_manager = DataManager()
-        data = data_manager.get_data_instance(big_exams_early_best_path,
-                                              registration_info_path,
-                                              room_distances_path,
-                                              room_capacities_path,
-                                              special_dates_path,
-                                              special_examiner_path)
+        def get_mock_data():
+            mock_data = Mock()
 
-        big_exams_early = BigExamsEarly(data)
-        print(f'Score: {big_exams_early.score}')
-        self.assertGreaterEqual(big_exams_early.score, 70)
+            mock_data.number_of_students = np.array([300, 225, 200, 150, 125, 70, 60, 45, 30, 5])
+            mock_data.start_date = pd.Series([
+                datetime(2023, 7, 1),
+                datetime(2023, 7, 3),
+                datetime(2023, 7, 5),
+                datetime(2023, 7, 7),
+                datetime(2023, 7, 9),
+                datetime(2023, 7, 11),
+                datetime(2023, 7, 13),
+                datetime(2023, 7, 15),
+                datetime(2023, 7, 17),
+                datetime(2023, 7, 19)
+            ])
+            return mock_data
+
+        mock_data = get_mock_data()
+        big_exams_early = BigExamsEarly(mock_data)
+
+        print(big_exams_early.score)
+        self.assertAlmostEqual(big_exams_early.score, 100)
 
     def test_big_exams_early_worst(self):
-        data_manager = DataManager()
-        data = data_manager.get_data_instance(big_exams_early_worst_path,
-                                              registration_info_path,
-                                              room_distances_path,
-                                              room_capacities_path,
-                                              special_dates_path,
-                                              special_examiner_path)
+        def get_mock_data():
+            mock_data = Mock()
+            mock_data.number_of_students = np.array([5, 15, 30, 50, 70, 80, 90, 125, 150, 200])
+            mock_data.start_date = pd.Series([
+                datetime(2023, 7, 1),
+                datetime(2023, 7, 3),
+                datetime(2023, 7, 5),
+                datetime(2023, 7, 7),
+                datetime(2023, 7, 9),
+                datetime(2023, 7, 11),
+                datetime(2023, 7, 13),
+                datetime(2023, 7, 15),
+                datetime(2023, 7, 17),
+                datetime(2023, 7, 19)
+            ])
+            return mock_data
 
-        big_exams_early = BigExamsEarly(data)
-        print(f'Score: {big_exams_early.score}')
-        self.assertLessEqual(big_exams_early.score, 5)
+        mock_data = get_mock_data()
+        big_exams_early = BigExamsEarly(mock_data)
+
+        print(big_exams_early.score)
+        self.assertAlmostEqual(big_exams_early.score, 0)
 
     def test_room_distances_best(self):
-        data_manager = DataManager()
-        data = data_manager.get_data_instance(room_distances_best_path,
-                                              registration_info_test_path,
-                                              room_distances_path,
-                                              room_capacities_path,
-                                              special_dates_path,
-                                              special_examiner_path)
+        def get_mock_data():
+            mock_data = Mock()
+            mock_data.exam_rooms = pd.DataFrame({'HS': [['H.1.2', 'H.1.3'],
+                                                        ['H.1.2', 'H.1.3'],
+                                                        ['H.1.2', 'H.1.3'],
+                                                        ['H.1.2', 'H.1.3'],
+                                                        ['H.1.2', 'H.1.3'],
+                                                        ['H.1.2', 'H.1.3']]})
 
-        room_distance = RoomDistance(data)
-        print(f'Score: {room_distance.score}')
-        self.assertAlmostEqual(room_distance.score, 100)
+            mock_data.exam_form = pd.DataFrame({'Form': ['schriftlich',
+                                                         'schriftlich',
+                                                         'schriftlich',
+                                                         'schriftlich',
+                                                         'schriftlich',
+                                                         'schriftlich']})
+
+            mock_data.room_distances = data_obj.room_distances
+            return mock_data
+
+        room_distances = RoomDistance(get_mock_data())
+        print(room_distances.score)
+        self.assertAlmostEqual(room_distances.score, 100)
 
     def test_room_distances_worst(self):
-        data_manager = DataManager()
-        data = data_manager.get_data_instance(room_distances_worst_path,
-                                              registration_info_path,
-                                              room_distances_path,
-                                              room_capacities_path,
-                                              special_dates_path,
-                                              special_examiner_path)
+        def get_mock_data():
+            mock_data = Mock()
+            mock_data.exam_rooms = pd.DataFrame({'HS': [['H.1.11', 'I.3.19'],
+                                                        ['H.1.11', 'I.3.19'],
+                                                        ['H.1.11', 'I.3.19'],
+                                                        ['H.1.11', 'I.3.19'],
+                                                        ['H.1.11', 'I.3.19'],
+                                                        ['H.1.11', 'I.3.19']]})
 
-        room_distance = RoomDistance(data)
-        print(f'Score: {room_distance.score}')
-        self.assertAlmostEqual(room_distance.score, 0)
+            mock_data.exam_form = pd.DataFrame({'Form': ['schriftlich',
+                                                         'schriftlich',
+                                                         'schriftlich',
+                                                         'schriftlich',
+                                                         'schriftlich',
+                                                         'schriftlich']})
 
-    def test_one_day_gap_best(self):
-        data_manager = DataManager()
-        data = data_manager.get_data_instance(one_day_gap_best_path,
-                                              registration_info_test_path,
-                                              room_distances_path,
-                                              room_capacities_path,
-                                              special_dates_path,
-                                              special_examiner_path)
+            mock_data.room_distances = data_obj.room_distances
+            return mock_data
 
-        one_day_gap = OneDayGap(data)
-        print(f'Score: {one_day_gap.score}')
-        self.assertAlmostEqual(one_day_gap.score, 100)
-
-    def test_one_day_gap_worst(self):
-        data_manager = DataManager()
-        data = data_manager.get_data_instance(one_day_gap_worst_path,
-                                              registration_info_test_path,
-                                              room_distances_path,
-                                              room_capacities_path,
-                                              special_dates_path,
-                                              special_examiner_path)
-
-        one_day_gap = OneDayGap(data)
-        print(f'Score: {one_day_gap.conflicts_df}')
-        self.assertAlmostEqual(one_day_gap.score, 0)
+        room_distances = RoomDistance(get_mock_data())
+        print(room_distances.score)
+        self.assertAlmostEqual(room_distances.score, 0)
 
     def test_special_professors_best(self):
         def get_mock_data():
@@ -186,9 +207,9 @@ class Test(unittest.TestCase):
                 'LV-Nr.': ['course1', 'course2', 'course3', 'course4'],
                 'start_date': [
                     pd.Timestamp('2023-07-15'),
-                    pd.Timestamp('2023-07-16'),
                     pd.Timestamp('2023-07-17'),
-                    pd.Timestamp('2023-07-18')
+                    pd.Timestamp('2023-07-19'),
+                    pd.Timestamp('2023-07-21')
                 ],
                 'Lehrveranstaltung': ['Course1', 'Course2', 'Course3', 'Course4']
             })
@@ -203,35 +224,63 @@ class Test(unittest.TestCase):
         print(one_day_gap.score)
         self.assertAlmostEqual(one_day_gap.score, 100)
 
-    def test_one_exam_per_day(self):
+    def test_one_exam_per_day_best(self):
         def get_mock_data():
             mock_data = Mock()
 
             mock_data.course_stud = pd.DataFrame({
-                'coursenr': ['course1', 'course2', 'course3', 'course4', 'course5', 'course6', 'course7',
-                             'course8', 'course9', 'course10'],
-                'matnr': [['stud1', 'stud2'], ['stud1', 'stud3'], ['stud2', 'stud6'], ['stud2', 'stud3'],
-                          ['stud2', 'stud5'], ['stud2', 'stud5'], ['stud4', 'stud3'], ['stud4', 'stud3'],
-                          ['stud6', 'stud3'], ['stud2', 'stud3']]
+                'coursenr': ['coursenr1', 'coursenr2', 'coursenr3', 'coursenr4', 'coursenr5'],
+                'matnr': [['student1', 'student2'],
+                          ['student1', 'student2'],
+                          ['student1', 'student2'],
+                          ['student1', 'student2'],
+                          ['student1', 'student2']]
             })
 
             mock_data.splitted_df = pd.DataFrame({
-                'LV-Nr.': ['course1', 'course2', 'course3', 'course4', 'course5', 'course6', 'course7',
-                           'course8', 'course9', 'course10'],
-                'Lehrveranstaltung': ['exam1', 'exam2', 'exam3', 'exam4', 'exam5', 'exam6', 'exam7', 'exam8', 'exam9',
-                                      'exam10'],
-                'start_date': ['2023-07-01', '2023-07-01', '2023-07-01', '2023-07-01', '2023-07-01', '2023-07-01',
-                               '2023-07-01', '2023-07-01', '2023-07-01'
-                    , '2023-07-01']
+                'LV-Nr.': ['coursenr1', 'coursenr2', 'coursenr3', 'coursenr4', 'coursenr5'],
+                'Lehrveranstaltung': ['Exam1', 'Exam2', 'Exam3', 'Exam4', 'Exam5'],
+                'start_date': ['2023-07-01', '2023-07-02', '2023-07-03', '2023-07-04', '2023-07-05']
             })
 
-            mock_data.reg_info = pd.DataFrame({'matnr': ['stud1', 'stud2', 'stud3', 'stud4', 'stud5', 'stud6']})
+            mock_data.reg_info = pd.DataFrame({'matnr': ['stud1', 'stud2']})
 
             return mock_data
 
         mock_data = get_mock_data()
         one_exam_per_day = OneExamPerDay(mock_data)
         print(one_exam_per_day.score)
+        print(one_exam_per_day.conflicts_df)
+
+        self.assertAlmostEqual(one_exam_per_day.score, 100)
+
+    def test_one_exam_per_day_worst(self):
+        def get_mock_data():
+            mock_data = Mock()
+
+            mock_data.course_stud = pd.DataFrame({
+                'coursenr': ['coursenr1', 'coursenr2', 'coursenr3', 'coursenr4', 'coursenr5'],
+                'matnr': [['student1', 'student2'],
+                          ['student1', 'student2'],
+                          ['student1', 'student2'],
+                          ['student1', 'student2'],
+                          ['student1', 'student2']]
+            })
+
+            mock_data.splitted_df = pd.DataFrame({
+                'LV-Nr.': ['coursenr1', 'coursenr2', 'coursenr3', 'coursenr4', 'coursenr5'],
+                'Lehrveranstaltung': ['Exam1', 'Exam2', 'Exam3', 'Exam4', 'Exam5'],
+                'start_date': ['2023-07-01', '2023-07-01', '2023-07-01', '2023-07-01', '2023-07-01']
+            })
+
+            mock_data.reg_info = pd.DataFrame({'matnr': ['stud1', 'stud2']})
+
+            return mock_data
+
+        mock_data = get_mock_data()
+        one_exam_per_day = OneExamPerDay(mock_data)
+        print(one_exam_per_day.score)
+        print(one_exam_per_day.conflicts_df)
 
         self.assertAlmostEqual(one_exam_per_day.score, 0)
 
