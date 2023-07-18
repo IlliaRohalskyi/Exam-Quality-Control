@@ -93,7 +93,8 @@ class Test(unittest.TestCase):
 
         one_day_gap = OneDayGap(data)
         print(f'Score: {one_day_gap.score}')
-        self.assertAlmostEqual(one_day_gap.score, 0)
+        self.assertAlmostEqual(one_day_gap.score, 100)
+
     def test_one_day_gap_worst(self):
         data_manager = DataManager()
         data = data_manager.get_data_instance(one_day_gap_worst_path,
@@ -106,23 +107,52 @@ class Test(unittest.TestCase):
         one_day_gap = OneDayGap(data)
         print(f'Score: {one_day_gap.conflicts_df}')
         self.assertAlmostEqual(one_day_gap.score, 0)
-    def test_special_professors(self):
+
+    def test_special_professors_best(self):
         def get_mock_data():
             mock_data = Mock()
             mock_data.examiner = pd.DataFrame({'1. & 2. Pruefer': [['prof1', 'prof2'], ['prof3', 'prof4'],
-                                                                   ['prof3', 'prof1'], ['prof5', 'prof1'],
-                                                                   ['prof2', 'prof4']]})
+                                                                   ['prof1', 'prof6'], ['prof7', 'prof6'],
+                                                                   ['prof9', 'prof10']]})
             mock_data.start_date = pd.DataFrame(
                 {'start_date': [pd.Timestamp('2023-07-15'),
                                 pd.Timestamp('2023-07-16'),
                                 pd.Timestamp('2023-07-15'),
-                                pd.Timestamp('2023-07-15'),
-                                pd.Timestamp('2023-07-19')
+                                pd.Timestamp('2023-07-16'),
+                                pd.Timestamp('2023-07-17')
                                 ]})
             mock_data.course_name = pd.DataFrame({'Lehrveranstaltung': ['Course1',
                                                                         'Course2',
                                                                         'Course3',
                                                                         'Course4'
+                                                                        'Course5']})
+            mock_data.special_examiners = pd.DataFrame({'Professor': ['prof1',
+                                                                      'prof3',
+                                                                      'prof4']})
+            return mock_data
+
+        mock_data = get_mock_data()
+        special_professors = SpecialProfessors(mock_data)
+        print(special_professors.score)
+        self.assertAlmostEqual(special_professors.score, 100)
+
+    def test_special_professors_worst(self):
+        def get_mock_data():
+            mock_data = Mock()
+            mock_data.examiner = pd.DataFrame({'1. & 2. Pruefer': [['prof1', 'prof2'], ['prof3', 'prof4'],
+                                                                   ['prof1', 'prof6'], ['prof3', 'prof6'],
+                                                                   ['prof3', 'prof10']]})
+            mock_data.start_date = pd.DataFrame(
+                {'start_date': [pd.Timestamp('2023-07-15'),
+                                pd.Timestamp('2023-07-16'),
+                                pd.Timestamp('2023-07-17'),
+                                pd.Timestamp('2023-07-18'),
+                                pd.Timestamp('2023-07-19')
+                                ]})
+            mock_data.course_name = pd.DataFrame({'Lehrveranstaltung': ['Course1',
+                                                                        'Course2',
+                                                                        'Course3',
+                                                                        'Course4',
                                                                         'Course5']})
             mock_data.special_examiners = pd.DataFrame({'Professor': ['prof1',
                                                                       'prof3',
@@ -132,7 +162,7 @@ class Test(unittest.TestCase):
         mock_data = get_mock_data()
         special_professors = SpecialProfessors(mock_data)
         print(special_professors.score)
-        self.assertAlmostEqual(special_professors.score, 50)
+        self.assertAlmostEqual(special_professors.score, 0)
 
     def test_special_dates(self):
         pass
@@ -172,48 +202,99 @@ class Test(unittest.TestCase):
             mock_data = Mock()
 
             mock_data.course_stud = pd.DataFrame({
-                'coursenr': ['course1', 'course2', 'course3'],
-                'matnr': [['stud1', 'stud2'], ['stud1', 'stud3'], ['stud2', 'stud3']]
+                'coursenr': ['course1', 'course2', 'course3', 'course4', 'course5', 'course6', 'course7',
+                             'course8', 'course9', 'course10'],
+                'matnr': [['stud1', 'stud2'], ['stud1', 'stud3'], ['stud2', 'stud6'], ['stud2', 'stud3'],
+                          ['stud2', 'stud5'], ['stud2', 'stud5'], ['stud4', 'stud3'], ['stud4', 'stud3'],
+                          ['stud6', 'stud3'], ['stud2', 'stud3']]
             })
 
             mock_data.splitted_df = pd.DataFrame({
-                'LV-Nr.': ['course1', 'course2', 'course3'],
-                'Lehrveranstaltung': ['exam1', 'exam2', 'exam3'],
-                'start_date': ['2023-07-01', '2023-07-01', '2023-07-01']
+                'LV-Nr.': ['course1', 'course2', 'course3', 'course4', 'course5', 'course6', 'course7',
+                           'course8', 'course9', 'course10'],
+                'Lehrveranstaltung': ['exam1', 'exam2', 'exam3', 'exam4', 'exam5', 'exam6', 'exam7', 'exam8', 'exam9',
+                                      'exam10'],
+                'start_date': ['2023-07-01', '2023-07-01', '2023-07-01', '2023-07-01', '2023-07-01', '2023-07-01',
+                               '2023-07-01', '2023-07-01', '2023-07-01'
+                    , '2023-07-01']
             })
 
-            mock_data.reg_info = pd.DataFrame({'matnr': ['stud1', 'stud2', 'stud3']})
+            mock_data.reg_info = pd.DataFrame({'matnr': ['stud1', 'stud2', 'stud3', 'stud4', 'stud5', 'stud6']})
 
             return mock_data
 
-        mock_data =get_mock_data()
+        mock_data = get_mock_data()
         one_exam_per_day = OneExamPerDay(mock_data)
         print(one_exam_per_day.score)
 
         self.assertAlmostEqual(one_exam_per_day.score, 0)
 
-    def test_room_capacity(self):
+    def test_room_capacity_best(self):
         def get_mock_data():
             mock_data = Mock()
             mock_data.course_stud = pd.DataFrame({
                 'coursenr': ['course1', 'course2', 'course3', 'course4'],
                 'matnr': [
-                    ['stud1', 'stud2'],
-                    ['stud3', 'stud4', 'stud5', 'stud6', 'stud7', 'stud8', 'stud9', 'stud10', 'stud11'],
-                    ['stud12', 'stud13', 'stud14', 'stud15'],
-                    ['stud16']
+                    ['stud1', 'stud2', 'stud3', 'stud4', 'stud5', 'stud6'],
+                    ['stud7', 'stud8', 'stud9', 'stud10'],
+                    ['stud11', 'stud12', 'stud13', 'stud14', 'stud15'],
+                    ['stud16', 'stud17']
                 ]
             })
 
             mock_data.exam_plan = pd.DataFrame({
                 'LV-Nr.': ['course1', 'course2', 'course3', 'course4'],
-                'HS': [['H.1.1'], ['H.1.1', 'H.1.2'], ['H.1.2'], ['room1']]
+                'HS': [['H.1.1'], ['H.1.2'], ['H.1.3'], ['H.1.1']]
             })
 
             mock_data.room_capacities = {
                 'Exam-room-capacities': {
-                    'Horsaal': [{'Name': 'H.1.1', 'Klausur-capacity 1': 5, 'Klausur-capacity 2': 6},
-                                {'Name': 'H.1.2', 'Klausur-capacity 1': 10, 'Klausur-capacity 2': 25}],
+                    'Horsaal': [
+                        {'Name': 'H.1.1', 'Klausur-capacity 1': 6, 'Klausur-capacity 2': 6},
+                        {'Name': 'H.1.2', 'Klausur-capacity 1': 4, 'Klausur-capacity 2': 4},
+                        {'Name': 'H.1.3', 'Klausur-capacity 1': 5, 'Klausur-capacity 2': 5}
+                    ],
+                    'Seminar-raum': [{'Name': 'I.2.15', 'Klausur-capacity 1': 15, 'Klausur-capacity 2': 30}],
+                    'Raum': [{'Name': 'I.2.1', 'Klausur-capacity 1': 2, 'Klausur-capacity 2': 2}]
+                }
+            }
+
+            return mock_data
+
+        mock_data = get_mock_data()
+        room_capacity = RoomCapacity(mock_data)
+        print(room_capacity.score)
+        self.assertGreaterEqual(room_capacity.score, 80)
+
+    def test_room_capacity_worst(self):
+        def get_mock_data():
+            mock_data = Mock()
+            mock_data.course_stud = pd.DataFrame({
+                'coursenr': ['course1', 'course2', 'course3', 'course4', 'course5', 'course6'],
+                'matnr': [
+                    ['stud1', 'stud2', 'stud3'],
+                    ['stud4', 'stud5', 'stud6', 'stud7'],
+                    ['stud8', 'stud9', 'stud10', 'stud11', 'stud12', 'stud13', 'stud14', 'stud15', 'stud16', 'stud17',
+                     'stud18', 'stud19', 'stud20'],
+                    ['stud21', 'stud22', 'stud23'],
+                    ['stud24', 'stud25'],
+                    ['stud26', 'stud27', 'stud28', 'stud29', 'stud30', 'stud31', 'stud32', 'stud33', 'stud34', 'stud35',
+                     'stud36']
+                ]
+            })
+
+            mock_data.exam_plan = pd.DataFrame({
+                'LV-Nr.': ['course1', 'course2', 'course3', 'course4', 'course5', 'course6'],
+                'HS': [['H.1.1'], ['H.1.2'], ['H.1.1', 'H.1.3'], ['H.1.2'], ['H.1.3'], ['I.2.1']]
+            })
+
+            mock_data.room_capacities = {
+                'Exam-room-capacities': {
+                    'Horsaal': [
+                        {'Name': 'H.1.1', 'Klausur-capacity 1': 50, 'Klausur-capacity 2': 100},
+                        {'Name': 'H.1.2', 'Klausur-capacity 1': 20, 'Klausur-capacity 2': 40},
+                        {'Name': 'H.1.3', 'Klausur-capacity 1': 30, 'Klausur-capacity 2': 60}
+                    ],
                     'Seminar-raum': [{'Name': 'I.2.15', 'Klausur-capacity 1': 15, 'Klausur-capacity 2': 30}],
                     'Raum': [{'Name': 'I.2.1', 'Klausur-capacity 1': 10, 'Klausur-capacity 2': 20}]
                 }
@@ -224,7 +305,7 @@ class Test(unittest.TestCase):
         mock_data = get_mock_data()
         room_capacity = RoomCapacity(mock_data)
         print(room_capacity.score)
-        self.assertAlmostEqual(room_capacity.score, 5)
+        self.assertLessEqual(room_capacity.score, 10)
 
 
 if __name__ == '__main__':
