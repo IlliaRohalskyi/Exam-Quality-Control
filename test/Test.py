@@ -113,19 +113,25 @@ class Test(unittest.TestCase):
             mock_data = Mock()
             mock_data.examiner = pd.DataFrame({'1. & 2. Pruefer': [['prof1', 'prof2'], ['prof3', 'prof4'],
                                                                    ['prof1', 'prof6'], ['prof7', 'prof6'],
-                                                                   ['prof9', 'prof10']]})
+                                                                   ['prof9', 'prof10'],['prof3', 'prof4'],
+                                                                   ['prof3', 'prof4']]})
             mock_data.start_date = pd.DataFrame(
                 {'start_date': [pd.Timestamp('2023-07-15'),
                                 pd.Timestamp('2023-07-16'),
                                 pd.Timestamp('2023-07-15'),
                                 pd.Timestamp('2023-07-16'),
-                                pd.Timestamp('2023-07-17')
+                                pd.Timestamp('2023-07-17'),
+                                pd.Timestamp('2023-07-16'),
+                                pd.Timestamp('2023-07-16')
                                 ]})
             mock_data.course_name = pd.DataFrame({'Lehrveranstaltung': ['Course1',
                                                                         'Course2',
                                                                         'Course3',
                                                                         'Course4'
-                                                                        'Course5']})
+                                                                        'Course5',
+                                                                        'Course6',
+                                                                        'Course7'
+                                                                        ]})
             mock_data.special_examiners = pd.DataFrame({'Professor': ['prof1',
                                                                       'prof3',
                                                                       'prof4']})
