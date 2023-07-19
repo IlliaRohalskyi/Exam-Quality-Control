@@ -191,10 +191,9 @@ class HtmlConverter:
 
         html = html_page
         
-        file_directory = os.path.dirname(os.path.abspath(__file__))
-        file_directory += file_name
+        file_directory = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "outputs")
+        file_directory = os.path.join(file_directory, file_name)
 
-    
         file = open(file_directory, "w", encoding="utf-8")
         file.write(html)
         file.close()
