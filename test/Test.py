@@ -5,14 +5,14 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 
-
-from src.BigExamsEarly import BigExamsEarly
-from src.OneExamPerDay import OneExamPerDay
-from src.SpecialProfessors import SpecialProfessors
-from src.DataManager import DataManager
-from src.RoomCapacity import RoomCapacity
-from src.RoomDistance import RoomDistance
-from src.OneDayGap import OneDayGap
+from src.data_components.DataManager import DataManager
+from src.rule_components.BigExamsEarly import BigExamsEarly
+from src.rule_components.OneExamPerDay import OneExamPerDay
+from src.rule_components.SpecialProfessors import SpecialProfessors
+from src.rule_components.RoomCapacity import RoomCapacity
+from src.rule_components.RoomDistance import RoomDistance
+from src.rule_components.OneDayGap import OneDayGap
+from src.rule_components.SpecialDates import SpecialDates
 
 import configparser
 
@@ -191,8 +191,63 @@ class Test(unittest.TestCase):
         print(special_professors.score)
         self.assertAlmostEqual(special_professors.score, 0)
 
-    def test_special_dates(self):
-        pass
+    def test_special_dates_best(self):
+        def get_mock_data():
+            mock_data = Mock()
+            mock_data.special_dates_df = pd.DataFrame({'lastName': ['Examiner1',
+                                                                    'Examiner2',
+                                                                    'Examiner3'],
+                                                       'specialDate': ['2023-01-27',
+                                                                       '2023-01-27',
+                                                                       '2023-01-27']})
+
+            mock_data.examiners_exams_df = pd.DataFrame({'1. & 2. Pruefer': [['Examiner1', 'Examiner2'],
+                                                                             ['Examiner3', 'Examiner4'],
+                                                                             ['Examiner5', 'Examiner6'],
+                                                                             ['Examiner7', 'Examiner8'],
+                                                                             ['Examiner9', 'Examiner10']],
+
+                                                         'Datum, Uhrzeit (ggf. sep. Zeitplan beachten)': [
+                                                             '2023-01-25T11:00 - 2023-01-25T12:30',
+                                                             '2023-01-26T11:00 - 2023-01-26T12:30',
+                                                             '2023-01-27T11:00 - 2023-01-27T12:30',
+                                                             '2023-01-28T11:00 - 2023-01-28T12:30',
+                                                             '2023-01-29T11:00 - 2023-01-29T12:30']})
+            return mock_data
+
+        special_dates = SpecialDates(get_mock_data())
+        print(special_dates.score)
+        print(special_dates.conflicts_df)
+        self.assertAlmostEqual(special_dates.score, 100)
+
+    def test_special_dates_worst(self):
+        def get_mock_data():
+            mock_data = Mock()
+            mock_data.special_dates_df = pd.DataFrame({'lastName': ['Examiner1',
+                                                                    'Examiner2',
+                                                                    'Examiner3'],
+                                                       'specialDate': ['2023-01-25',
+                                                                       '2023-01-25',
+                                                                       '2023-01-26']})
+
+            mock_data.examiners_exams_df = pd.DataFrame({'1. & 2. Pruefer': [['Examiner1', 'Examiner2'],
+                                                                             ['Examiner3', 'Examiner4'],
+                                                                             ['Examiner5', 'Examiner6'],
+                                                                             ['Examiner7', 'Examiner8'],
+                                                                             ['Examiner9', 'Examiner10']],
+
+                                                         'Datum, Uhrzeit (ggf. sep. Zeitplan beachten)': [
+                                                             '2023-01-25T11:00 - 2023-01-25T12:30',
+                                                             '2023-01-26T11:00 - 2023-01-26T12:30',
+                                                             '2023-01-27T11:00 - 2023-01-27T12:30',
+                                                             '2023-01-28T11:00 - 2023-01-28T12:30',
+                                                             '2023-01-29T11:00 - 2023-01-29T12:30']})
+            return mock_data
+
+        special_dates = SpecialDates(get_mock_data())
+        print(special_dates.score)
+        print(special_dates.conflicts_df)
+        self.assertAlmostEqual(special_dates.score, 0)
 
     def test_one_day_gap(self):
         def get_mock_data():
