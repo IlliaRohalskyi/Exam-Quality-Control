@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import io
 import base64
-import numpy as np 
+import os
 from rule_components.Scoring import scoring
 
 class HtmlConverter:
@@ -191,7 +191,7 @@ class HtmlConverter:
 
         html = html_page
         
-        file_directory = "src/outputs/"  
+        file_directory = os.path.dirname(os.path.abspath(__file__))
         file_directory += file_name
 
     

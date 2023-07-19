@@ -7,15 +7,26 @@ from rule_components.OneDayGap import OneDayGap
 from rule_components.SpecialDates import SpecialDates
 from data_components.DataManager import DataManager
 import configparser
+import os
 
 config = configparser.ConfigParser()
-config.read('config.ini')
-exam_plan_path = config.get('FilePaths', 'exam_plan_path')
-registration_info_path = config.get('FilePaths', 'registration_info_path')
-room_distances_path = config.get('FilePaths', 'room_distances_path')
-room_capacities_path = config.get('FilePaths', 'room_capacities_path')
-special_dates_path = config.get('FilePaths', 'special_dates_path')
-special_examiner_path = config.get('FilePaths', 'special_examiner_path')
+
+
+this_file_path = os.path.abspath(__file__)
+this_folder_path = os.path.dirname(this_file_path)
+src_folder_path = os.path.dirname(this_folder_path)
+project_folder_path = os.path.dirname(src_folder_path)
+config.read(os.path.join(project_folder_path, 'config.ini'))
+def get_data_file_path(filedir):
+    data_file_path = os.path.join(project_folder_path, filedir)
+    return data_file_path
+
+exam_plan_path = get_data_file_path(config.get('FilePaths', 'exam_plan_path'))
+registration_info_path = get_data_file_path(config.get('FilePaths', 'registration_info_path'))
+room_distances_path = get_data_file_path(config.get('FilePaths', 'room_distances_path'))
+room_capacities_path = get_data_file_path(config.get('FilePaths', 'room_capacities_path'))
+special_dates_path = get_data_file_path(config.get('FilePaths', 'special_dates_path'))
+special_examiner_path = get_data_file_path(config.get('FilePaths', 'special_examiner_path'))
 
 
 class Scoring():
