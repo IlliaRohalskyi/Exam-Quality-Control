@@ -1,4 +1,6 @@
 
+
+
 \section{Description of the Solution}
 \subsection{Description of the software architecture}
 
@@ -32,6 +34,15 @@ The output data is responsible for representing the scores, conflicts, and chart
 
 \subsection{Overview and interaction of the components}
 
+\subsubsection{Main Class}
+
+
+\begin{itemize}
+\item This class is responsible from the execution of the program and saving the various html results based on the demand.
+\end{itemize}
+
+
+
 
 \subsubsection{Scoring Class}
 
@@ -53,25 +64,27 @@ The output data is responsible for representing the scores, conflicts, and chart
 \end{itemize}
 
 
-\subsubsection{Output Class}
+\subsubsection{Rule Class}
 
+Rule is the superclass of all scoring classes (such as BigExamsEarly, OneExamPerDay, etc.).
 
-\begin{itemize}
-\item Handles the generation and saving of output files.
-\item Provides methods for saving the results as HTML files. These methods offers two different option either you can get a single result of one rule class or a summary list that includes all results.
-\item Utilizes the HtmlConverter class to convert data into HTML format and print the output.
-\end{itemize}
+\vspace{\baselineskip}
 
-
-\subsubsection{HtmlConverter Class}
-
+The class has the following attributes:
 
 \begin{itemize}
-\item Converts the processed data into HTML format for output representation.
-\item Provides methods for creating HTML pages, and printing the HTML output.
-
+\item score.
+\item conflicts.
+\item plot array.
 \end{itemize}
+ 
+It has a method called compute() which returns the score, conflicts, and plot array.
 
+\subsubsection{Data Manager Class}
+
+DataManager is a class to instantiate Data objects. The class provides methods to create and retrieve instances of the Data class. It ensures that only a single instance of the Data class is created and reused throughout the program.
+
+\vspace{\baselineskip}
 
 \subsubsection{BigExamsEarly Class}
 
@@ -132,21 +145,416 @@ The output data is responsible for representing the scores, conflicts, and chart
 
 \end{itemize}
 
-\subsubsection{Main Class}
+
+
+
+
+
+\subsubsection{Output Class}
 
 
 \begin{itemize}
-\item This class is responsible from the execution of the program and saving the various html results based on the demand.
+\item Handles the generation and saving of output files.
+\item Provides methods for saving the results as HTML files. These methods offers two different option either you can get a single result of one rule class or a summary list that includes all results.
+\item Utilizes the HtmlConverter class to convert data into HTML format and print the output.
+\end{itemize}
+
+
+\subsubsection{HtmlConverter Class}
+
+
+\begin{itemize}
+\item Converts the processed data into HTML format for output representation.
+\item Provides methods for creating HTML pages, and printing the HTML output.
+
 \end{itemize}
 
 
 
 
+ \subsection{Quality Assurance}
+ 
+ \subsubsection{Introduction}
+
+ This document presents the Quality Assurance strategy that has been employed for the evaluation
+of our existing examination scheduling system. We utilized Python's unittest framework to
+construct and perform unit tests for each rule class in the system.
+
+
+\vspace{\baselineskip}
+
+Each rule class is thoroughly tested under both the best-case and worst-case scenarios. These
+scenarios are represented using a combination of mock data, created within the Test methods for
+each test case, and artificial data derived from external files. The objective is to mimic a variety of
+real-world scenarios.
+
+
+\vspace{\baselineskip}
+
+These test cases are organized within a dedicated Test class, containing distinct test methods for
+each case. For instance, the test methods \texttt{'test\_big\_exams\_early\_best'},  and  \\ 
+\texttt{'test\_big\_exams\_early\_worst'} correspond to the best and worst scenarios of the 'big exams early'
+rule respectively.
+
+
+
+\vspace{\baselineskip}
+
+Our goal with Quality Assurance is to thoroughly test the exam schedule evaluation system under
+different scenarios. This helps to make sure our system is strong, trustworthy, and can accurately
+check the quality of any exam schedule. We aim to highlight both what's working well and what
+could be better in the schedule.
+
+ \subsubsection{Module: BigExamsEarly}
+
+ 
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test 1: Big Exams Early - Best Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+ This test uses a dataset where the bigger exams are scheduled early. It tests
+the rule under optimal conditions and expects a high score.
+
+
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+ Mock data where larger exams are scheduled earlier in the exam schedule.
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+ Score is greater or equal to 70. This indicates that the scheduling system is
+functioning properly for the best-case scenario and bigger exams are indeed scheduled earlier.
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test 2: Big Exams Early - Worst Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This test uses a dataset where the bigger exams are scheduled late. It tests the
+rule under the worst conditions and expects a low score.
+
+
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+ Mock data where larger exams are scheduled later in the exam schedule.
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+ Score is less or equal to 5. This indicates that the scheduling system properly
+penalizes scenarios where bigger exams occur late in the schedule.
+
+
+\vspace{\baselineskip}
+
+
+
+ \subsubsection{Module: RoomDistance}
+
+ 
+\vspace{\baselineskip}
+
+
+ 
+ \textbf{Test 1: Room Distance - Best Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+ This test uses a dataset where students are allocated in rooms close to each
+other. It tests the rule under optimal conditions and expects a high score.
+
+
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+A combination of mock data that is either directly created as a dataframe or drawn from
+artificial datasets like Excel files. Both types of data are later assigned to the attributes of the
+Mock class. This dataset simulates a situation where students' allocated exam rooms are in close
+proximity, thus representing an optimal scenario for the room distance rule.
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+ Score is approximately equal to 100. This indicates that the scheduling system
+is functioning properly for the best-case scenario and the exams are scheduled in rooms close to
+each other.
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test 2: Room Distance - Worst Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This test uses a dataset where students are allocated in rooms far from each
+other. It tests the rule under the worst conditions and expects a low score.
+
+
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+ A combination of mock data that is either directly created as a dataframe or drawn from
+artificial datasets like Excel files. Both types of data are later assigned to the attributes of the
+Mock class. This dataset simulates a situation where students' allocated exam rooms are far
+apart, thus representing the worst-case scenario for the room distance rule.
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+Score is approximately equal to 0. This indicates that the scheduling system
+properly penalizes scenarios where exams are scheduled in rooms far from each other.
+
+
+\vspace{\baselineskip}
+
+
+
+ \subsubsection{Module: OneDayGap}
+
+ 
+\vspace{\baselineskip}
+
+
+ 
+ \textbf{Test 1: One Day Gap - Best Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+ This test uses a dataset where students have at least one day gap between
+their exams. It tests the rule under optimal conditions and expects a score close to 100, indicating
+no conflicts.
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+Mock data (coming from artificial datasets like Excel files, which are passed to the Data
+class as parameters), where all students have at least one day gap between their exams.
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+Score is approximately equal to 0, indicating there are no back-to-back exams
+for students, which is the ideal scenario.
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test 2: One Day Gap - Worst Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This test uses a dataset where students do not have a one day gap between
+their exams. It tests the rule under the worst conditions and expects a score close to 0, indicating
+high conflicts.
+
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+ Mock data where students have exams without a day gap.
+ 
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+Score is approximately equal to 0. The score is expected to be low, indicating
+that the system correctly identifies the situation where students have exams without a one day
+gap as a problematic scheduling scenario.
+
+
+\vspace{\baselineskip}
 
 
 
 
+ \subsubsection{Module: SpecialProfessors}
 
-\subsection{tasks of the component}
-The components in the provided code and their interactions can be described as follows:
+ 
+\vspace{\baselineskip}
 
+
+ 
+ \textbf{Test 1: Special Professors - Best Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This test uses a dataset where special professors have all their exams
+scheduled on the same day. It tests the rule under optimal conditions and expects a score close
+to 100, indicating no conflicts.
+
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+Mock data where all special professors are assigned to multiple examinations on the same
+day (for each professor individually), rather than having their exams spread out over separate
+days.
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+Score is approximately equal to 100, indicating that all special professors'
+exams are scheduled on the same day. This means they aren't required to come to campus on
+multiple, separate days, which is the ideal scenario.
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test 2: Special Professors - Worst Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This test uses a dataset where special professors are assigned to supervise
+examinations on different days, implying they have to be present on campus on multiple separate
+days. This is considered the worst-case scenario for this rule and expects a score close to 0,
+indicating a large number of conflicts.
+
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+Mock data where special professors are assigned to supervise different examinations, each
+on a separate day. This is achieved by intentionally designing the mock data such that each
+special professor supervises one examination per day, but the exams are scheduled on different
+days.
+ 
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+Score is approximately equal to 0, indicating that special professors' exams are
+distributed over several days. This is the least ideal scenario, as it means these special professors
+have to come to campus on multiple, separate days, creating a high level of inconvenience.
+
+\vspace{\baselineskip}
+
+
+
+
+ \subsubsection{Module: RoomCapacity}
+
+ 
+\vspace{\baselineskip}
+
+
+ 
+ \textbf{Test 1: Room Capacity - Best Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This test uses mock data where the number of students and the capacity of
+exam rooms are nearly identical. It tests the room capacity rule under optimal conditions and
+expects a high score, indicating the rooms' capacity is efficiently utilized.
+
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+Mock data, directly created within the test function, representing a scenario where the
+number of students in each course nearly matches the capacity of the assigned exam rooms.
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+Score is greater than or equal to 80, which indicates that room capacities are
+efficiently used and there is a balance between the number of students and room capacities. This
+implies a proper utilization of resources and an optimal exam scheduling.
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test 2: Room Capacity - Worst Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This test uses mock data where the number of students is significantly lower
+than the capacity of the assigned exam rooms. It tests the room capacity rule under worst-case
+conditions and expects a low score, indicating inefficient usage of room capacities.
+
+\vspace{\baselineskip}
+
+
+ \textbf{Input:}
+Mock data, directly created within the test function, representing a scenario where the
+number of students for each course is significantly lower than the capacity of the assigned exam
+rooms.
+ 
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+Score is less than or equal to 10, indicating that the room capacities are not
+efficiently used and there is a significant imbalance between the number of students and room
+capacities. This implies an inefficient utilization of resources and sub-optimal exam scheduling.
+
+\vspace{\baselineskip}
+
+\subsection{Test Results Interpretation}
+
+
+If all the tests pass, it indicates that the scoring system for the module is working as
+expected under both the best and worst scenarios.
+
+\vspace{\baselineskip}
+
+
+• If any of the tests fail, it suggests a problem with the scoring system in handling that specific
+scenario. The console output and failure messages should provide insight into what went
+wrong in these cases. The problem may stem from how the score is calculated or how the
+input data is processed.
