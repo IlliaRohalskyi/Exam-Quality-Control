@@ -5,12 +5,11 @@ from OneExamPerDay import OneExamPerDay
 from SpecialProfessors import SpecialProfessors
 from OneDayGap import OneDayGap
 from SpecialDates import SpecialDates
-from src.DataManager import DataManager
+from DataManager import DataManager
 import configparser
 
 config = configparser.ConfigParser()
-config.read('../config.ini')
-
+config.read('config.ini')
 exam_plan_path = config.get('FilePaths', 'exam_plan_path')
 registration_info_path = config.get('FilePaths', 'registration_info_path')
 room_distances_path = config.get('FilePaths', 'room_distances_path')
