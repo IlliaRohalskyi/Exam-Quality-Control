@@ -35,11 +35,11 @@ class HtmlConverter:
                 graph = ""
 
             result = HtmlConverter.create_html_body(table, score, graph, obj_name)
-            html_body += result  # Her sonucu doğrudan html_body'ye ekliyoruz
+            html_body += result
 
         return html_body
 
-    # Don't call it because it is just a helper class
+
     @staticmethod
     def _create_html_multiple_result_body():
     
@@ -136,13 +136,13 @@ class HtmlConverter:
 
     @staticmethod
     def add_graph(plot_arr):
-       # Convert the plot array to an image
+
         buf = io.BytesIO()
         plt.imsave(buf, plot_arr, format='png')
         buf.seek(0)
         plot_data = base64.b64encode(buf.read()).decode('utf-8')
 
-        # Embed the image in an HTML string
+
         html = f"<hr><img src='data:image/png;base64,{plot_data}'><hr>"
         
 

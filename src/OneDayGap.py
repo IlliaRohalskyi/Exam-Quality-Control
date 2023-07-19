@@ -52,7 +52,7 @@ class OneDayGap(Rule):
                                'dates': [[row1['date'], row2['date']]]}
                     conflicts_df = pd.concat([conflicts_df, pd.DataFrame(new_row)], ignore_index=True)
         conflicts_amount = float(len(conflicts_df))
-        print(conflicts_amount)
+
         score = f(conflicts_amount)
         x_values = np.linspace(0, conflicts_amount + 10, 1000)
         y_values = f(x_values)
@@ -62,7 +62,7 @@ class OneDayGap(Rule):
         plt.xlabel('x')
         plt.ylabel('f(x)')
         plt.title('One Day Gap')
-        plt.legend()
+        #plt.legend()
         plt.text(conflicts_amount, score, score, ha='right', va='bottom')
 
         # Convert the plot to a NumPy array
@@ -71,7 +71,7 @@ class OneDayGap(Rule):
 
         # Convert the plot to a NumPy array
         plot_array = np.array(figure.canvas.renderer.buffer_rgba())
-        plt.show()
+        #plt.show()
         plt.close()
 
         percantage_score = score * 100

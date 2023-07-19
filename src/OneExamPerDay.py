@@ -61,8 +61,7 @@ class OneExamPerDay(Rule):
                         'date': date
                     }, ignore_index=True)
         conflicts_amount = len(conflicts_df)
-        print(conflicts_amount)
-        print(f(conflicts_amount))
+
         score = f(conflicts_amount)
         x_values = np.linspace(0, conflicts_amount+30, 1000)  
         y_values = f(x_values)
@@ -72,7 +71,7 @@ class OneExamPerDay(Rule):
         plt.xlabel('x')
         plt.ylabel('f(x)')
         plt.title('One Exam Per Day')
-        plt.legend()
+        #plt.legend()
         plt.text(conflicts_amount, score, score, ha='right', va='bottom')
         
         # Convert the plot to a NumPy array
@@ -81,7 +80,7 @@ class OneExamPerDay(Rule):
 
         # Convert the plot to a NumPy array
         plot_array = np.array(figure.canvas.renderer.buffer_rgba())
-        plt.show()
+        #plt.show()
         plt.close()
 
         percentage_score = score * 100

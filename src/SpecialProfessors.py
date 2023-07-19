@@ -75,7 +75,7 @@ class SpecialProfessors(Rule):
             plt.xlabel('Professor')
             plt.ylabel('Count')
             plt.title('Number of Exams and Days Supervised')
-            plt.legend()
+            #plt.legend()
 
             # Rotate x-axis labels for better visibility if needed
             plt.xticks(rotation=45)

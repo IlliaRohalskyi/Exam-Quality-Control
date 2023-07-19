@@ -40,7 +40,7 @@ class BigExamsEarly(Rule):
         plt.xlabel('Exam Date')
         plt.ylabel('Number of Students')
         plt.title('Polynomial Regression on Descending Sorted Data')
-        plt.legend()
+        #plt.legend()
 
         figure = plt.gcf()  # Get the current figure
         figure.canvas.draw()  # Render the plot
