@@ -1,7 +1,7 @@
 import pandas as pd
 import json
-from HtmlConverter import HtmlConverter
-from Scoring import scoring
+from output_components.HtmlConverter import HtmlConverter
+from rule_components.Scoring import scoring
 
 
 

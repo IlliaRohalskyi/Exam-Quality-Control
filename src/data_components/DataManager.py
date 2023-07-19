@@ -1,4 +1,4 @@
-from Data import Data
+from data_components.Data import Data
 
 
 class DataManager:

@@ -1,11 +1,11 @@
-from RoomCapacity import RoomCapacity
-from RoomDistance import RoomDistance
-from BigExamsEarly import BigExamsEarly
-from OneExamPerDay import OneExamPerDay
-from SpecialProfessors import SpecialProfessors
-from OneDayGap import OneDayGap
-from SpecialDates import SpecialDates
-from DataManager import DataManager
+from rule_components.RoomCapacity import RoomCapacity
+from rule_components.RoomDistance import RoomDistance
+from rule_components.BigExamsEarly import BigExamsEarly
+from rule_components.OneExamPerDay import OneExamPerDay
+from rule_components.SpecialProfessors import SpecialProfessors
+from rule_components.OneDayGap import OneDayGap
+from rule_components.SpecialDates import SpecialDates
+from data_components.DataManager import DataManager
 import configparser
 
 config = configparser.ConfigParser()

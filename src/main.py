@@ -1,4 +1,4 @@
-from Output import Output
+from output_components.Output import Output
 
 def main():
 

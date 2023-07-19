@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from Rule import Rule
+from rule_components.Rule import Rule
 class OneExamPerDay(Rule):
     def __init__(self,data_obj):
         super().__init__(data_obj)

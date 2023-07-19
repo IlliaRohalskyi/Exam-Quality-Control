@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from Rule import Rule
+from rule_components.Rule import Rule
 
 
 class BigExamsEarly(Rule):

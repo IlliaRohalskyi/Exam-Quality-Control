@@ -1,4 +1,4 @@
-from Rule import Rule
+from rule_components.Rule import Rule
 import pandas as pd
 import numpy as np
 

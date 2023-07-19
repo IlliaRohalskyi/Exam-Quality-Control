@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import io
 import base64
 import numpy as np 
-from Scoring import scoring
+from rule_components.Scoring import scoring
 
 class HtmlConverter:
    
