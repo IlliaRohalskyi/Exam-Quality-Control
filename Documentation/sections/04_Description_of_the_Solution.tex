@@ -205,6 +205,130 @@ different scenarios. This helps to make sure our system is strong, trustworthy, 
 check the quality of any exam schedule. We aim to highlight both what's working well and what
 could be better in the schedule.
 
+\subsubsection{Module: OneExamPerDay}
+
+ 
+\vspace{\baselineskip}
+
+ 
+\textbf{Test1: One Exam Per Day - Best Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This tests uses a dataset where students take a maximum of one exam
+per day. It tests the rule under optimal conditions and expects a high score.
+
+\vspace{\baselineskip}
+
+\textbf{Input:}
+ Mock data where all students in exam plan take maximum one exam per day.
+
+
+\vspace{\baselineskip}
+
+\textbf{Expected Result:}
+Score is approximately 100 out of 100. This indicates that the scheduling
+system is functioning properly for the best-case scenario.
+
+
+
+\vspace{\baselineskip}
+
+
+ 
+\textbf{Test2: One Exam Per Day - Worst Scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This tests uses a dataset where students take more than one exam per
+day. It tests the rule under optimal conditions and expects a low score.
+
+\vspace{\baselineskip}
+
+\textbf{Input:}
+Mock data where all students in exam plan take more than one exam per day.
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+Score is approximately 0 out of 100. This indicates that the scheduling
+system is functioning properly for the worst-case scenario.
+
+
+\vspace{\baselineskip}
+
+\subsubsection{Module: SpecialDates}
+
+ 
+\vspace{\baselineskip}
+
+ 
+\textbf{Test1: Special Dates - Best scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+This test uses a dataset where examiners don’t have to supervise exams
+in his/her special specific dates.
+
+
+\vspace{\baselineskip}
+
+\textbf{Input:}
+Mock data where all examiners don’t supervise exams in specific dates.
+
+
+
+\vspace{\baselineskip}
+
+\textbf{Expected Result:}
+Score is approximately 100 out of 100. This indicates that the scheduling
+system is functioning properly for the best-case scenario.
+
+
+\vspace{\baselineskip}
+
+
+ 
+\textbf{Test2: Special Dates - Worst scenario}
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Test Description:}
+ This test uses a dataset where examiners have to supervise exams in
+his/her special specific dates.
+
+
+\vspace{\baselineskip}
+
+\textbf{Input:}
+Mock data where all examiners supervise exams in specific dates.
+
+
+\vspace{\baselineskip}
+
+ 
+ \textbf{Expected Result:}
+ Score is approximately 0 out of 100. This indicates that the scheduling
+system is functioning properly for the worst-case scenario.
+
+
+\vspace{\baselineskip}
+
+
+
  \subsubsection{Module: BigExamsEarly}
 
  
@@ -545,7 +669,7 @@ capacities. This implies an inefficient utilization of resources and sub-optimal
 
 \vspace{\baselineskip}
 
-\subsection{Test Results Interpretation}
+\subsubsection{Test Results Interpretation}
 
 
 If all the tests pass, it indicates that the scoring system for the module is working as
