@@ -1,4 +1,4 @@
-from src.Data import Data
+from Data import Data
 
 
 class DataManager:

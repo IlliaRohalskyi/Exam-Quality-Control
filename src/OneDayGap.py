@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from src.Rule import Rule
+from Rule import Rule
 
 pd.set_option('display.max_columns', 20)
 

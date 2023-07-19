@@ -191,7 +191,7 @@ class HtmlConverter:
 
         html = html_page
         
-        file_directory = "./outputs/"  
+        file_directory = "src/outputs/"  
         file_directory += file_name
 
     

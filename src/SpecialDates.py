@@ -2,7 +2,7 @@ import csv
 import random
 import pandas as pd
 from datetime import datetime, timedelta
-from src.Rule import Rule
+from Rule import Rule
 
 
 class SpecialDates(Rule):
