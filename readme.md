@@ -15,4 +15,4 @@
 - Kaan Özer, matrikelnr: 9123043
 - Müberra Şeyma USLU, matrikelnr: 9123059
 - Illia Rohalskyi, matrikelnr: 9124047
-- Kemal Öztürk, matrikelnr: ?
+- Kemal Eren Öztürk, matrikelnr: 9123044
